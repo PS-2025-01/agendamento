@@ -2,15 +2,15 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import { App } from 'supertest/types';
 import * as request from 'supertest';
-import { AppModule } from './../src/app.module';
-import { Especialidade } from 'src/especialidades/entities/especialidade.entity';
+import { Especialidade } from '../src/especialidades/entities/especialidade.entity';
+import { EspecialidadesModule } from '../src/especialidades/especialidades.module';
 
-describe('AppController (e2e)', () => {
+describe('Especialidades (e2e)', () => {
   let app: INestApplication<App>;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [AppModule],
+      imports: [EspecialidadesModule],
     }).compile();
 
     app = moduleFixture.createNestApplication();
