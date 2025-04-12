@@ -1,4 +1,4 @@
-import { Especialidade } from 'src/especialidades/entities/especialidade.entity';
+import { Especialidade } from '../../especialidades/entities/especialidade.entity';
 import { DataSource } from 'typeorm';
 
 export const especialidadesProviders = [
