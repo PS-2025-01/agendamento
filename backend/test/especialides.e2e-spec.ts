@@ -30,6 +30,7 @@ describe('AppController (e2e)', () => {
 
     const body = response.body as Especialidade;
 
+    expect(body.id).toBeDefined();
     expect(body.nome).toBe(expected.nome);
   });
 });
