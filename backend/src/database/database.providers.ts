@@ -1,21 +1,8 @@
-import { DataSource } from 'typeorm';
+import { dataSource } from './data-source';
 
 export const databaseProviders = [
   {
     provide: 'DATA_SOURCE',
-    useFactory: async () => {
-      const dataSource = new DataSource({
-        type: 'mysql',
-        host: 'localhost',
-        port: 3306,
-        username: 'root',
-        password: 'root',
-        database: 'agendamento',
-        entities: [__dirname + '/../**/*.entity{.ts,.js}'],
-        synchronize: true,
-      });
-
-      return dataSource.initialize();
-    },
+    useFactory: async () => dataSource.initialize(),
   },
 ];
