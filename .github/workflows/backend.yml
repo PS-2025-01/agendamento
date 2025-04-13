@@ -9,6 +9,9 @@ on:
 jobs:
   setup:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
     outputs:
       node_modules: ${{ steps.cache.outputs.cache-hit }}
     steps:
@@ -20,6 +23,9 @@ jobs:
   style:
     needs: setup
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
     steps:
       - uses: actions/checkout@v4
 
@@ -32,6 +38,10 @@ jobs:
   tests:
     needs: style
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+
     env:
       DB_NAME: agendamento
       DB_USER: root
