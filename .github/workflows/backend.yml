@@ -1,0 +1,48 @@
+name: ci backend
+
+on:
+  pull_request:
+    branches: ["main"]
+    paths:
+      - "backend/**"
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      node_modules: ${{ steps.cache.outputs.cache-hit }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: instala as dependencias
+        run: npm install
+
+  style:
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: formatação
+        run: npm run check
+
+      - name: lint
+        run: npm run lint
+
+  tests:
+    needs: style
+    runs-on: ubuntu-latest
+    env:
+      DB_NAME: agendamento
+      DB_USER: root
+      DB_PASSWORD: root
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: inicia o MySQL
+        run: |
+          sudo /etc/init.d/mysql start
+          mysql -e "CREATE DATABASE IF NOT EXISTS $DB_NAME" -u$DB_USER -p$DB_PASSWORD
+
+      - name: executa os testes
+        run: npm run test:e2e
