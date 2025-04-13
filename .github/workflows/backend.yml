@@ -7,27 +7,16 @@ on:
       - "backend/**"
 
 jobs:
-  setup:
+  style:
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: backend
-    outputs:
-      node_modules: ${{ steps.cache.outputs.cache-hit }}
     steps:
       - uses: actions/checkout@v4
 
       - name: instala as dependencias
         run: npm install
-
-  style:
-    needs: setup
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: backend
-    steps:
-      - uses: actions/checkout@v4
 
       - name: formatação
         run: npm run check
@@ -53,6 +42,9 @@ jobs:
         run: |
           sudo /etc/init.d/mysql start
           mysql -e "CREATE DATABASE IF NOT EXISTS $DB_NAME" -u$DB_USER -p$DB_PASSWORD
+
+      - name: instala as dependencias
+        run: npm install
 
       - name: executa os testes
         run: npm run test:e2e
