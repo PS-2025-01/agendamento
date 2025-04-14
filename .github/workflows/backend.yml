@@ -1,0 +1,74 @@
+name: ci backend
+
+on:
+  pull_request:
+    branches: ["main"]
+    paths:
+      - "backend/**"
+
+jobs:
+  style:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Configura cache do node_modules
+        uses: actions/cache@v4
+        with:
+          path: backend/node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: instala as dependencias
+        run: npm install
+
+      - name: formatação
+        run: npm run format:check
+
+      - name: lint
+        run: npm run lint:check
+
+  tests:
+    needs: style
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+
+    env:
+      DB_NAME: agendamento
+      DB_USER: root
+      DB_PASSWORD: root
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: inicia o MySQL
+        run: |
+          sudo /etc/init.d/mysql start
+          mysql -e "CREATE DATABASE IF NOT EXISTS $DB_NAME" -u$DB_USER -p$DB_PASSWORD
+
+      - name: Configura cache do node_modules
+        uses: actions/cache@v4
+        with:
+          path: backend/node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: instala as dependencias
+        run: npm install
+
+      - name: executa os testes
+        run: npm run test:e2e
