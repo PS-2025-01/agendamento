@@ -1,16 +1,18 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { INestApplication } from '@nestjs/common';
 import { App } from 'supertest/types';
 import * as request from 'supertest';
 import { Especialidade } from '../src/especialidades/entities/especialidade.entity';
 import { EspecialidadesModule } from '../src/especialidades/especialidades.module';
+import { options } from '../src/data-source';
 
 describe('Especialidades (e2e)', () => {
   let app: INestApplication<App>;
 
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [EspecialidadesModule],
+      imports: [TypeOrmModule.forRoot(options), EspecialidadesModule],
     }).compile();
 
     app = moduleFixture.createNestApplication();
