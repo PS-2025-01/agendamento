@@ -1,4 +1,5 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateEspecialidadeDto } from './dto/create-especialidade.dto';
 import { Especialidade } from './entities/especialidade.entity';
@@ -6,7 +7,7 @@ import { Especialidade } from './entities/especialidade.entity';
 @Injectable()
 export class EspecialidadesService {
   constructor(
-    @Inject('ESPECIALIDADE_REPOSITORY')
+    @InjectRepository(Especialidade)
     private especialidadeRepository: Repository<Especialidade>,
   ) {}
 

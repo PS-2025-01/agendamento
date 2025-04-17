@@ -70,5 +70,8 @@ jobs:
       - name: instala as dependencias
         run: npm install
 
+      - name: aplica as migrations
+        run: npm run migration:run
+
       - name: executa os testes
         run: npm run test:e2e
