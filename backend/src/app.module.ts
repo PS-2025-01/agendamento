@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
-import { EspecialidadesModule } from './especialidades/especialidades.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { options } from './data-source';
+import { EspecialidadesModule } from './especialidades/especialidades.module';
 import { UsuarioModule } from './usuario/usuario.module';
 
 @Module({
