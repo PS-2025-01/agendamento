@@ -1,5 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { getRepositoryToken, TypeOrmModule } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { INestApplication } from '@nestjs/common';
 import { App } from 'supertest/types';
 import * as request from 'supertest';
@@ -9,6 +10,7 @@ import { options } from '../src/data-source';
 
 describe('Especialidades (e2e)', () => {
   let app: INestApplication<App>;
+  let especialidadeRepository: Repository<Especialidade>;
 
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -17,6 +19,14 @@ describe('Especialidades (e2e)', () => {
 
     app = moduleFixture.createNestApplication();
     await app.init();
+
+    especialidadeRepository = moduleFixture.get<Repository<Especialidade>>(
+      getRepositoryToken(Especialidade),
+    );
+  });
+
+  beforeEach(async () => {
+    await especialidadeRepository.clear();
   });
 
   test('criando especialidade', async () => {
