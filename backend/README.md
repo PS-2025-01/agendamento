@@ -6,6 +6,8 @@
 - [Supertest](https://www.npmjs.com/package/supertest)
 - [Mysql](https://www.mysql.com/)
 - [Docker](https://docs.docker.com/)
+- [Prettier](https://prettier.io/)
+- [Eslint](https://eslint.org/)
 
 ## Setup
 
@@ -30,4 +32,23 @@ npm run start:dev
 # o banco deve estar online e as migrations aplicadas
 npm run test:e2e
 
+```
+## migrations 
+Estamos versionando o banco de dados atraves de `migrations` do typeORM, depois de alterar o modelo (entidades), deve rodar os seguintes comandos.
+
+```bash
+# gera uma migration na pasta migrations
+npm run migration:generate
+
+# aplica as migrations ao banco de dados
+npm run migration:run
+```
+
+## Estilo de codigo
+
+Estamos utilizando o prettier para manter o estilo de formatação.
+
+```bash
+# formata todo o projeto
+npm run format
 ```
