@@ -1,20 +1,27 @@
-@InjectRepository(Especialidade)
-private especialidadeRepository: Repository<Especialidade>;
+import { Injectable, BadRequestException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Especialidade } from './entities/especialidade.entity';
 
-async create(
-  createEspecialidade: CreateEspecialidadeDto,
-): Promise<Especialidade> {
-  const especialidade = new Especialidade();
-  especialidade.nome = createEspecialidade.nome;
+@Injectable()
+export class EspecialidadesService {
+  constructor(
+    @InjectRepository(Especialidade)
+    private especialidadeRepository: Repository<Especialidade>,
+  ) {}
 
-  const existente = await this.especialidadeRepository.findOne({ where: { nome: createEspecialidade.nome } });
-  if (existente) {
-    throw new BadRequestException({ mensagem: 'Especialidade já cadastrada.' });
+  async criar(nome: string): Promise<Especialidade> {
+    const existente = await this.especialidadeRepository.findOne({ where: { nome } });
+
+    if (existente) {
+      throw new BadRequestException({ mensagem: 'Especialidade já cadastrada.' });
+    }
+
+    const especialidade = this.especialidadeRepository.create({ nome });
+    return this.especialidadeRepository.save(especialidade);
   }
 
-  return await this.especialidadeRepository.save(especialidade);
-}
-
-async findAll(): Promise<Especialidade[]> {
-  return await this.especialidadeRepository.find();
+  async findAll(): Promise<Especialidade[]> {
+    return this.especialidadeRepository.find();
+  }
 }
