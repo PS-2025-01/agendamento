@@ -10,11 +10,15 @@ export class EspecialidadesService {
     private especialidadeRepository: Repository<Especialidade>,
   ) {}
 
-  async criar(nome: string): Promise<Especialidade> {
-    const existente = await this.especialidadeRepository.findOne({ where: { nome } });
+  async create(nome: string): Promise<Especialidade> {
+    const existente = await this.especialidadeRepository.findOne({
+      where: { nome },
+    });
 
     if (existente) {
-      throw new BadRequestException({ mensagem: 'Especialidade já cadastrada.' });
+      throw new BadRequestException({
+        mensagem: 'Especialidade já cadastrada.',
+      });
     }
 
     const especialidade = this.especialidadeRepository.create({ nome });
