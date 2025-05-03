@@ -4,7 +4,7 @@ export const options: DataSourceOptions = {
   type: 'mysql',
   host: 'localhost',
   port: 3306,
-  username: 'Mariana',
+  username: 'root',
   password: 'root',
   database: 'agendamento',
   entities: [__dirname + '/**/*.entity{.ts,.js}'],
