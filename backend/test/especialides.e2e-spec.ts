@@ -7,6 +7,7 @@ import * as request from 'supertest';
 import { Especialidade } from '../src/especialidades/entities/especialidade.entity';
 import { EspecialidadesModule } from '../src/especialidades/especialidades.module';
 import { options } from '../src/data-source';
+import { JwtAuthGuard } from '../src/auth/jwt.guard';
 
 describe('Especialidades (e2e)', () => {
   let app: INestApplication<App>;
@@ -15,7 +16,10 @@ describe('Especialidades (e2e)', () => {
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [TypeOrmModule.forRoot(options), EspecialidadesModule],
-    }).compile();
+    })
+      .overrideGuard(JwtAuthGuard)
+      .useValue({ canActivate: () => true })
+      .compile();
 
     app = moduleFixture.createNestApplication();
     app.useGlobalPipes(new ValidationPipe());
@@ -52,7 +56,7 @@ describe('Especialidades (e2e)', () => {
   test('criando especialidade com nome em branco', async () => {
     const response = await makePost('');
     const specialty = await especialidadeRepository.findOneBy({ nome: '' });
-    console.log(response.body);
+
     expect(response.status).toBe(400);
     expect(specialty).toBeNull();
   });
