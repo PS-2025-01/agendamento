@@ -1,19 +1,8 @@
-import { BadRequestException } from '@nestjs/common';
+import { IsNotEmpty } from 'class-validator';
 
 export class CreateEspecialidadeDto {
+  @IsNotEmpty({
+    message: 'nome da especialidade não pode ser branco',
+  })
   nome: string;
-
-  constructor(nome: string) {
-    this.nome = nome;
-    this.validate();
-  }
-
-  // Função para validar o campo 'nome'
-  private validate() {
-    if (!this.nome || typeof this.nome !== 'string') {
-      throw new BadRequestException(
-        'O nome precisa ser uma string e não pode ser vazio.',
-      );
-    }
-  }
 }

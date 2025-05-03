@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken, TypeOrmModule } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { INestApplication } from '@nestjs/common';
+import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { App } from 'supertest/types';
 import * as request from 'supertest';
 import { Especialidade } from '../src/especialidades/entities/especialidade.entity';
@@ -18,6 +18,7 @@ describe('Especialidades (e2e)', () => {
     }).compile();
 
     app = moduleFixture.createNestApplication();
+    app.useGlobalPipes(new ValidationPipe());
     await app.init();
 
     especialidadeRepository = moduleFixture.get<Repository<Especialidade>>(
@@ -51,7 +52,7 @@ describe('Especialidades (e2e)', () => {
   test('criando especialidade com nome em branco', async () => {
     const response = await makePost('');
     const specialty = await especialidadeRepository.findOneBy({ nome: '' });
-
+    console.log(response.body);
     expect(response.status).toBe(400);
     expect(specialty).toBeNull();
   });
