@@ -1,4 +1,3 @@
-import { IsString, IsNotEmpty } from '@nestjs/common';
 import { BadRequestException } from '@nestjs/common';
 
 export class CreateEspecialidadeDto {
@@ -12,7 +11,9 @@ export class CreateEspecialidadeDto {
   // Função para validar o campo 'nome'
   private validate() {
     if (!this.nome || typeof this.nome !== 'string') {
-      throw new BadRequestException('O nome precisa ser uma string e não pode ser vazio.');
+      throw new BadRequestException(
+        'O nome precisa ser uma string e não pode ser vazio.',
+      );
     }
   }
 }
