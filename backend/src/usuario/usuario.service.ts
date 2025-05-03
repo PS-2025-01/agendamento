@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Usuario } from './entities/usuario.entity';
 import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
+import * as bcrypt from 'bcrypt';
+import { Usuario } from './entities/usuario.entity';
 
 @Injectable()
 export class UsuarioService {
@@ -17,5 +18,9 @@ export class UsuarioService {
     }
 
     return usuario;
+  }
+
+  validate(usuario: Usuario, senha: string): boolean {
+    return bcrypt.compareSync(senha, usuario.senha);
   }
 }
