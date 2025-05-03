@@ -8,7 +8,7 @@ export class EspecialidadesController {
 
   @Post()
   create(@Body() createEspecialidadeDto: CreateEspecialidadeDto) {
-    return this.especialidadesService.create(createEspecialidadeDto);
+    return this.especialidadesService.create(createEspecialidadeDto.nome);
   }
 
   @Get()
