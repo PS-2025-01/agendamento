@@ -29,20 +29,43 @@ describe('Especialidades (e2e)', () => {
     await especialidadeRepository.clear();
   });
 
-  test('criando especialidade', async () => {
-    const expected = {
-      nome: 'especialidade xpto',
-    };
-
-    const response = await request(app.getHttpServer())
+  const makePost = async (name: string) => {
+    return await request(app.getHttpServer())
       .post('/especialidades')
-      .send(expected);
+      .send({ nome: name });
+  };
+
+  test('criando especialidade', async () => {
+    const expected = 'especialidade xpto';
+
+    const response = await makePost(expected);
 
     expect(response.status).toBe(201);
 
     const body = response.body as Especialidade;
 
     expect(body.id).toBeDefined();
-    expect(body.nome).toBe(expected.nome);
+    expect(body.nome).toBe(expected);
+  });
+
+  test('criando especialidade com nome em branco', async () => {
+    const response = await makePost('');
+    const specialty = await especialidadeRepository.findOneBy({ nome: '' });
+
+    expect(response.status).toBe(400);
+    expect(specialty).toBeNull();
+  });
+
+  test('criando especialidade duplicada', async () => {
+    const name = 'especialidade xpto';
+
+    const ok = await makePost(name);
+    const bad = await makePost(name);
+
+    const specialties = await especialidadeRepository.findBy({ nome: name });
+
+    expect(ok.status).toBe(201);
+    expect(bad.status).toBe(400);
+    expect(specialties.length).toBe(1);
   });
 });
