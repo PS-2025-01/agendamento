@@ -7,12 +7,12 @@ import { getRepositoryToken, TypeOrmModule } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
 import { AuthModule } from '../src/auth/auth.module';
 import { options } from '../src/data-source';
-import { SignupResponseDto } from '../src/usuario/dto/signup-response.dto';
+import { CreateUserResponseDto } from '../src/usuario/dto/create-user-response.dto';
 import { Usuario } from '../src/usuario/entities/usuario.entity';
 import { TipoUsuario } from '../src/usuario/entities/tipoUsuario.enum';
 import { LoginResponseDto } from '../src/auth/dto/login-response.dto';
 
-describe('Especialidades (e2e)', () => {
+describe('Auth (e2e)', () => {
   let app: INestApplication<App>;
   let usuarioRepository: Repository<Usuario>;
 
@@ -30,8 +30,12 @@ describe('Especialidades (e2e)', () => {
     );
   });
 
-  const makeSignup = async (body: Record<string, any>, token?: string) => {
-    const r = request(app.getHttpServer()).post('/auth/signup');
+  const makeSignup = async (body: Record<string, any>) => {
+    return await request(app.getHttpServer()).post('/auth/signup').send(body);
+  };
+
+  const makeRegister = async (body: Record<string, any>, token?: string) => {
+    const r = request(app.getHttpServer()).post('/auth/register');
 
     if (token) {
       r.set('Authorization', 'Bearer ' + token);
@@ -53,13 +57,12 @@ describe('Especialidades (e2e)', () => {
       nome: 'jackson',
       email: 'jackson@email.com',
       cpf: '12345678901',
-      tipoUsuario: 'paciente',
       senha: '123456',
     });
 
     expect(response.status).toBe(201);
 
-    const body = response.body as SignupResponseDto;
+    const body = response.body as CreateUserResponseDto;
 
     expect(body.id).toBeDefined();
   });
@@ -69,27 +72,10 @@ describe('Especialidades (e2e)', () => {
       nome: '',
       email: '',
       cpf: '',
-      tipoUsuario: 'paciente',
       senha: '',
     });
 
     expect(response.status).toBe(400);
-  });
-
-  test('cadastro de usuario com tipo de usuario invalido', async () => {
-    const response = await makeSignup({
-      nome: 'jackson',
-      email: 'jackson@email.com',
-      cpf: '12345678901',
-      tipoUsuario: 'flamengo',
-      senha: '123456',
-    });
-
-    expect(response.status).toBe(400);
-
-    const body = response.body as SignupResponseDto;
-
-    expect(body.id).toBeDefined();
   });
 
   test('cadastro de medico', async () => {
@@ -106,7 +92,7 @@ describe('Especialidades (e2e)', () => {
       senha: '123456',
     });
 
-    const response = await makeSignup(
+    const response = await makeRegister(
       {
         nome: 'jackson',
         email: 'jackson@email.com',
@@ -119,13 +105,41 @@ describe('Especialidades (e2e)', () => {
 
     expect(response.status).toBe(201);
 
-    const body = response.body as SignupResponseDto;
+    const body = response.body as CreateUserResponseDto;
 
     expect(body.id).toBeDefined();
   });
 
   test('cadastro de medico sem autorização', async () => {
-    const response = await makeSignup({
+    await usuarioRepository.save({
+      nome: 'admin',
+      email: 'admin@admin.com',
+      cpf: '123456789099',
+      senha: bcrypt.hashSync('123456', 10),
+      tipoUsuario: TipoUsuario.MEDICO,
+    });
+
+    const login = await makeLogin({
+      email: 'admin@admin.com',
+      senha: '123456',
+    });
+
+    const response = await makeRegister(
+      {
+        nome: 'jackson',
+        email: 'jackson@email.com',
+        cpf: '12345678901',
+        tipoUsuario: 'medico',
+        senha: '123456',
+      },
+      (login.body as LoginResponseDto).access_token,
+    );
+
+    expect(response.status).toBe(403);
+  });
+
+  test('cadastro de medico sem autenticação', async () => {
+    const response = await makeRegister({
       nome: 'jackson',
       email: 'jackson@email.com',
       cpf: '12345678901',
@@ -133,10 +147,6 @@ describe('Especialidades (e2e)', () => {
       senha: '123456',
     });
 
-    expect(response.status).toBe(400);
-
-    const body = response.body as SignupResponseDto;
-
-    expect(body.id).toBeDefined();
+    expect(response.status).toBe(401);
   });
 });

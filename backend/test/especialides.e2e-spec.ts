@@ -7,7 +7,7 @@ import * as request from 'supertest';
 import { Especialidade } from '../src/especialidades/entities/especialidade.entity';
 import { EspecialidadesModule } from '../src/especialidades/especialidades.module';
 import { options } from '../src/data-source';
-import { JwtAuthGuard } from '../src/auth/jwt.guard';
+import { JwtAuthGuard } from '../src/common/guards/jwt.guard';
 
 describe('Especialidades (e2e)', () => {
   let app: INestApplication<App>;
