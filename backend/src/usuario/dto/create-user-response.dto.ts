@@ -1,7 +1,7 @@
 import { TipoUsuario } from '../entities/tipoUsuario.enum';
 import { Usuario } from '../entities/usuario.entity';
 
-export class SignupResponseDto {
+export class CreateUserResponseDto {
   id: number;
 
   nome: string;

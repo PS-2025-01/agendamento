@@ -3,7 +3,9 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
 import { Usuario } from './entities/usuario.entity';
-import { SignupDto } from './dto/signup.dto';
+import { CreateUserDto } from './dto/create-user.dto';
+import { TipoUsuario } from './entities/tipoUsuario.enum';
+import { AdminCreateUserDto } from './dto/admin-create-user.dto';
 
 @Injectable()
 export class UsuarioService {
@@ -11,18 +13,29 @@ export class UsuarioService {
     @InjectRepository(Usuario) private usuarioRepository: Repository<Usuario>,
   ) {}
 
-  async create(request: SignupDto): Promise<Usuario> {
-    await this.verifyUser(request.email, request.cpf);
-
-    const senha = bcrypt.hashSync(request.senha, 10);
-
-    return await this.usuarioRepository.save({
-      nome: request.nome,
-      cpf: request.cpf,
-      email: request.email,
-      senha: senha,
-      tipoUsuario: request.tipoUsuario,
+  async signup(createUserDto: CreateUserDto) {
+    const usuario = this.usuarioRepository.create({
+      nome: createUserDto.nome,
+      cpf: createUserDto.cpf,
+      email: createUserDto.email,
+      senha: createUserDto.senha,
+      tipoUsuario: TipoUsuario.PACIENTE,
     });
+
+    return await this.create(usuario);
+  }
+
+  async register(createUserDto: AdminCreateUserDto) {
+    const usuario = this.usuarioRepository.create(createUserDto);
+    return await this.create(usuario);
+  }
+
+  async create(usuario: Usuario): Promise<Usuario> {
+    await this.verifyUser(usuario.email, usuario.cpf);
+
+    usuario.senha = bcrypt.hashSync(usuario.senha, 10);
+
+    return await this.usuarioRepository.save(usuario);
   }
 
   private async verifyUser(email: string, cpf: string) {

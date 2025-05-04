@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, UseGuards } from '@nestjs/common';
 import { EspecialidadesService } from './especialidades.service';
 import { CreateEspecialidadeDto } from './dto/create-especialidade.dto';
-import { JwtAuthGuard } from '../auth/jwt.guard';
+import { JwtAuthGuard } from '../common/guards/jwt.guard';
 
 @UseGuards(JwtAuthGuard)
 @Controller('especialidades')
