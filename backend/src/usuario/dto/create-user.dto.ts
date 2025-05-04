@@ -1,7 +1,6 @@
 import { IsNotEmpty } from 'class-validator';
-import { TipoUsuario } from '../entities/tipoUsuario.enum';
 
-export class SignupDto {
+export class CreateUserDto {
   @IsNotEmpty()
   nome: string;
 
@@ -10,9 +9,6 @@ export class SignupDto {
 
   @IsNotEmpty()
   email: string;
-
-  @IsNotEmpty()
-  tipoUsuario: TipoUsuario;
 
   @IsNotEmpty()
   senha: string;
