@@ -3,19 +3,21 @@ import { TipoUsuario } from '../entities/tipoUsuario.enum';
 import { Usuario } from '../entities/usuario.entity';
 
 export class CreateUserResponseDto {
-  @ApiProperty()
+  @ApiProperty({ example: 1 })
   id: number;
 
-  @ApiProperty()
+  @ApiProperty({ example: 'teste' })
   nome: string;
 
-  @ApiProperty()
+  @ApiProperty({ example: '12345678901' })
   cpf: string;
 
-  @ApiProperty()
+  @ApiProperty({ example: 'teste@teste.com' })
   email: string;
 
-  @ApiProperty()
+  @ApiProperty({
+    examples: [TipoUsuario.ADMIN, TipoUsuario.MEDICO, TipoUsuario.PACIENTE],
+  })
   tipoUsuario: TipoUsuario;
 
   constructor(usuario: Usuario) {
