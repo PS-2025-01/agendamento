@@ -4,7 +4,7 @@ import { CreateUserDto } from './create-user.dto';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class AdminCreateUserDto extends CreateUserDto {
-  @ApiProperty({ enum: TipoUsuario })
+  @ApiProperty({ enum: TipoUsuario, example: TipoUsuario.MEDICO })
   @IsEnum(TipoUsuario)
   @IsNotEmpty()
   tipoUsuario: TipoUsuario;
