@@ -32,6 +32,7 @@ export class AuthController {
 
   @ApiOkResponse({
     type: [LoginResponseDto],
+    description: 'autenticação do usuario',
   })
   @Post('login')
   async login(@Body() request: LoginDto): Promise<LoginResponseDto> {
@@ -41,6 +42,7 @@ export class AuthController {
 
   @ApiCreatedResponse({
     type: CreateUserResponseDto,
+    description: 'Cadastro de paciente',
   })
   @Post('signup')
   @HttpCode(HttpStatus.CREATED)
@@ -55,6 +57,7 @@ export class AuthController {
   @UseGuards(JwtAuthGuard, RoleGuard)
   @ApiCreatedResponse({
     type: CreateUserResponseDto,
+    description: 'Cadastro de ADMIN e MEDICO, requer autorização de ADMIN',
   })
   @Role(TipoUsuario.ADMIN)
   @Post('register')
