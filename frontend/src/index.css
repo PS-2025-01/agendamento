@@ -61,3 +61,20 @@ body,
 #root {
     width: 100%;
 }
+
+a {
+    text-decoration: none;
+}
+
+input[type="submit"],
+button,
+a {
+    transition: 300ms;
+}
+
+input[type="submit"]:hover,
+button:hover,
+a:hover {
+    cursor: pointer;
+    filter: brightness(1.2);
+}
