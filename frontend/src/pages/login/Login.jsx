@@ -12,7 +12,7 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:3000/auth/login", {
+      const response = await axios.post("/api/auth/login", {
         email: email,
         senha: senha,
       });
@@ -66,6 +66,8 @@ const Login = () => {
         {erro && <p style={{ color: "red" }}>{erro}</p>}
         
         <a href="#" className="forgot-pass-link">Esqueci minha senha</a>
+
+        <a href="/signup" className="signup-link">Cadastre-se</a>
       </form>
     </div>
   )
