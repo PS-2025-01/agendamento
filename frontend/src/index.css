@@ -1,0 +1,169 @@
+/* GLOBAL */
+
+@import url("https://fonts.googleapis.com/css?family=Poppins");
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    color: var(--text-color-1);
+    font-family: 'Poppins', sans-serif;
+}
+
+:root {
+    --hue: 210;
+    --bg-color: hsl(var(--hue), 37%, 97%);
+    --bg-color-2: hsl(0, 0%, 100%);
+    --primary-color: hsl(calc(var(--hue) - 12), 48%, 42%);
+    --stroke-color: hsl(calc(var(--hue) - 4), 30%, 95%);
+
+    --text-color-1: hsl(0, 0%, 0%);
+    --text-color-2: hsl(0, 0%, 43%);
+    --text-color-3: hsl(calc(var(--hue) - 4), 17%, 60%);
+    --text-color-4: hsl(0, 0%, 70%);
+    --text-color-5: hsl(0, 0%, 100%);
+  
+    --heading-fs: clamp(3.2rem, 5vw, 6.4rem);
+    --subtitle-fs: clamp(2.4rem, 4vw, 4rem);
+    --sub-subtitle-fs: clamp(2rem, 3vw, 3rem);
+
+    --text-fs: clamp(1.5rem, 2.5vw, 2.4rem);
+    --subtext-fs: clamp(1.4rem, 2vw, 2rem);
+  
+    font-size: 62.5%;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    height: 100vh;
+    min-width: 100vw;
+
+    padding: 2rem;
+    background-color: var(--bg-color);
+
+    font-size: 1.6rem;
+}
+
+body,
+#root,
+.login-container,
+.login-form,
+.input-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+#root {
+    width: 100%;
+}
+
+.login-container {
+    height: 71.1rem;
+    width: min(80%, 58.2rem);
+
+    background-color: var(--bg-color-2);
+    border: .4rem solid var(--stroke-color);
+    border-radius: 1.5rem;
+
+    padding: 8rem 4rem;
+}
+
+h1 {
+    font-size: var(--heading-fs);
+}
+
+.login-form {
+    width: 100%;
+    height: 100%;
+
+    gap: 2rem;
+}
+
+h3 {
+    font-size: var(--subtitle-fs);
+}
+
+.input-wrapper {
+    width: 100%;
+    align-items: flex-start;
+}
+
+label {
+    font-size: var(--text-fs);
+}
+
+.input-field {
+    width: 100%;
+    padding: 1rem 2rem;
+
+    border: .2rem solid var(--stroke-color);
+    border-radius: .5rem;
+
+    font-size: var(--text-fs);
+    color: var(--text-color-3);
+}
+
+.input-field::placeholder {
+    color: var(--text-color-3);
+}
+
+.input-field:focus {
+    outline: none;
+    border: .2rem solid var(--primary-color);
+}
+
+.submit-btn {
+    width: 70%;
+    min-width: 15rem;
+
+    padding: .5rem;
+    margin-top: 3rem;
+    border: none;
+    border-radius: .5rem;
+
+    background-color: var(--primary-color);
+
+    font-size: var(--sub-subtitle-fs);
+    color: var(--text-color-5);
+
+    transition: 300ms;
+}
+
+.submit-btn:hover,
+a:hover {
+    cursor: pointer;
+    filter: brightness(1.2);
+}
+
+a {
+    font-size: var(--subtext-fs);
+    color: var(--primary-color);
+    text-decoration: none;
+
+    transition: 300ms;
+}
+
+@media (max-width: 768px) {
+    .login-container {
+        height: 60.1rem;
+        width: min(80%, 44.2rem);
+    }
+}
+
+@media (max-width: 430px) {
+    .login-container {
+        height: 52.1rem;
+    }
+
+    h1 {
+        font-size: 2.6rem;
+    }
+}
