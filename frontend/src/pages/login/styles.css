@@ -85,7 +85,8 @@ a {
 }
 
 p,
-a {
+a,
+h3 {
     text-align: center;
 }
 
