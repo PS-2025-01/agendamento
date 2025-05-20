@@ -5,12 +5,12 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { Repository } from 'typeorm';
 import { getRepositoryToken, TypeOrmModule } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
-import { AuthModule } from '../src/auth/auth.module';
+import { AuthModule } from '../src/modules/auth/auth.module';
 import { options } from '../src/data-source';
-import { CreateUserResponseDto } from '../src/usuario/dto/create-user-response.dto';
-import { Usuario } from '../src/usuario/entities/usuario.entity';
-import { TipoUsuario } from '../src/usuario/entities/tipoUsuario.enum';
-import { LoginResponseDto } from '../src/auth/dto/login-response.dto';
+import { CreateUserResponseDto } from '../src/modules/usuario/dto/create-user-response.dto';
+import { Usuario } from '../src/modules/usuario/entities/usuario.entity';
+import { TipoUsuario } from '../src/modules/usuario/entities/tipoUsuario.enum';
+import { LoginResponseDto } from '../src/modules/auth/dto/login-response.dto';
 
 describe('Auth (e2e)', () => {
   let app: INestApplication<App>;

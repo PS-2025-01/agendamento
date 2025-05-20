@@ -4,8 +4,8 @@ import { Repository } from 'typeorm';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { App } from 'supertest/types';
 import * as request from 'supertest';
-import { Especialidade } from '../src/especialidades/entities/especialidade.entity';
-import { EspecialidadesModule } from '../src/especialidades/especialidades.module';
+import { Especialidade } from '../src/modules/especialidades/entities/especialidade.entity';
+import { EspecialidadesModule } from '../src/modules/especialidades/especialidades.module';
 import { options } from '../src/data-source';
 import { JwtAuthGuard } from '../src/common/guards/jwt.guard';
 
