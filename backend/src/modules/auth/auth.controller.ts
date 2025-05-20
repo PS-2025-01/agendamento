@@ -12,11 +12,11 @@ import { LoginDto } from './dto/login.dto';
 import { LoginResponseDto } from './dto/login-response.dto';
 import { CreateUserDto } from '../usuario/dto/create-user.dto';
 import { CreateUserResponseDto } from '../usuario/dto/create-user-response.dto';
-import { JwtAuthGuard } from '../common/guards/jwt.guard';
+import { JwtAuthGuard } from '../../common/guards/jwt.guard';
 import { AdminCreateUserDto } from '../usuario/dto/admin-create-user.dto';
-import { Role } from '../common/decorrators/role.decorator';
+import { Role } from '../../common/decorrators/role.decorator';
 import { TipoUsuario } from '../usuario/entities/tipoUsuario.enum';
-import { RoleGuard } from '../common/guards/role.guard';
+import { RoleGuard } from '../../common/guards/role.guard';
 import {
   ApiBearerAuth,
   ApiCreatedResponse,
