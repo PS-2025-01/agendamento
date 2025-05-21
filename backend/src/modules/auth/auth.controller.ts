@@ -31,7 +31,7 @@ export class AuthController {
   ) {}
 
   @ApiOkResponse({
-    type: [LoginResponseDto],
+    type: LoginResponseDto,
     description: 'autenticação do usuario',
   })
   @Post('login')
