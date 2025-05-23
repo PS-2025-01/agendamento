@@ -11,10 +11,14 @@ import { CreateUserResponseDto } from '../src/modules/usuario/dto/create-user-re
 import { Usuario } from '../src/modules/usuario/entities/usuario.entity';
 import { TipoUsuario } from '../src/modules/usuario/entities/tipoUsuario.enum';
 import { LoginResponseDto } from '../src/modules/auth/dto/login-response.dto';
+import { Medico } from '../src/modules/medicos/entities/medico.entity';
+import { Especialidade } from '../src/modules/especialidades/entities/especialidade.entity';
 
 describe('Auth (e2e)', () => {
   let app: INestApplication<App>;
   let usuarioRepository: Repository<Usuario>;
+  let medicosRepository: Repository<Medico>;
+  let especialidadeRepository: Repository<Especialidade>;
 
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -28,6 +32,10 @@ describe('Auth (e2e)', () => {
     usuarioRepository = moduleFixture.get<Repository<Usuario>>(
       getRepositoryToken(Usuario),
     );
+
+    medicosRepository = moduleFixture.get<Repository<Medico>>(getRepositoryToken(Medico));
+    
+    especialidadeRepository = moduleFixture.get<Repository<Especialidade>>(getRepositoryToken(Especialidade));
   });
 
   const makeSignup = async (body: Record<string, any>) => {
@@ -50,6 +58,7 @@ describe('Auth (e2e)', () => {
 
   beforeEach(async () => {
     await usuarioRepository.clear();
+    await medicosRepository.clear();
   });
 
   test('cadastro de paciente', async () => {
@@ -78,6 +87,34 @@ describe('Auth (e2e)', () => {
     expect(response.status).toBe(400);
   });
 
+  test('cadastro de medico sem especialidade', async () => {
+    await usuarioRepository.save({
+      nome: 'admin',
+      email: 'admin@admin.com',
+      cpf: '123456789099',
+      senha: bcrypt.hashSync('123456', 10),
+      tipoUsuario: TipoUsuario.ADMIN,
+    });
+
+    const login = await makeLogin({
+      email: 'admin@admin.com',
+      senha: '123456',
+    });
+
+    const response = await makeRegister(
+      {
+        nome: 'jackson',
+        email: 'jackson@email.com',
+        cpf: '12345678901',
+        tipoUsuario: 'medico',
+        senha: '123456',
+      },
+      (login.body as LoginResponseDto).access_token,
+    );
+
+    expect(response.status).toBe(400);
+  });
+
   test('cadastro de medico', async () => {
     await usuarioRepository.save({
       nome: 'admin',
@@ -99,6 +136,43 @@ describe('Auth (e2e)', () => {
         cpf: '12345678901',
         tipoUsuario: 'medico',
         senha: '123456',
+        especialidade: 'cardiologista'
+      },
+      (login.body as LoginResponseDto).access_token,
+    );
+
+    expect(response.status).toBe(201);
+
+    const body = response.body as CreateUserResponseDto;
+
+    expect(body.id).toBeDefined();
+  });
+
+
+  test('cadastro de medico passando id da especialidade', async () => {
+    const especialdiade = await especialidadeRepository.save({nome : 'teste_' + Date.now() });
+
+    await usuarioRepository.save({
+      nome: 'admin',
+      email: 'admin@admin.com',
+      cpf: '123456789099',
+      senha: bcrypt.hashSync('123456', 10),
+      tipoUsuario: TipoUsuario.ADMIN,
+    });
+
+    const login = await makeLogin({
+      email: 'admin@admin.com',
+      senha: '123456',
+    });
+
+    const response = await makeRegister(
+      {
+        nome: 'jackson',
+        email: 'jackson@email.com',
+        cpf: '12345678901',
+        tipoUsuario: 'medico',
+        senha: '123456',
+        especialidade: especialdiade.id
       },
       (login.body as LoginResponseDto).access_token,
     );

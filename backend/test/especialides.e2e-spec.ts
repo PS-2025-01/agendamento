@@ -30,10 +30,6 @@ describe('Especialidades (e2e)', () => {
     );
   });
 
-  beforeEach(async () => {
-    await especialidadeRepository.clear();
-  });
-
   const makePost = async (name: string) => {
     return await request(app.getHttpServer())
       .post('/especialidades')
@@ -41,7 +37,7 @@ describe('Especialidades (e2e)', () => {
   };
 
   test('criando especialidade', async () => {
-    const expected = 'especialidade xpto';
+    const expected = 'especialidade xpto_' + Date.now();
 
     const response = await makePost(expected);
 
@@ -62,7 +58,7 @@ describe('Especialidades (e2e)', () => {
   });
 
   test('criando especialidade duplicada', async () => {
-    const name = 'especialidade xpto';
+    const name = 'especialidade xpto_' + Date.now();
 
     const ok = await makePost(name);
     const bad = await makePost(name);

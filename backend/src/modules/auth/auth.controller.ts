@@ -6,8 +6,12 @@ import {
   Post,
   UseGuards,
 } from '@nestjs/common';
+import {
+  ApiBearerAuth,
+  ApiCreatedResponse,
+  ApiOkResponse,
+} from '@nestjs/swagger';
 import { AuthService } from './auth.service';
-import { UsuarioService } from '../usuario/usuario.service';
 import { LoginDto } from './dto/login.dto';
 import { LoginResponseDto } from './dto/login-response.dto';
 import { CreateUserDto } from '../usuario/dto/create-user.dto';
@@ -17,17 +21,14 @@ import { AdminCreateUserDto } from '../usuario/dto/admin-create-user.dto';
 import { Role } from '../../common/decorrators/role.decorator';
 import { TipoUsuario } from '../usuario/entities/tipoUsuario.enum';
 import { RoleGuard } from '../../common/guards/role.guard';
-import {
-  ApiBearerAuth,
-  ApiCreatedResponse,
-  ApiOkResponse,
-} from '@nestjs/swagger';
+import { RegisterUsuarioService } from '../usuario/register-usuario.service';
 
 @Controller('auth')
 export class AuthController {
   constructor(
     private authSerivce: AuthService,
-    private usuarioService: UsuarioService,
+    private usuarioService: RegisterUsuarioService,
+    
   ) {}
 
   @ApiOkResponse({
