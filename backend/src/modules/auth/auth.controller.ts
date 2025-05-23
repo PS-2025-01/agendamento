@@ -28,7 +28,6 @@ export class AuthController {
   constructor(
     private authSerivce: AuthService,
     private usuarioService: RegisterUsuarioService,
-    
   ) {}
 
   @ApiOkResponse({

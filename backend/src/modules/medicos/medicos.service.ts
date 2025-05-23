@@ -12,7 +12,10 @@ export class MedicosService {
   ) {}
 
   async create(usuario: Usuario, especialidade: Especialidade) {
-    const medico = this.medicosRepository.create({ id: usuario.id, especialidade });
+    const medico = this.medicosRepository.create({
+      id: usuario.id,
+      especialidade,
+    });
     return await this.medicosRepository.save(medico);
-  }  
+  }
 }

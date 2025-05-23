@@ -9,7 +9,7 @@ export class AdminCreateUserDto extends CreateUserDto {
   @IsNotEmpty()
   tipoUsuario: TipoUsuario;
 
-  @ApiProperty({ examples: [1, 'cardilogista']})
+  @ApiProperty({ examples: [1, 'cardilogista'] })
   @IsOptional()
   especialidade: string | number;
 }

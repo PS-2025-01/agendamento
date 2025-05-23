@@ -6,6 +6,6 @@ import { MedicosService } from './medicos.service';
 @Module({
   imports: [TypeOrmModule.forFeature([Medico])],
   providers: [MedicosService],
-  exports: [MedicosService]
+  exports: [MedicosService],
 })
 export class MedicosModule {}

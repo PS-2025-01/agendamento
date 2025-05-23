@@ -1,21 +1,21 @@
-import { BadRequestException, Injectable } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
-import { Usuario } from "./entities/usuario.entity";
-import { AdminCreateUserDto } from "./dto/admin-create-user.dto";
-import { CreateUserDto } from "./dto/create-user.dto";
-import { TipoUsuario } from "./entities/tipoUsuario.enum";
-import { MedicosService } from "../medicos/medicos.service";
-import { EspecialidadesService } from "../especialidades/especialidades.service";
-import { Especialidade } from "../especialidades/entities/especialidade.entity";
+import { Usuario } from './entities/usuario.entity';
+import { AdminCreateUserDto } from './dto/admin-create-user.dto';
+import { CreateUserDto } from './dto/create-user.dto';
+import { TipoUsuario } from './entities/tipoUsuario.enum';
+import { MedicosService } from '../medicos/medicos.service';
+import { EspecialidadesService } from '../especialidades/especialidades.service';
+import { Especialidade } from '../especialidades/entities/especialidade.entity';
 
 @Injectable()
 export class RegisterUsuarioService {
   constructor(
     @InjectRepository(Usuario) private usuarioRepository: Repository<Usuario>,
     private medicosService: MedicosService,
-    private especialidadesService: EspecialidadesService
+    private especialidadesService: EspecialidadesService,
   ) {}
 
   async signup(createUserDto: CreateUserDto) {
@@ -34,26 +34,32 @@ export class RegisterUsuarioService {
     const usuario = this.usuarioRepository.create(createUserDto);
 
     if (createUserDto.tipoUsuario === TipoUsuario.MEDICO) {
-        await this.handleMedico(usuario, createUserDto);
+      await this.handleMedico(usuario, createUserDto);
     } else {
-        await this.create(usuario);
+      await this.create(usuario);
     }
 
     return usuario;
   }
 
-  private async handleMedico(usuario: Usuario, createUserDto: AdminCreateUserDto) {
-    
+  private async handleMedico(
+    usuario: Usuario,
+    createUserDto: AdminCreateUserDto,
+  ) {
     if (!createUserDto.especialidade) {
-        throw new BadRequestException('especialidade nao informada');
+      throw new BadRequestException('especialidade nao informada');
     }
-    
+
     let especialidade: Especialidade;
 
     if (typeof createUserDto.especialidade == 'number') {
-        especialidade = await this.especialidadesService.findById(createUserDto.especialidade)
+      especialidade = await this.especialidadesService.findById(
+        createUserDto.especialidade,
+      );
     } else {
-        especialidade = await this.especialidadesService.findOrCreate(createUserDto.especialidade)
+      especialidade = await this.especialidadesService.findOrCreate(
+        createUserDto.especialidade,
+      );
     }
 
     await this.create(usuario);

@@ -7,7 +7,11 @@ import { EspecialidadesModule } from '../especialidades/especialidades.module';
 import { MedicosModule } from '../medicos/medicos.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Usuario]), EspecialidadesModule, MedicosModule],
+  imports: [
+    TypeOrmModule.forFeature([Usuario]),
+    EspecialidadesModule,
+    MedicosModule,
+  ],
   providers: [UsuarioService, RegisterUsuarioService],
   exports: [UsuarioService, RegisterUsuarioService],
 })

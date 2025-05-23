@@ -33,9 +33,13 @@ describe('Auth (e2e)', () => {
       getRepositoryToken(Usuario),
     );
 
-    medicosRepository = moduleFixture.get<Repository<Medico>>(getRepositoryToken(Medico));
-    
-    especialidadeRepository = moduleFixture.get<Repository<Especialidade>>(getRepositoryToken(Especialidade));
+    medicosRepository = moduleFixture.get<Repository<Medico>>(
+      getRepositoryToken(Medico),
+    );
+
+    especialidadeRepository = moduleFixture.get<Repository<Especialidade>>(
+      getRepositoryToken(Especialidade),
+    );
   });
 
   const makeSignup = async (body: Record<string, any>) => {
@@ -136,7 +140,7 @@ describe('Auth (e2e)', () => {
         cpf: '12345678901',
         tipoUsuario: 'medico',
         senha: '123456',
-        especialidade: 'cardiologista'
+        especialidade: 'cardiologista',
       },
       (login.body as LoginResponseDto).access_token,
     );
@@ -148,9 +152,10 @@ describe('Auth (e2e)', () => {
     expect(body.id).toBeDefined();
   });
 
-
   test('cadastro de medico passando id da especialidade', async () => {
-    const especialdiade = await especialidadeRepository.save({nome : 'teste_' + Date.now() });
+    const especialdiade = await especialidadeRepository.save({
+      nome: 'teste_' + Date.now(),
+    });
 
     await usuarioRepository.save({
       nome: 'admin',
@@ -172,7 +177,7 @@ describe('Auth (e2e)', () => {
         cpf: '12345678901',
         tipoUsuario: 'medico',
         senha: '123456',
-        especialidade: especialdiade.id
+        especialidade: especialdiade.id,
       },
       (login.body as LoginResponseDto).access_token,
     );

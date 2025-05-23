@@ -26,7 +26,9 @@ export class EspecialidadesService {
   }
 
   async findOrCreate(name: string): Promise<Especialidade> {
-    const especialidade = await this.especialidadeRepository.findOneBy({ nome: name });
+    const especialidade = await this.especialidadeRepository.findOneBy({
+      nome: name,
+    });
 
     if (especialidade) {
       return especialidade;
@@ -36,8 +38,8 @@ export class EspecialidadesService {
   }
 
   async findById(id: number) {
-    const especialidade = await this.especialidadeRepository.findOneBy({ id })
-    
+    const especialidade = await this.especialidadeRepository.findOneBy({ id });
+
     if (!especialidade) {
       throw new BadRequestException('especialidade nao encontrada');
     }
