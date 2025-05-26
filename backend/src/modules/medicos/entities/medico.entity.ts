@@ -1,11 +1,22 @@
+import { Usuario } from '../../usuario/entities/usuario.entity';
 import { Especialidade } from '../../especialidades/entities/especialidade.entity';
-import { Entity, ManyToOne, PrimaryColumn } from 'typeorm';
+import {
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 export class Medico {
-  @PrimaryColumn()
+  @PrimaryGeneratedColumn()
   id: number;
 
   @ManyToOne(() => Especialidade, (especialidade) => especialidade.medicos)
   especialidade: Especialidade;
+
+  @OneToOne(() => Usuario)
+  @JoinColumn()
+  usuario: Usuario;
 }
