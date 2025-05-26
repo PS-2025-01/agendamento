@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { FindOptionsWhere, Like, Repository } from 'typeorm';
 import { Medico } from './entities/medico.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Especialidade } from '../especialidades/entities/especialidade.entity';
@@ -13,9 +13,33 @@ export class MedicosService {
 
   async create(usuario: Usuario, especialidade: Especialidade) {
     const medico = this.medicosRepository.create({
-      id: usuario.id,
       especialidade,
+      usuario,
     });
     return await this.medicosRepository.save(medico);
+  }
+
+  async list(nome?: string, especialidade?: string) {
+    let where: FindOptionsWhere<Medico> = {};
+
+    if (nome) {
+      where.usuario = {
+        nome: Like(`%${nome}%`),
+      };
+    }
+
+    if (especialidade) {
+      where.especialidade = {
+        nome: Like(`%${especialidade}%`),
+      };
+    }
+
+    return await this.medicosRepository.find({
+      where,
+      relations: {
+        usuario: true,
+        especialidade: true,
+      },
+    });
   }
 }
