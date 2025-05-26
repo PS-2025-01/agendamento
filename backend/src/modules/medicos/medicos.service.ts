@@ -20,7 +20,7 @@ export class MedicosService {
   }
 
   async list(nome?: string, especialidade?: string) {
-    let where: FindOptionsWhere<Medico> = {};
+    const where: FindOptionsWhere<Medico> = {};
 
     if (nome) {
       where.usuario = {

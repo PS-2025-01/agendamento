@@ -8,6 +8,6 @@ import { MedicosControlller } from './medicos.controller';
   imports: [TypeOrmModule.forFeature([Medico])],
   providers: [MedicosService],
   exports: [MedicosService],
-  controllers: [MedicosControlller]
+  controllers: [MedicosControlller],
 })
 export class MedicosModule {}
