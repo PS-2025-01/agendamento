@@ -6,7 +6,7 @@ import { Repository } from 'typeorm';
 import { getRepositoryToken, TypeOrmModule } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
 import { AuthModule } from '../src/modules/auth/auth.module';
-import { options } from '../src/data-source';
+import { options } from '../src/database/data-source';
 import { CreateUserResponseDto } from '../src/modules/usuario/dto/create-user-response.dto';
 import { Usuario } from '../src/modules/usuario/entities/usuario.entity';
 import { TipoUsuario } from '../src/modules/usuario/entities/tipoUsuario.enum';

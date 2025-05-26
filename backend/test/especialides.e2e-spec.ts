@@ -6,7 +6,7 @@ import { App } from 'supertest/types';
 import * as request from 'supertest';
 import { Especialidade } from '../src/modules/especialidades/entities/especialidade.entity';
 import { EspecialidadesModule } from '../src/modules/especialidades/especialidades.module';
-import { options } from '../src/data-source';
+import { options } from '../src/database/data-source';
 import { JwtAuthGuard } from '../src/common/guards/jwt.guard';
 
 describe('Especialidades (e2e)', () => {

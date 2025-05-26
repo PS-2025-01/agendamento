@@ -20,10 +20,12 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --detectOpenHandles --forceExit --config ./test/jest-e2e.json",
-    "migration:generate": "typeorm-ts-node-commonjs migration:generate migrations/migration -d src/data-source.ts",
-    "migration:run": "typeorm-ts-node-commonjs migration:run -d src/data-source.ts"
+    "migration:generate": "typeorm-ts-node-commonjs migration:generate migrations/migration -d src/database/data-source.ts",
+    "migration:run": "typeorm-ts-node-commonjs migration:run -d src/database/data-source.ts",
+    "seed:run": "ts-node -r tsconfig-paths/register src/database/seeds/run.ts"
   },
   "dependencies": {
+    "@faker-js/faker": "^9.8.0",
     "@nestjs/common": "^11.0.16",
     "@nestjs/core": "^11.0.1",
     "@nestjs/jwt": "^11.0.0",
