@@ -48,6 +48,12 @@ npm run migration:generate
 # aplica as migrations ao banco de dados
 npm run migration:run
 ```
+### database
+Para popular o banco de dados. Todos os usuarios gerados tem senha **12345678**.
+
+```bash
+npm run seed:run
+```
 
 ## Estilo de codigo
 
