@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UsuarioService } from '../usuario/usuario.service';
 
@@ -18,7 +18,6 @@ export class AuthService {
 
     const token = this.jwtService.sign({
       id: usuario.id,
-      email: usuario.email,
       tipoUsuario: usuario.tipoUsuario,
     });
 
@@ -31,5 +30,15 @@ export class AuthService {
     } catch {
       throw new UnauthorizedException('credenciais invalidas');
     }
+  }
+
+  async getUserById(userId: number) {
+    const user = await this.usuarioService.findById(userId);
+
+    if (!user) {
+      throw new InternalServerErrorException();
+    }
+
+    return user;
   }
 }

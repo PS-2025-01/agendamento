@@ -4,7 +4,7 @@ import { MedicoDto } from './dto/medicos.dto';
 import { MedicosService } from './medicos.service';
 
 @ApiTags('Medicos')
-@Controller()
+@Controller('medicos')
 export class MedicosControlller {
   constructor(private medicosService: MedicosService) {}
 
