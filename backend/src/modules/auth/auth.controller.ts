@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Get,
   HttpCode,
   HttpStatus,
   Post,
@@ -22,6 +23,8 @@ import { Role } from '../../common/decorrators/role.decorator';
 import { TipoUsuario } from '../usuario/entities/tipoUsuario.enum';
 import { RoleGuard } from '../../common/guards/role.guard';
 import { RegisterUsuarioService } from '../usuario/register-usuario.service';
+import { User } from 'src/common/decorrators/user.decorator';
+import { UserResponseDto } from '../usuario/dto/user-response.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -67,5 +70,14 @@ export class AuthController {
   ): Promise<CreateUserResponseDto> {
     const usuario = await this.usuarioService.register(adminCreateUser);
     return new CreateUserResponseDto(usuario);
+  }
+
+  @ApiBearerAuth()
+  @ApiOkResponse({ type: UserResponseDto})
+  @UseGuards(JwtAuthGuard)
+  @Get('current')
+  async current(@User() userId: string) {
+    const user = await this.authSerivce.getUserById(Number(userId));
+    return new UserResponseDto(user);
   }
 }

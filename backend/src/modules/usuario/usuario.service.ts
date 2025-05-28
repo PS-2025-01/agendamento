@@ -23,4 +23,8 @@ export class UsuarioService {
   validate(usuario: Usuario, senha: string): boolean {
     return bcrypt.compareSync(senha, usuario.senha);
   }
+
+  async findById(userId: number) {
+    return await this.usuarioRepository.findOneBy({ id: userId });
+  }
 }
