@@ -19,12 +19,12 @@ import { CreateUserDto } from '../usuario/dto/create-user.dto';
 import { CreateUserResponseDto } from '../usuario/dto/create-user-response.dto';
 import { JwtAuthGuard } from '../../common/guards/jwt.guard';
 import { AdminCreateUserDto } from '../usuario/dto/admin-create-user.dto';
-import { Role } from '../../common/decorrators/role.decorator';
 import { TipoUsuario } from '../usuario/entities/tipoUsuario.enum';
 import { RoleGuard } from '../../common/guards/role.guard';
 import { RegisterUsuarioService } from '../usuario/register-usuario.service';
-import { User } from 'src/common/decorrators/user.decorator';
 import { UserResponseDto } from '../usuario/dto/user-response.dto';
+import { Role } from '../../common/decorators/role.decorator';
+import { User } from '../../common/decorators/user.decorator';
 
 @Controller('auth')
 export class AuthController {
@@ -73,7 +73,7 @@ export class AuthController {
   }
 
   @ApiBearerAuth()
-  @ApiOkResponse({ type: UserResponseDto})
+  @ApiOkResponse({ type: UserResponseDto })
   @UseGuards(JwtAuthGuard)
   @Get('current')
   async current(@User() userId: string) {
