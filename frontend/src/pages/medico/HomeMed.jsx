@@ -25,7 +25,7 @@ const HomeMed = () => {
 
       <main className="main-content">
         <h2 className="welcome-msg">
-        <div>Bem-vindo de volta,<br/>Dr. João Souza!</div>
+        Bem-vindo de volta,<br/>Dr. João Souza!
         </h2>
 
         <div className="cards-container">

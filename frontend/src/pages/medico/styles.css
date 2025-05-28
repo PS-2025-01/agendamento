@@ -1,4 +1,15 @@
-
+.home-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: #F4F7FA;
+  border-radius: 15px;
+  font-family: Poppins, Arial, sans-serif;
+}
 
 .header {
   width: 100%;

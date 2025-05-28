@@ -2,6 +2,7 @@ import React from "react";
 import Login from "../pages/login/Login";
 import Signup from "../pages/Signup/Signup";
 import HomeMed from "../pages/medico/HomeMed";
+
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function AppRoutes() {
