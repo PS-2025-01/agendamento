@@ -3,7 +3,7 @@
 
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { ROLE_KEY } from '../decorrators/role.decorator';
+import { ROLE_KEY } from '../decorators/role.decorator';
 import { TipoUsuario } from '../../modules/usuario/entities/tipoUsuario.enum';
 
 @Injectable()
