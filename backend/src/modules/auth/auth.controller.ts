@@ -11,6 +11,8 @@ import {
   ApiBearerAuth,
   ApiCreatedResponse,
   ApiOkResponse,
+  ApiTags,
+  ApiOperation,
 } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
@@ -26,6 +28,7 @@ import { UserResponseDto } from '../usuarios/dto/user-response.dto';
 import { Role } from '../../common/decorators/role.decorator';
 import { User } from '../../common/decorators/user.decorator';
 
+@ApiTags('auth') // <- Agrupa no Swagger
 @Controller('auth')
 export class AuthController {
   constructor(
@@ -33,9 +36,10 @@ export class AuthController {
     private usuarioService: RegisterUsuariosService,
   ) {}
 
+  @ApiOperation({ summary: 'Login do usuário' })
   @ApiOkResponse({
     type: LoginResponseDto,
-    description: 'autenticação do usuario',
+    description: 'Autenticação do usuário',
   })
   @Post('login')
   async login(@Body() request: LoginDto): Promise<LoginResponseDto> {
@@ -43,6 +47,7 @@ export class AuthController {
     return { access_token: token };
   }
 
+  @ApiOperation({ summary: 'Cadastro de paciente' })
   @ApiCreatedResponse({
     type: CreateUserResponseDto,
     description: 'Cadastro de paciente',
@@ -56,6 +61,7 @@ export class AuthController {
     return new CreateUserResponseDto(usuario);
   }
 
+  @ApiOperation({ summary: 'Cadastro de médico ou admin (autenticado como ADMIN)' })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard, RoleGuard)
   @ApiCreatedResponse({
@@ -72,6 +78,7 @@ export class AuthController {
     return new CreateUserResponseDto(usuario);
   }
 
+  @ApiOperation({ summary: 'Obter dados do usuário atual (JWT)' })
   @ApiBearerAuth()
   @ApiOkResponse({ type: UserResponseDto })
   @UseGuards(JwtAuthGuard)
