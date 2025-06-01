@@ -20,8 +20,8 @@ export class GradeService {
       inicio: body.inicio,
       fim: body.fim,
       intervalo: body.intervalo,
-      medico: medico
-    })
+      medico: medico,
+    });
   }
 
   async available(medicoId: number, date: Date) {
