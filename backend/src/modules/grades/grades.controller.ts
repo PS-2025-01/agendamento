@@ -15,11 +15,11 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { GradesService } from './grades.service';
-import { JwtAuthGuard } from 'src/common/guards/jwt.guard';
+import { JwtAuthGuard } from '../../common/guards/jwt.guard';
 import { CreateGradeDto } from './dtos/create-grade.dto';
 import { CreateGradeResponseDto } from './dtos/create-grade-response.dto';
-import { User } from 'src/common/decorators/user.decorator';
-import { Role } from 'src/common/decorators/role.decorator';
+import { User } from '../../common/decorators/user.decorator';
+import { Role } from '../../common/decorators/role.decorator';
 import { TipoUsuario } from '../usuario/entities/tipoUsuario.enum';
 
 @ApiTags('Grades')
