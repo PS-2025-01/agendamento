@@ -6,7 +6,7 @@ import { CreateGradeDto } from './dtos/create-grade.dto';
 import { MedicosService } from '../medicos/medicos.service';
 
 @Injectable()
-export class GradeService {
+export class GradesService {
   constructor(
     @InjectRepository(Grade) private gradeRepository: Repository<Grade>,
     private medicoService: MedicosService,
