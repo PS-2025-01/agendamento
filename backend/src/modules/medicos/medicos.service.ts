@@ -45,13 +45,13 @@ export class MedicosService {
 
   async findByUserId(userId: number) {
     const medico = await this.medicosRepository.findOneBy({
-      usuario: {id: userId }
+      usuario: { id: userId },
     });
 
     if (!medico) {
       throw new NotFoundException('medico nao encontrado');
     }
-    
+
     return medico;
   }
 }
