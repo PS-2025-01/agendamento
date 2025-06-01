@@ -14,7 +14,7 @@ import {
   ApiQuery,
   ApiTags,
 } from '@nestjs/swagger';
-import { GradeService } from './grade.service';
+import { GradesService } from './grades.service';
 import { JwtAuthGuard } from 'src/common/guards/jwt.guard';
 import { CreateGradeDto } from './dtos/create-grade.dto';
 import { CreateGradeResponseDto } from './dtos/create-grade-response.dto';
@@ -26,8 +26,8 @@ import { TipoUsuario } from '../usuario/entities/tipoUsuario.enum';
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
 @Controller('/grades')
-export class GradeController {
-  constructor(private gradeService: GradeService) {}
+export class GradesController {
+  constructor(private gradeService: GradesService) {}
 
   @ApiQuery({ name: 'medicoId', example: 1 })
   @ApiQuery({ name: 'data', example: '2025-05-25' })
