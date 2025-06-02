@@ -15,14 +15,14 @@ import {
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { LoginResponseDto } from './dto/login-response.dto';
-import { CreateUserDto } from '../usuario/dto/create-user.dto';
-import { CreateUserResponseDto } from '../usuario/dto/create-user-response.dto';
+import { CreateUserDto } from '../usuarios/dto/create-user.dto';
+import { CreateUserResponseDto } from '../usuarios/dto/create-user-response.dto';
 import { JwtAuthGuard } from '../../common/guards/jwt.guard';
-import { AdminCreateUserDto } from '../usuario/dto/admin-create-user.dto';
-import { TipoUsuario } from '../usuario/entities/tipoUsuario.enum';
+import { AdminCreateUserDto } from '../usuarios/dto/admin-create-user.dto';
+import { TipoUsuario } from '../usuarios/entities/tipoUsuario.enum';
 import { RoleGuard } from '../../common/guards/role.guard';
-import { RegisterUsuarioService } from '../usuario/register-usuario.service';
-import { UserResponseDto } from '../usuario/dto/user-response.dto';
+import { RegisterUsuariosService } from '../usuarios/register-usuarios.service';
+import { UserResponseDto } from '../usuarios/dto/user-response.dto';
 import { Role } from '../../common/decorators/role.decorator';
 import { User } from '../../common/decorators/user.decorator';
 
@@ -30,7 +30,7 @@ import { User } from '../../common/decorators/user.decorator';
 export class AuthController {
   constructor(
     private authSerivce: AuthService,
-    private usuarioService: RegisterUsuarioService,
+    private usuarioService: RegisterUsuariosService,
   ) {}
 
   @ApiOkResponse({

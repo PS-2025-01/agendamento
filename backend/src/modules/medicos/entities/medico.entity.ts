@@ -1,4 +1,4 @@
-import { Usuario } from '../../usuario/entities/usuario.entity';
+import { Usuario } from '../../usuarios/entities/usuario.entity';
 import { Especialidade } from '../../especialidades/entities/especialidade.entity';
 import {
   Entity,

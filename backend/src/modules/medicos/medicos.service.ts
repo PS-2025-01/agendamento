@@ -3,7 +3,7 @@ import { FindOptionsWhere, Like, Repository } from 'typeorm';
 import { Medico } from './entities/medico.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Especialidade } from '../especialidades/entities/especialidade.entity';
-import { Usuario } from '../usuario/entities/usuario.entity';
+import { Usuario } from '../usuarios/entities/usuario.entity';
 
 @Injectable()
 export class MedicosService {

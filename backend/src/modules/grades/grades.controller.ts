@@ -20,7 +20,7 @@ import { CreateGradeDto } from './dtos/create-grade.dto';
 import { CreateGradeResponseDto } from './dtos/create-grade-response.dto';
 import { User } from '../../common/decorators/user.decorator';
 import { Role } from '../../common/decorators/role.decorator';
-import { TipoUsuario } from '../usuario/entities/tipoUsuario.enum';
+import { TipoUsuario } from '../usuarios/entities/tipoUsuario.enum';
 
 @ApiTags('Grades')
 @ApiBearerAuth()
