@@ -2,8 +2,8 @@ import { faker } from '@faker-js/faker';
 import { Seeder } from '../seeder';
 import * as brcrypt from 'bcrypt';
 import { DataSource, DeepPartial } from 'typeorm';
-import { Usuario } from 'src/modules/usuario/entities/usuario.entity';
-import { TipoUsuario } from 'src/modules/usuario/entities/tipoUsuario.enum';
+import { Usuario } from 'src/modules/usuarios/entities/usuario.entity';
+import { TipoUsuario } from 'src/modules/usuarios/entities/tipoUsuario.enum';
 import { Medico } from 'src/modules/medicos/entities/medico.entity';
 import { Especialidade } from 'src/modules/especialidades/entities/especialidade.entity';
 

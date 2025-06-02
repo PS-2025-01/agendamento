@@ -8,9 +8,9 @@ import { getRepositoryToken, TypeOrmModule } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
 import { AuthModule } from '../src/modules/auth/auth.module';
 import { options } from '../src/database/data-source';
-import { CreateUserResponseDto } from '../src/modules/usuario/dto/create-user-response.dto';
-import { Usuario } from '../src/modules/usuario/entities/usuario.entity';
-import { TipoUsuario } from '../src/modules/usuario/entities/tipoUsuario.enum';
+import { CreateUserResponseDto } from '../src/modules/usuarios/dto/create-user-response.dto';
+import { Usuario } from '../src/modules/usuarios/entities/usuario.entity';
+import { TipoUsuario } from '../src/modules/usuarios/entities/tipoUsuario.enum';
 import { LoginResponseDto } from '../src/modules/auth/dto/login-response.dto';
 import { Especialidade } from '../src/modules/especialidades/entities/especialidade.entity';
 
