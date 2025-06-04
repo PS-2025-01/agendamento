@@ -28,7 +28,7 @@ import { UserResponseDto } from '../usuarios/dto/user-response.dto';
 import { Role } from '../../common/decorators/role.decorator';
 import { User } from '../../common/decorators/user.decorator';
 
-@ApiTags('auth') // <- Agrupa no Swagger
+@ApiTags('Autenticação')
 @Controller('auth')
 export class AuthController {
   constructor(
@@ -61,7 +61,9 @@ export class AuthController {
     return new CreateUserResponseDto(usuario);
   }
 
-  @ApiOperation({ summary: 'Cadastro de médico ou admin (autenticado como ADMIN)' })
+  @ApiOperation({
+    summary: 'Cadastro de médico ou admin (autenticado como ADMIN)',
+  })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard, RoleGuard)
   @ApiCreatedResponse({

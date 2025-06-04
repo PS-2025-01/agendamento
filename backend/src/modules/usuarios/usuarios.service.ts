@@ -28,8 +28,3 @@ export class UsuariosService {
     return await this.usuarioRepository.findOneBy({ id: userId });
   }
 }
-async findMedicos(): Promise<Usuario[]> {
-  return this.usuarioRepository.find({
-    where: { tipoUsuario: 'MEDICO' }, // ou TipoUsuario.MEDICO se estiver importado
-  });
-}
