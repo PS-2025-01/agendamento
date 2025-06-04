@@ -1,9 +1,12 @@
-import { Controller, Get, Query } from '@nestjs/common';
-import { ApiOkResponse, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { Controller, Get, Query, UseGuards } from '@nestjs/common';
+import { ApiBearerAuth, ApiOkResponse, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { MedicoDto } from './dto/medicos.dto';
 import { MedicosService } from './medicos.service';
+import { JwtAuthGuard } from 'src/common/guards/jwt.guard';
 
-@ApiTags('Medicos')
+@ApiBearerAuth()
+@ApiTags('Médicos')
+@UseGuards(JwtAuthGuard)
 @Controller('medicos')
 export class MedicosControlller {
   constructor(private medicosService: MedicosService) {}

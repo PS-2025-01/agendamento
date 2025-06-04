@@ -12,6 +12,10 @@ async function bootstrap() {
     .setTitle('API agendamento de consultas')
     .setVersion('1.0')
     .addBearerAuth()
+    .addTag('Autenticação', 'Operações relacionadas à autenticação de usuários')
+    .addTag('Médicos')
+    .addTag('Especialidades')
+    .addTag('Grades', 'Operações relacionadas aos horários dos médicos')
     .build();
 
   const documentFactory = () => SwaggerModule.createDocument(app, config);
