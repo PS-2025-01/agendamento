@@ -7,7 +7,7 @@ import {
 } from '@nestjs/swagger';
 import { MedicoDto } from './dto/medicos.dto';
 import { MedicosService } from './medicos.service';
-import { JwtAuthGuard } from 'src/common/guards/jwt.guard';
+import { JwtAuthGuard } from '../../common/guards/jwt.guard';
 
 @ApiBearerAuth()
 @ApiTags('Médicos')
