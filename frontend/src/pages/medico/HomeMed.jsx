@@ -3,7 +3,7 @@ import axios from "axios";
 
 import "./styles.css";
 
-const HomeMed = () => {
+const MedicoHome = () => {
   const consultas = [
     { id: 1, nome: "Mariana Souza" },
     { id: 2, nome: "João Pereira" },
@@ -49,4 +49,4 @@ const HomeMed = () => {
   );
 };
 
-export default HomeMed;
+export default MedicoHome;
