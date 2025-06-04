@@ -11,7 +11,7 @@ import { EspecialidadesService } from '../especialidades/especialidades.service'
 import { Especialidade } from '../especialidades/entities/especialidade.entity';
 
 @Injectable()
-export class RegisterUsuarioService {
+export class RegisterUsuariosService {
   constructor(
     @InjectRepository(Usuario) private usuarioRepository: Repository<Usuario>,
     private medicosService: MedicosService,

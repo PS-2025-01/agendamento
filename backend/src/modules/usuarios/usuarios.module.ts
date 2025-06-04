@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { UsuarioService } from './usuario.service';
+import { UsuariosService } from './usuarios.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Usuario } from './entities/usuario.entity';
-import { RegisterUsuarioService } from './register-usuario.service';
+import { RegisterUsuariosService } from './register-usuarios.service';
 import { EspecialidadesModule } from '../especialidades/especialidades.module';
 import { MedicosModule } from '../medicos/medicos.module';
 
@@ -12,7 +12,7 @@ import { MedicosModule } from '../medicos/medicos.module';
     EspecialidadesModule,
     MedicosModule,
   ],
-  providers: [UsuarioService, RegisterUsuarioService],
-  exports: [UsuarioService, RegisterUsuarioService],
+  providers: [UsuariosService, RegisterUsuariosService],
+  exports: [UsuariosService, RegisterUsuariosService],
 })
-export class UsuarioModule {}
+export class UsuariosModule {}

@@ -1,9 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { FindOptionsWhere, Like, Repository } from 'typeorm';
 import { Medico } from './entities/medico.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Especialidade } from '../especialidades/entities/especialidade.entity';
-import { Usuario } from '../usuario/entities/usuario.entity';
+import { Usuario } from '../usuarios/entities/usuario.entity';
 
 @Injectable()
 export class MedicosService {
@@ -41,5 +41,17 @@ export class MedicosService {
         especialidade: true,
       },
     });
+  }
+
+  async findByUserId(userId: number) {
+    const medico = await this.medicosRepository.findOneBy({
+      usuario: { id: userId },
+    });
+
+    if (!medico) {
+      throw new NotFoundException('medico nao encontrado');
+    }
+
+    return medico;
   }
 }

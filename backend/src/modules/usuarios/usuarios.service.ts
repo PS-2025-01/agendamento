@@ -5,7 +5,7 @@ import * as bcrypt from 'bcrypt';
 import { Usuario } from './entities/usuario.entity';
 
 @Injectable()
-export class UsuarioService {
+export class UsuariosService {
   constructor(
     @InjectRepository(Usuario) private usuarioRepository: Repository<Usuario>,
   ) {}
