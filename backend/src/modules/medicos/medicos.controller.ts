@@ -1,5 +1,10 @@
 import { Controller, Get, Query, UseGuards } from '@nestjs/common';
-import { ApiBearerAuth, ApiOkResponse, ApiQuery, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOkResponse,
+  ApiQuery,
+  ApiTags,
+} from '@nestjs/swagger';
 import { MedicoDto } from './dto/medicos.dto';
 import { MedicosService } from './medicos.service';
 import { JwtAuthGuard } from 'src/common/guards/jwt.guard';
