@@ -12,6 +12,8 @@ const MedicoHome = () => {
     { id: 3, nome: "Ana Souza" },
     { id: 4, nome: "Carlos Alberto" },
     { id: 5, nome: "Joana Medeiros" },
+    { id: 6, nome: "Isabela Silva" },
+
   ];
 
   return ( 
