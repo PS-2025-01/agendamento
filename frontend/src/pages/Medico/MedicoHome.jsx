@@ -1,6 +1,5 @@
-import React, { useState } from "react";
-import axios from "axios";
-
+import PlannerImg from '../../assets/Planner.svg';
+import TasklistImg from '../../assets/Tasklist.svg';
 import "./styles.css";
 
 const MedicoHome = () => {
@@ -8,7 +7,10 @@ const MedicoHome = () => {
     { id: 1, nome: "Mariana Souza" },
     { id: 2, nome: "João Pereira" },
     { id: 3, nome: "Ana Souza" },
-    { id: 4, nome: "Carlos Alberto" }
+    { id: 4, nome: "Carlos Alberto" },
+    { id: 5, nome: "Joana Medeiros" },
+    { id: 6, nome: "Isabela Silva" },
+
   ];
 
   return ( 
@@ -29,9 +31,15 @@ const MedicoHome = () => {
         </h2>
 
         <div className="cards-container">
-          <a href="/consultas" className="card">Consultas</a>
-          <a href="/agenda" className="card">Agenda</a>
-        </div>
+  <a href="/consultas" className="card">
+    <img src={TasklistImg} alt="Consultas" className="card-image"/>
+    <span className="card-title">Consultas</span>
+  </a>
+  <a href="/agenda" className="card">
+    <img src={PlannerImg} alt="Agenda" className="card-image"/>
+  <span className="card-title">Agenda</span>
+  </a>
+</div>
 
         <section className="proximas-consultas">
           <h3>Próximas Consultas</h3>

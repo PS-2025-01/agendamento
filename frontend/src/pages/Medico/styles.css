@@ -78,16 +78,37 @@
   border: 4px solid #F0F4F7;
   background: #FFF;
   display: flex;
+  flex-direction: column; /* para alinhar imagem + texto verticalmente */
   align-items: center;
   justify-content: center;
   font-size: 18px;
   color: var(--primary-color);
   text-decoration: none;
   transition: transform 0.3s ease;
+  padding: 1rem; /* espaçamento interno */
+  gap: 1rem; /* espaço entre imagem e texto */
 }
 
 .card:hover {
   transform: scale(1.05);
+}
+
+.card-image {
+  width: 80px;  /* ajuste conforme o tamanho desejado */
+  height: auto;
+}
+
+.card-title {
+  width: 145px;
+  height: 25px;
+  flex-shrink: 0;
+  color: #000;
+  font-family: Poppins, Arial, sans-serif;
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  text-align: center;
 }
 
 .proximas-consultas {
