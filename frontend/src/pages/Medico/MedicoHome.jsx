@@ -1,8 +1,5 @@
-import React, { useState } from "react";
-import axios from "axios";
-
-import PlannerImg from '/src/assets/Planner.svg';
-import TasklistImg from '/src/assets/Tasklist.svg';
+import PlannerImg from '../../assets/Planner.svg';
+import TasklistImg from '../../assets/Tasklist.svg';
 import "./styles.css";
 
 const MedicoHome = () => {
