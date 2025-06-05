@@ -14,11 +14,16 @@
 Para configurar o banco de dados pode ser utilizado o `docker` com o comando `docker compose up -d`,
 ou caso tenha o `mysql` instalado criando o banco com `create database agendamento`.
 
+> edite o arquivo `.env` com as credenciais do seu banco de dados.
+
 ```bash
 npm install
 
 # caso esteja utilizando docker
 docker compose up -d
+
+# edite apenas o arquivo .env
+cp example.env .env
 
 npm run migration:run
 
@@ -42,6 +47,12 @@ npm run migration:generate
 
 # aplica as migrations ao banco de dados
 npm run migration:run
+```
+### database
+Para popular o banco de dados. Todos os usuarios gerados tem senha **12345678**.
+
+```bash
+npm run seed:run
 ```
 
 ## Estilo de codigo

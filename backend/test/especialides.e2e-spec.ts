@@ -4,9 +4,9 @@ import { Repository } from 'typeorm';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { App } from 'supertest/types';
 import * as request from 'supertest';
-import { Especialidade } from '../src/especialidades/entities/especialidade.entity';
-import { EspecialidadesModule } from '../src/especialidades/especialidades.module';
-import { options } from '../src/data-source';
+import { Especialidade } from '../src/modules/especialidades/entities/especialidade.entity';
+import { EspecialidadesModule } from '../src/modules/especialidades/especialidades.module';
+import { options } from '../src/database/data-source';
 import { JwtAuthGuard } from '../src/common/guards/jwt.guard';
 
 describe('Especialidades (e2e)', () => {
@@ -30,10 +30,6 @@ describe('Especialidades (e2e)', () => {
     );
   });
 
-  beforeEach(async () => {
-    await especialidadeRepository.clear();
-  });
-
   const makePost = async (name: string) => {
     return await request(app.getHttpServer())
       .post('/especialidades')
@@ -41,7 +37,7 @@ describe('Especialidades (e2e)', () => {
   };
 
   test('criando especialidade', async () => {
-    const expected = 'especialidade xpto';
+    const expected = 'especialidade xpto_' + Date.now();
 
     const response = await makePost(expected);
 
@@ -62,7 +58,7 @@ describe('Especialidades (e2e)', () => {
   });
 
   test('criando especialidade duplicada', async () => {
-    const name = 'especialidade xpto';
+    const name = 'especialidade xpto_' + Date.now();
 
     const ok = await makePost(name);
     const bad = await makePost(name);

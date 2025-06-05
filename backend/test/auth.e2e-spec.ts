@@ -1,20 +1,23 @@
 import { App } from 'supertest/types';
+import { faker } from '@faker-js/faker';
 import * as request from 'supertest';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { Repository } from 'typeorm';
 import { getRepositoryToken, TypeOrmModule } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
-import { AuthModule } from '../src/auth/auth.module';
-import { options } from '../src/data-source';
-import { CreateUserResponseDto } from '../src/usuario/dto/create-user-response.dto';
-import { Usuario } from '../src/usuario/entities/usuario.entity';
-import { TipoUsuario } from '../src/usuario/entities/tipoUsuario.enum';
-import { LoginResponseDto } from '../src/auth/dto/login-response.dto';
+import { AuthModule } from '../src/modules/auth/auth.module';
+import { options } from '../src/database/data-source';
+import { CreateUserResponseDto } from '../src/modules/usuarios/dto/create-user-response.dto';
+import { Usuario } from '../src/modules/usuarios/entities/usuario.entity';
+import { TipoUsuario } from '../src/modules/usuarios/entities/tipoUsuario.enum';
+import { LoginResponseDto } from '../src/modules/auth/dto/login-response.dto';
+import { Especialidade } from '../src/modules/especialidades/entities/especialidade.entity';
 
 describe('Auth (e2e)', () => {
   let app: INestApplication<App>;
   let usuarioRepository: Repository<Usuario>;
+  let especialidadeRepository: Repository<Especialidade>;
 
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -27,6 +30,10 @@ describe('Auth (e2e)', () => {
 
     usuarioRepository = moduleFixture.get<Repository<Usuario>>(
       getRepositoryToken(Usuario),
+    );
+
+    especialidadeRepository = moduleFixture.get<Repository<Especialidade>>(
+      getRepositoryToken(Especialidade),
     );
   });
 
@@ -48,16 +55,12 @@ describe('Auth (e2e)', () => {
     return await request(app.getHttpServer()).post('/auth/login').send(body);
   };
 
-  beforeEach(async () => {
-    await usuarioRepository.clear();
-  });
-
   test('cadastro de paciente', async () => {
     const response = await makeSignup({
-      nome: 'jackson',
-      email: 'jackson@email.com',
-      cpf: '12345678901',
-      senha: '123456',
+      nome: faker.person.fullName(),
+      email: faker.internet.email().toLowerCase(),
+      cpf: faker.string.numeric(11),
+      senha: '12345678',
     });
 
     expect(response.status).toBe(201);
@@ -78,27 +81,97 @@ describe('Auth (e2e)', () => {
     expect(response.status).toBe(400);
   });
 
-  test('cadastro de medico', async () => {
+  test('cadastro de medico sem especialidade', async () => {
+    const adminEmail = faker.internet.email().toLowerCase();
+
     await usuarioRepository.save({
-      nome: 'admin',
-      email: 'admin@admin.com',
-      cpf: '123456789099',
-      senha: bcrypt.hashSync('123456', 10),
+      nome: faker.person.fullName(),
+      email: adminEmail,
+      cpf: faker.string.numeric(11),
+      senha: bcrypt.hashSync('12345678', 10),
       tipoUsuario: TipoUsuario.ADMIN,
     });
 
     const login = await makeLogin({
-      email: 'admin@admin.com',
-      senha: '123456',
+      email: adminEmail,
+      senha: '12345678',
     });
 
     const response = await makeRegister(
       {
-        nome: 'jackson',
-        email: 'jackson@email.com',
-        cpf: '12345678901',
+        nome: faker.person.fullName(),
+        email: faker.internet.email().toLowerCase(),
+        cpf: faker.string.numeric(11),
         tipoUsuario: 'medico',
-        senha: '123456',
+        senha: '12345678',
+      },
+      (login.body as LoginResponseDto).access_token,
+    );
+
+    expect(response.status).toBe(400);
+  });
+
+  test('cadastro de medico', async () => {
+    const email = faker.internet.email().toLowerCase();
+
+    await usuarioRepository.save({
+      nome: faker.person.fullName(),
+      email,
+      cpf: faker.string.numeric(11),
+      senha: bcrypt.hashSync('12345678', 10),
+      tipoUsuario: TipoUsuario.ADMIN,
+    });
+
+    const login = await makeLogin({
+      email,
+      senha: '12345678',
+    });
+
+    const response = await makeRegister(
+      {
+        nome: faker.person.fullName(),
+        email: faker.internet.email().toLowerCase(),
+        cpf: faker.string.numeric(11),
+        tipoUsuario: 'medico',
+        senha: '12345678',
+        especialidade: faker.word.words(),
+      },
+      (login.body as LoginResponseDto).access_token,
+    );
+
+    expect(response.status).toBe(201);
+
+    const body = response.body as CreateUserResponseDto;
+
+    expect(body.id).toBeDefined();
+  });
+
+  test('cadastro de medico passando id da especialidade', async () => {
+    const especialdiade = await especialidadeRepository.save({
+      nome: faker.word.words(),
+    });
+    const email = faker.internet.email().toLowerCase();
+    await usuarioRepository.save({
+      nome: faker.person.fullName(),
+      email,
+      cpf: faker.string.numeric(11),
+      senha: bcrypt.hashSync('12345678', 10),
+      tipoUsuario: TipoUsuario.ADMIN,
+    });
+
+    const login = await makeLogin({
+      email,
+      senha: '12345678',
+    });
+
+    const response = await makeRegister(
+      {
+        nome: faker.person.fullName(),
+        email: faker.internet.email().toLowerCase(),
+        cpf: faker.string.numeric(11),
+        tipoUsuario: 'medico',
+        senha: '12345678',
+        especialidade: especialdiade.id,
       },
       (login.body as LoginResponseDto).access_token,
     );
@@ -111,26 +184,28 @@ describe('Auth (e2e)', () => {
   });
 
   test('cadastro de medico sem autorização', async () => {
+    const email = faker.internet.email().toLowerCase();
+
     await usuarioRepository.save({
-      nome: 'admin',
-      email: 'admin@admin.com',
-      cpf: '123456789099',
-      senha: bcrypt.hashSync('123456', 10),
+      nome: faker.person.fullName(),
+      email,
+      cpf: faker.string.numeric(11),
+      senha: bcrypt.hashSync('12345678', 10),
       tipoUsuario: TipoUsuario.MEDICO,
     });
 
     const login = await makeLogin({
-      email: 'admin@admin.com',
-      senha: '123456',
+      email,
+      senha: '12345678',
     });
 
     const response = await makeRegister(
       {
-        nome: 'jackson',
-        email: 'jackson@email.com',
-        cpf: '12345678901',
+        nome: faker.person.fullName(),
+        email: faker.internet.email().toLowerCase(),
+        cpf: faker.string.numeric(11),
         tipoUsuario: 'medico',
-        senha: '123456',
+        senha: '12345678',
       },
       (login.body as LoginResponseDto).access_token,
     );
@@ -140,11 +215,11 @@ describe('Auth (e2e)', () => {
 
   test('cadastro de medico sem autenticação', async () => {
     const response = await makeRegister({
-      nome: 'jackson',
-      email: 'jackson@email.com',
-      cpf: '12345678901',
+      nome: faker.person.fullName(),
+      email: faker.internet.email().toLowerCase(),
+      cpf: faker.string.numeric(11),
       tipoUsuario: 'medico',
-      senha: '123456',
+      senha: '12345678',
     });
 
     expect(response.status).toBe(401);
