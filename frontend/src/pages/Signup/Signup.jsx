@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import "./styles.css";
@@ -10,9 +11,11 @@ const Signup = () => {
   const [senha, setSenha] = useState("");
   const [erro, setErro] = useState("");
 
+  const navigate = useNavigate();
+  
   const handleSignup = async (e) => {
     e.preventDefault();
-
+    
     try {
       const response = await axios.post("/api/auth/signup", {
         nome: nome,
@@ -22,7 +25,8 @@ const Signup = () => {
       });
       // Se a API responder com sucesso
       console.log("Signup realizado com sucesso:", response.data);
-      alert("foi, divo");
+      alert("Cadastrado com sucesso!");
+      navigate("/");
     } catch (error) {
       console.error("Erro ao fazer signup:", error);
       setErro("Ocorreu um erro, tente novamente.");
