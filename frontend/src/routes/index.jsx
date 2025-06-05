@@ -5,6 +5,7 @@ import Login from "../pages/Login/Login";
 import Signup from "../pages/Signup/Signup";
 import AdminRoutes from "./AdminRoutes";
 import MedicoRoutes from "./MedicoRoutes";
+import PacienteRoutes from "./PacienteRoutes";
 
 function AppRoutes() {
     return (
@@ -15,6 +16,7 @@ function AppRoutes() {
             </Routes>
             <AdminRoutes />
             <MedicoRoutes />
+            <PacienteRoutes />
         </Router>
     );
 }
