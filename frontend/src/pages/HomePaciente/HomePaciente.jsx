@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "frontend/src/pages/HomePaciente/styles.css";
+import "./styles.css";
 
 const medicosDados = [
   {
@@ -117,7 +117,7 @@ function Agendamento() {
   return (
     <div>
       <header>
-        <div className="logo">ClinApp</div>
+        <div className="logo">MediAgenda</div>
         <nav>
           <a href="#medicos" className="active">
             Médicos
