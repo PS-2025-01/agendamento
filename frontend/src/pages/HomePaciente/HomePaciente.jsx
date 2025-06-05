@@ -226,8 +226,8 @@ function Agendamento() {
       </main>
 
       <footer>
-        <div>© 2025 ClinApp</div>
-        <div>Contato: contato@clinapp.com</div>
+        <div>© 2025 MediAgenda</div>
+        <div>Contato: contato@mediagenda.com</div>
       </footer>
     </div>
   );

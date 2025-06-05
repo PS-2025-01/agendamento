@@ -41,17 +41,17 @@ const AdminHome = () => {
                     </a>
                 </div>
 
-                <div className="medicos">
+                <div className="admin-medicos">
                     <h3>Médicos cadastrados</h3>
-                    <div className="medico-wrapper">
-                        <div className="medico-info">
+                    <div className="admin-medico-wrapper">
+                        <div className="admin-medico-info">
                             <p>Dr. João Souza</p>
                             <p>15 de Abril de 2024</p>
                         </div>
                         <button>Vizualizar</button>
                     </div>
-                    <div className="medico-wrapper">
-                        <div className="medico-info">
+                    <div className="admin-medico-wrapper">
+                        <div className="admin-medico-info">
                             <p>Dr. Valeria Silva</p>
                             <p>12 de Abril de 2024</p>
                         </div>
@@ -60,7 +60,7 @@ const AdminHome = () => {
                 </div>
             </main>
 
-            <footer>
+            <footer class="admin-footer">
                 <p>Contato</p>
                 <p>Termos de uso</p>
                 <p>Política de privacidade</p>
