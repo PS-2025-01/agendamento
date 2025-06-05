@@ -16,7 +16,7 @@ const MedicoHome = () => {
       <header className="header">
         <h1>MediAgenda</h1>
         <nav className="nav-menu">
-          <a href="/home-med">Home</a> 
+          <a href="/medico/home">Home</a> 
           <a href="/agenda">Agenda</a>
           <a href="/perfil">Perfil</a>
           <a href="/logout">Sair</a>
