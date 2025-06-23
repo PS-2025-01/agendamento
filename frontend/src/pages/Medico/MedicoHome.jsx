@@ -14,14 +14,16 @@ const MedicoHome = () => {
   ];
 
   return ( 
-    <div className="home-container">
+    <div className="medico-container">
       <header className="header">
-        <h1>MediAgenda</h1>
-        <nav className="nav-menu">
-          <a href="/medico/home">Home</a> 
-          <a href="/agenda">Agenda</a>
-          <a href="/perfil">Perfil</a>
-          <a href="/logout">Sair</a>
+       <h3>MediAgenda</h3>
+        <nav>
+          <ul>
+            <li><a href="/medico/home">Home</a></li>
+            <li><a href="/agenda">Agenda</a></li>
+            <li><a href="/perfil">Perfil</a></li>
+            <li><a href="/logout">Sair</a></li>
+          </ul>
         </nav>
       </header>
 
@@ -30,16 +32,16 @@ const MedicoHome = () => {
         Bem-vindo de volta,<br/>Dr. João Souza!
         </h2>
 
-        <div className="cards-container">
-  <a href="/consultas" className="card">
-    <img src={TasklistImg} alt="Consultas" className="card-image"/>
-    <span className="card-title">Consultas</span>
-  </a>
-  <a href="/agenda" className="card">
-    <img src={PlannerImg} alt="Agenda" className="card-image"/>
-  <span className="card-title">Agenda</span>
-  </a>
-</div>
+        <div className="admin-buttons">
+          <a href="/consultas">
+            <img src={TasklistImg} alt="Consultas" />
+            Consultas
+          </a>
+          <a href="/agenda">
+            <img src={PlannerImg} alt="Agenda" />
+            Agenda
+          </a>
+        </div>
 
         <section className="proximas-consultas">
           <h3>Próximas Consultas</h3>
@@ -53,6 +55,11 @@ const MedicoHome = () => {
           </div>
         </section>
       </main>
+       <footer>
+        <div>© 2025 MediAgenda</div>
+        <div>Contato: contato@mediagenda.com</div>
+      </footer>
+  
     </div>
   );
 };

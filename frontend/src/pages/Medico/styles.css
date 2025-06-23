@@ -1,59 +1,54 @@
-.home-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  background: #F4F7FA;
-  border-radius: 15px;
-  font-family: Poppins, Arial, sans-serif;
+.medico-container {
+    width: min(90%, 130rem);
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    background-color: #F0F4F7;
+
+    padding: 1rem;
+    border-radius: 10px 10px 0px 0px;
 }
 
-.header {
-  width: 100%;
-  max-width: 1284px;
-  height: 95px;
-  flex-shrink: 0;
-  opacity: var(--sds-size-blur-100);
-  background: #FFF;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 2rem;
-  border-radius: 10px;
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    background-color: var(--bg-color-2);
+    border-radius: 10px 10px 0px 0px;
+    padding: 2rem 3rem;
 }
 
-.h1 {
-  color: #000;
-  font-size: 32px;
-  font-weight: 600;
+header h3 {
+    font-size: var(--sub-subtitle-fs);
 }
 
-.nav-menu {
-  display: flex;
-  gap: 1.5rem;
+nav ul{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
 }
 
-.nav-menu a {
-  color: #000;
-  font-size: 20px;
-  font-weight: 400;
-  text-decoration: none;
+li a {
+    color: var(--text-color-1);
+    transition: 200ms;
 }
 
-.nav-menu a:hover {
-  text-decoration: underline;
+li a:hover {
+    color: var(--primary-color);
 }
-
 .main-content {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2.5rem;
-  margin-top: 2rem;
-  width: 100%;
+  gap: 2rem;
+  background-color: var(--bg-color-2);
+  padding: 2rem;
+  text-align: center;
 }
 
 .welcome-msg {
@@ -64,51 +59,11 @@
   max-width: 90%;
 }
 
-.cards-container {
-  display: flex;
-  gap: 2rem;
-  flex-wrap: wrap; /* para quebrar em telas menores */
-  justify-content: center;
-}
 
-.card {
-  width: 240px;
-  height: 260px;
-  border-radius: 20px;
-  border: 4px solid #F0F4F7;
-  background: #FFF;
-  display: flex;
-  flex-direction: column; /* para alinhar imagem + texto verticalmente */
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
-  color: var(--primary-color);
-  text-decoration: none;
-  transition: transform 0.3s ease;
-  padding: 1rem; /* espaçamento interno */
-  gap: 1rem; /* espaço entre imagem e texto */
-}
-
-.card:hover {
-  transform: scale(1.05);
-}
-
-.card-image {
-  width: 80px;  /* ajuste conforme o tamanho desejado */
-  height: auto;
-}
-
-.card-title {
-  width: 145px;
-  height: 25px;
-  flex-shrink: 0;
-  color: #000;
-  font-family: Poppins, Arial, sans-serif;
-  font-size: 30px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
-  text-align: center;
+.admin-buttons a:hover {
+    background-color: #F0F4F7;
+    filter: brightness(1);
+    transform: scale(1.05);
 }
 
 .proximas-consultas {
