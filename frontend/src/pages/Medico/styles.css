@@ -59,6 +59,14 @@ li a:hover {
   max-width: 90%;
 }
 
+.perfil-msg {
+  align-self: flex-start;
+  font-size: 42px;
+  font-weight: 700;
+  margin-left: 5rem;
+
+}
+
 .proximas-consultas {
     width: 100%;
 
@@ -172,4 +180,118 @@ background: #f1f1f1;
   display: flex;
   justify-content: center;
   gap: 30px;
+}
+
+
+.perfil-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 3rem;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.perfil-coluna {
+  flex: 1;
+  min-width: 280px;
+  background: #fff;
+  border: 4px solid #F0F4F7;
+  border-radius: 1rem;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.perfil-coluna h3 {
+  font-size: var(--sub-subtitle-fs);
+  text-align: left;
+  color: #000;
+}
+
+.perfil-campo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.perfil-campo-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.perfil-campo label {
+  font-weight: bold;
+  font-size: var(--text-fs);
+}
+
+.perfil-campo p {
+  font-size: var(--subtext-fs);
+  color: var(--text-color-2);
+  text-align: left;
+}
+
+.editar-btn {
+  padding: 0.8rem 2rem; 
+  font-size: 1.3rem;      
+  min-width: 100px;      
+  background-color: var(--primary-color);
+  color: var(--text-color-5);
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-weight: 600; 
+}
+
+.editar-btn:hover {
+  background-color: var(--primary-color-hover);
+}
+
+.perfil-botoes {
+  display: flex;
+  justify-content: center; 
+  gap: 15rem; 
+  width: 100%;
+  padding: 2rem 0;
+}
+
+.btn-salvar {
+  padding: 0.8rem 2rem;
+  background-color: var(--primary-color);
+  color: var(--text-color-5);
+  border: none;
+  border-radius: 10px;
+  font-size: 17px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-weight: 500;
+  width: 219px;
+  height: 54px;
+  flex-shrink: 0;
+}
+
+.btn-salvar:hover {
+  background-color: var(--primary-color-hover);
+}
+
+.btn-excluir {
+  padding: 0.8rem 2rem;
+  background: #FFF;
+  color: #F41520;
+  border: 1px solid #F41520;
+  border-radius: 10px;
+  font-size: 17px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  width: 205px;
+  height: 54px;
+  flex-shrink: 0;
+}
+
+.btn-excluir:hover {
+  background-color: #F41520;
+  color: #FFF;
 }

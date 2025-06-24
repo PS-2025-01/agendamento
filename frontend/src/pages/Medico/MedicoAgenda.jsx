@@ -50,10 +50,10 @@ const MedicoAgenda = () => {
   </div>
 </div>
 
- <footer-medico>
-        <div>© 2025 MediAgenda</div>
-        <div>Contato: contato@mediagenda.com</div>
-      </footer-medico>
+<footer-medico>
+    <div>© 2025 MediAgenda</div>
+    <div>Contato: contato@mediagenda.com</div>
+</footer-medico>
    
 </main>
 
