@@ -42,26 +42,32 @@ const MedicoHome = () => {
             Agenda
           </a>
         </div>
+      
+      <div className="proximas-consultas">
+        <h3>Próximas Consultas</h3>
 
-        <section className="proximas-consultas">
-          <h3>Próximas Consultas</h3>
-          <div className="consultas-list">
-            {consultas.map((consulta) => (
-              <div key={consulta.id} className="consulta-item">
-                <span>{consulta.nome}</span>
-                <button className="visualizar-btn">Visualizar</button>
-              </div>
-            ))}
-          </div>
-        </section>
-      </main>
-       <footer>
+        <div className="consultas-list">
+          {consultas.map((consulta) => (
+           <div key={consulta.id} className="proximas-consultas-wrapper">
+           <div className="proximas-consultas-info">
+             <p>{consulta.nome}</p>
+             <p>Data a definir</p>
+         </div>
+         <button className="visualizar-btn">Visualizar</button>
+      </div>
+    ))}
+  </div>
+</div>
+
+ <footer-medico>
         <div>© 2025 MediAgenda</div>
         <div>Contato: contato@mediagenda.com</div>
-      </footer>
-  
-    </div>
+      </footer-medico>
+   
+</main>
+
+     </div>
   );
-};
+}
 
 export default MedicoHome;
