@@ -85,6 +85,46 @@ li a:hover {
   padding: 1rem;
 }
 
+.agenda-list {
+  max-height: 400px;
+  overflow-y: auto;
+  padding: 1rem;
+}
+
+.select-label {
+  font-size: var(--text-fs);
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  align-self: flex-start;
+}
+
+.select-dia {
+  padding: 0.8rem 1.2rem;
+  border-radius: 8px;
+  border: 1px solid var(--text-color-2);
+  font-size: var(--subtext-fs);
+  width: fit-content;
+  cursor: pointer;
+  align-self: flex-start;
+}
+
+.agenda-btn {
+  padding: 0.8rem 2rem; 
+  font-size: 1.3rem;      
+  min-width: 120px;      
+  background-color: var(--primary-color);
+  color: var(--text-color-5);
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-weight: 600;   
+}
+
+.agenda-btn:hover {
+  background-color: var(--primary-color-hover);
+}
+
 .visualizar-btn {
   padding: .5rem 1rem;
   background-color: var(--primary-color);
@@ -124,9 +164,11 @@ li a:hover {
 }
 
 
-footer-medico {
+.footer-medico {
+background: #f1f1f1;
   text-align: center;
   padding: 15px;
+  border-top: 1px solid #ccc;
   display: flex;
   justify-content: center;
   gap: 30px;
