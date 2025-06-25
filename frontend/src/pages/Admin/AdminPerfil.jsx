@@ -56,7 +56,7 @@ const AdminPerfil = () => {
                     <div className="img">
                         <img src="/assets/account.svg" alt="Ícone de perfil de conta" />
                     </div>
-                    
+
                     {usuario ? (
                     
                     <>
@@ -100,6 +100,7 @@ const AdminPerfil = () => {
                 <p>Contato</p>
                 <p>Termos de uso</p>
                 <p>Política de privacidade</p>
+                <p>Endereço: Rua Augusta, 563, Lapa - RJ - 05678-263</p>
             </footer>
         </div>
     )

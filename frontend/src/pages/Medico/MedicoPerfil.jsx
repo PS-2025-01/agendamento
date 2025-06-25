@@ -97,6 +97,7 @@ const MedicoPerfil = () => {
 <footer>
     <div>© 2025 MediAgenda</div>
     <div>Contato: contato@mediagenda.com</div>
+    <div>Endereço: Rua Augusta, 563, Lapa - RJ - 05678-263</div>
 </footer>
    
 </main>
