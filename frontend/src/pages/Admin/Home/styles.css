@@ -85,11 +85,15 @@ main h2 {
 
     padding: 2rem;
     font-weight: bold;
+
+    transition: transform 0.3s ease; /* <- adicionado */
+
 }
 
 .admin-buttons a:hover {
     background-color: #F0F4F7;
     filter: brightness(1);
+    transform: scale(1.05);
 }
 
 .admin-medicos {
