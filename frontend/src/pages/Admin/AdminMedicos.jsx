@@ -54,6 +54,7 @@ const AdminMedicos = () => {
                         <a href="/admin/medicos/horarios">Informações</a>
                     </div> ))}
                 </div>
+                <a className="register-btn" href="/admin/medicos/cadastro">Cadastrar novo médico</a>
             </main>
 
             <footer className="admin-footer">
