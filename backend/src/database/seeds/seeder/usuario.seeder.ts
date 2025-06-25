@@ -16,7 +16,11 @@ export default class UsuarioSeeder implements Seeder {
 
     for (let i = 0; i < 20; i++) {
       const tipoUsuario = i > 5 ? TipoUsuario.MEDICO : TipoUsuario.PACIENTE;
-      users.push(this.createRandomUser(tipoUsuario));
+      const user = this.createRandomUser(tipoUsuario);
+
+      console.log(`${tipoUsuario} :  ${user.email}`);
+
+      users.push(user);
     }
 
     await dataSource

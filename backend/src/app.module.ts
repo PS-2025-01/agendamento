@@ -4,6 +4,7 @@ import { options } from './database/data-source';
 import { EspecialidadesModule } from './modules/especialidades/especialidades.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { GradesModule } from './modules/grades/grades.module';
+import { AgendamentosModule } from './modules/agendamentos/agendamentos.module';
 
 @Module({
   imports: [
@@ -11,6 +12,7 @@ import { GradesModule } from './modules/grades/grades.module';
     EspecialidadesModule,
     AuthModule,
     GradesModule,
+    AgendamentosModule,
   ],
 })
 export class AppModule {}
