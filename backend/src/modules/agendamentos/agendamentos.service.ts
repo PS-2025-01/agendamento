@@ -30,12 +30,14 @@ export class AgendamentosService {
             },
           },
         };
+        break;
       case TipoUsuario.PACIENTE:
         options.where = {
           paciente: {
             id: usuario.id,
           },
         };
+        break;
     }
 
     return await this.agendamentoRepository.find(options);
@@ -52,6 +54,7 @@ export class AgendamentosService {
       loadRelationIds: { disableMixedMap: true },
     });
   }
+
   async create(
     request: CreateAgendamentoDto,
     usuario: Usuario,
