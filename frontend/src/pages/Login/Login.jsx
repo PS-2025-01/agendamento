@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
 import "./styles.css";
@@ -8,6 +9,8 @@ const Login = () => {
   const [senha, setSenha] = useState("");
   const [erro, setErro] = useState("");
 
+  const navigate = useNavigate();
+
   const handleLogin = async (e) => {
     e.preventDefault();
 
@@ -16,10 +19,18 @@ const Login = () => {
         email: email,
         senha: senha,
       });
+<<<<<<< feat/integracao-jwt
       
       sessionStorage.setItem('token', response.data.access_token);
       sessionStorage.setItem('acesso', response.data.tipoUsuario);
       toast(response.data.tipoUsuario);
+=======
+      // Se a API responder com sucesso
+      console.log("Login realizado com sucesso:", response.data);
+      alert("Login realizado com sucesso");
+      localStorage.setItem("token", response.data.access_token);
+      navigate("/paciente/home");
+>>>>>>> integracao-login
     } catch (error) {
       console.error(error);
       setErro("Email ou senha inválidos.");
