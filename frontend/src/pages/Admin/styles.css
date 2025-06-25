@@ -213,3 +213,14 @@ footer.admin-footer p:hover {
         max-width: 6.9rem;
     }
 }
+
+/* Perfil */
+
+.img {
+    width: 100%;
+    height: fit-content;
+}
+
+.perfil-coluna img {
+    max-width: 12rem;
+}
