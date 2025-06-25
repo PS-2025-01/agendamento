@@ -1,6 +1,14 @@
 import "./styles.css";
 
 const AdminMedicos = () => {
+    const medicos = [
+        { id: 1, nome: "Dr. João Souza", especialidade: "Cardiologista" },
+        { id: 2, nome: "Dra. Maria Lima", especialidade: "Dermatologista" },
+        { id: 3, nome: "Dr. Carlos Alves", especialidade: "Ortopedista" },
+        { id: 4, nome: "Dra. Valeria Silva", especialidade: "Clinico Geral" },
+        { id: 5, nome: "Dr. Rodrigo Ferreira", especialidade: "Neurologista" },
+    ];
+
     return (
         <div className="admin-container">
             <header>
@@ -34,60 +42,21 @@ const AdminMedicos = () => {
                         </label>
                         <input type="text" name="search" placeholder="Busca por nome ou especialidade" />
                     </div>
+                    {medicos.map((medicos) => (
                     <div className="admin-medico-wrapper">
                         <div className="admin-medico-info-wrapper">
-                            <img src="/assets/doctor.png" alt="Ícone de perfil do médico" />
+                            <img className="admin-img" src="/assets/doctor.png" alt="Ícone de perfil do médico" />
                             <div className="admin-medico-info">
-                                <p>Dr. João Souza</p>
-                                <p>Cardiologista</p>
+                                <p>{medicos.nome}</p>
+                                <p>{medicos.especialidade}</p>
                             </div>
                         </div>
-                        <button>Informações</button>
-                    </div>
-                    <div className="admin-medico-wrapper">
-                        <div className="admin-medico-info-wrapper">
-                            <img src="/assets/doctor.png" alt="Ícone de perfil do médico" />
-                            <div className="admin-medico-info">
-                                <p>Dra. Maria Lima</p>
-                                <p>Dermatologista</p>
-                            </div>
-                        </div>
-                        <button>Informações</button>
-                    </div>
-                    <div className="admin-medico-wrapper">
-                        <div className="admin-medico-info-wrapper">
-                            <img src="/assets/doctor.png" alt="Ícone de perfil do médico" />
-                            <div className="admin-medico-info">
-                                <p>Dr. Carlos Alves</p>
-                                <p>Ortopedista</p>
-                            </div>
-                        </div>
-                        <button>Informações</button>
-                    </div>
-                    <div className="admin-medico-wrapper">
-                        <div className="admin-medico-info-wrapper">
-                            <img src="/assets/doctor.png" alt="Ícone de perfil do médico" />
-                            <div className="admin-medico-info">
-                                <p>Dra. Valeria Silva</p>
-                                <p>Clinico Geral</p>
-                            </div>
-                        </div>
-                        <button>Informações</button>
-                    </div>
-                    <div className="admin-medico-wrapper">
-                        <div className="admin-medico-info-wrapper">
-                            <img src="/assets/doctor.png" alt="Ícone de perfil do médico" />
-                            <div className="admin-medico-info">
-                                <p>Dr. Rodrigo Ferreira</p>
-                                <p>Neurologista</p>
-                            </div>
-                        </div>
-                        <button>Informações</button>
-                    </div>
+                        <a href="/admin/medicos/horarios">Informações</a>
+                    </div> ))}
                 </div>
             </main>
 
-            <footer class="admin-footer">
+            <footer className="admin-footer">
                 <p>Contato</p>
                 <p>Termos de uso</p>
                 <p>Política de privacidade</p>
