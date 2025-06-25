@@ -1,26 +1,25 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { api } from "../../api";
 import "./styles.css";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [erro, setErro] = useState("");
-  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await api.post("/api/auth/login",{
+      const response = await axios.post("/api/auth/login",{
         email: email,
         senha: senha,
       });
-      // Se a API responder com sucesso
+      
       sessionStorage.setItem('token', response.data.access_token);
+      sessionStorage.setItem('acesso', response.data.tipoUsuario);
+      toast(response.data.tipoUsuario);
     } catch (error) {
       console.error(error);
       setErro("Email ou senha inválidos.");
