@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import "./styles.css";
 
 const medicosDados = [
@@ -35,7 +36,30 @@ const horariosDisponiveis = [
   "16:00",
 ];
 
-function Agendamento() {
+function PacienteHome() {
+  const [usuario, setUsuario] = useState();
+
+  useEffect(() => {
+    const fetchUsuario = async () => {
+      const token = localStorage.getItem("token");
+
+      try {
+        const response = await axios.get("/api/auth/current", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        setUsuario(response.data);
+      } catch (error) {
+        console.error("Erro ao buscar dados do usuário:", error);
+      }
+    };
+    
+    fetchUsuario();
+  }, []);
+
+  
   const [buscaMedico, setBuscaMedico] = useState("");
   const [medicoSelecionado, setMedicoSelecionado] = useState(null);
   const [dataSelecionada, setDataSelecionada] = useState(new Date());
@@ -114,6 +138,8 @@ function Agendamento() {
     // Aqui você pode mandar os dados para API ou backend
   }
 
+  if (!usuario) return <h3>Carregando...</h3>;
+
   return (
     <div>
       <header>
@@ -122,12 +148,15 @@ function Agendamento() {
           <a href="#medicos" className="active">
             Médicos
           </a>
-          <a href="#calendario">Calendário</a>
-          <a href="#horarios">Horários</a>
+          <a href="/paciente/home">Home</a>
+          <a href="/paciente/horarios">Horários</a>
+          <a href="/paciente/perfil">Perfil</a>
+          <a href="/logout">Sair</a>
         </nav>
       </header>
 
       <main>
+        <h3>Bem vindo, {usuario.nome}!</h3>
         <h1>Agendar Consulta</h1>
 
         <div className="agendamento-container">
@@ -233,4 +262,4 @@ function Agendamento() {
   );
 }
 
-export default Agendamento;
+export default PacienteHome;

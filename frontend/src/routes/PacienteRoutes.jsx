@@ -1,10 +1,12 @@
 import { Routes, Route } from "react-router-dom";
-import HomePaciente from "../pages/HomePaciente/HomePaciente";
+import PacienteHome from "../pages/Paciente/PacienteHome";
+import PacientePerfil from "../pages/Paciente/PacientePerfil";
 
 export default function PacienteRoutes() {
   return (
     <Routes>
-      <Route path="/paciente/home" element={<HomePaciente />} />
+      <Route path="/paciente/home" element={<PacienteHome />} />
+      <Route path="/paciente/perfil" element={<PacientePerfil />} />
     </Routes>
   );
 }
