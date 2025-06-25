@@ -20,7 +20,8 @@ const Login = () => {
         senha: senha,
       });
       // Se a API responder com sucesso
-      sessionStorage.setItem('token', response.data.access_token);
+      localStorage.setItem('token', response.data.access_token);
+      navigate("/paciente/home");
     } catch (error) {
       console.error(error);
       setErro("Email ou senha inválidos.");
