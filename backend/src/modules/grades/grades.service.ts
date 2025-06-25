@@ -19,18 +19,17 @@ export class GradesService {
   ) {}
 
   async create(body: CreateGradeDto, userId: number) {
-    
     const medico = await this.medicoService.findByUserId(userId);
 
     const exist = await this.gradeRepository.findBy({
       dia: body.dia,
-      medico
+      medico,
     });
 
     if (exist) {
       throw new BadRequestException('já possui grade cadastrada');
     }
-    
+
     return await this.gradeRepository.save({
       dia: body.dia,
       inicio: body.inicio,
@@ -48,7 +47,10 @@ export class GradesService {
 
     if (!grade) return [];
 
-    const agendamentos = await this.agendamentoService.listByMedicoId(medicoId, date);
+    const agendamentos = await this.agendamentoService.listByMedicoId(
+      medicoId,
+      date,
+    );
 
     const horarios = this.generate(
       grade.inicio,

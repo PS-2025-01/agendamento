@@ -18,8 +18,8 @@ export class AgendamentosService {
 
   async list(usuario: Usuario): Promise<Agendamento[]> {
     const options: FindManyOptions<Agendamento> = {
-      loadRelationIds: { disableMixedMap: true }
-    }
+      loadRelationIds: { disableMixedMap: true },
+    };
 
     switch (usuario.tipoUsuario) {
       case TipoUsuario.MEDICO:
@@ -29,13 +29,13 @@ export class AgendamentosService {
               id: usuario.id,
             },
           },
-        }
+        };
       case TipoUsuario.PACIENTE:
         options.where = {
           paciente: {
             id: usuario.id,
           },
-        }
+        };
     }
 
     return await this.agendamentoRepository.find(options);
@@ -47,7 +47,7 @@ export class AgendamentosService {
         medico: {
           id: medicoId,
         },
-        data: date
+        data: date,
       },
       loadRelationIds: { disableMixedMap: true },
     });
@@ -56,14 +56,19 @@ export class AgendamentosService {
     request: CreateAgendamentoDto,
     usuario: Usuario,
   ): Promise<Agendamento> {
-    const exist = await this.agendamentoRepository.createQueryBuilder()
-      .where('horario = :horario and status <> :status and medicoId = :medicoId and data = :data', {
-        horario: request.horario,
-        status: AgendamentoStatus.CANCELADO,
-        medicoId: request.medicoId,
-        data: request.data
-      }).getOne();
-    
+    const exist = await this.agendamentoRepository
+      .createQueryBuilder()
+      .where(
+        'horario = :horario and status <> :status and medicoId = :medicoId and data = :data',
+        {
+          horario: request.horario,
+          status: AgendamentoStatus.CANCELADO,
+          medicoId: request.medicoId,
+          data: request.data,
+        },
+      )
+      .getOne();
+
     if (exist) {
       throw new BadRequestException('Horario ocupado');
     }
