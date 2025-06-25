@@ -1,20 +1,36 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Grade } from './entities/grade.entity';
 import { CreateGradeDto } from './dtos/create-grade.dto';
 import { MedicosService } from '../medicos/medicos.service';
+import { AgendamentosService } from '../agendamentos/agendamentos.service';
+import { Agendamento } from '../agendamentos/entities/agendamento.entity';
+import { AgendamentoStatus } from '../agendamentos/entities/agendamentoStatus.enum';
 
 @Injectable()
 export class GradesService {
+  private logger = new Logger(GradesService.name);
+
   constructor(
     @InjectRepository(Grade) private gradeRepository: Repository<Grade>,
     private medicoService: MedicosService,
+    private agendamentoService: AgendamentosService,
   ) {}
 
   async create(body: CreateGradeDto, userId: number) {
+    
     const medico = await this.medicoService.findByUserId(userId);
 
+    const exist = await this.gradeRepository.findBy({
+      dia: body.dia,
+      medico
+    });
+
+    if (exist) {
+      throw new BadRequestException('já possui grade cadastrada');
+    }
+    
     return await this.gradeRepository.save({
       dia: body.dia,
       inicio: body.inicio,
@@ -32,12 +48,31 @@ export class GradesService {
 
     if (!grade) return [];
 
-    const horarios = this.generate(grade.inicio, grade.fim, grade.intervalo);
+    const agendamentos = await this.agendamentoService.listByMedicoId(medicoId, date);
+
+    const horarios = this.generate(
+      grade.inicio,
+      grade.fim,
+      grade.intervalo,
+      agendamentos,
+    );
 
     return horarios;
   }
 
-  private generate(begin: string, end: string, interval: number) {
+  private generate(
+    begin: string,
+    end: string,
+    interval: number,
+    agendamentos: Agendamento[],
+  ) {
+    const horariosAgendados = agendamentos
+      .filter(
+        (agendamentos) => agendamentos.status != AgendamentoStatus.CANCELADO,
+      )
+      .map((agendamentos) => agendamentos.horario.slice(0, 5));
+
+    this.logger.debug(horariosAgendados);
     const parse = (time: string) => new Date(`1970-01-01T${time}`);
 
     const current = parse(begin);
@@ -45,7 +80,12 @@ export class GradesService {
     const result: string[] = [];
 
     while (current < last) {
-      result.push(current.toTimeString().slice(0, 5));
+      const horario = current.toTimeString().slice(0, 5);
+
+      if (!horariosAgendados.includes(horario)) {
+        result.push(horario);
+      }
+
       current.setMinutes(current.getMinutes() + interval);
     }
 
