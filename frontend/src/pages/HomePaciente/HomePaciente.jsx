@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import "./styles.css";
 
 const medicosDados = [
@@ -36,6 +37,30 @@ const horariosDisponiveis = [
 ];
 
 function Agendamento() {
+  const [usuario, setUsuario] = useState();
+
+  useEffect(() => {
+    const fetchUsuario = async () => {
+      const token = localStorage.getItem("token");
+
+      try {
+        const response = await axios.get("/auth/current", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        setUsuario(response.data);
+      } catch (error) {
+        console.error("Erro ao buscar dados do usuário:", error);
+      }
+    };
+    
+    fetchUsuario();
+    console.log(usuario);
+  }, []);
+
+  
   const [buscaMedico, setBuscaMedico] = useState("");
   const [medicoSelecionado, setMedicoSelecionado] = useState(null);
   const [dataSelecionada, setDataSelecionada] = useState(new Date());
@@ -114,6 +139,8 @@ function Agendamento() {
     // Aqui você pode mandar os dados para API ou backend
   }
 
+  if (!usuario) return <h3>Carregando...</h3>;
+
   return (
     <div>
       <header>
@@ -128,6 +155,7 @@ function Agendamento() {
       </header>
 
       <main>
+        <h3>Bem vindo, {usuario.nome}!</h3>
         <h1>Agendar Consulta</h1>
 
         <div className="agendamento-container">

@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import "./styles.css";
@@ -7,6 +8,8 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [erro, setErro] = useState("");
+
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -18,7 +21,9 @@ const Login = () => {
       });
       // Se a API responder com sucesso
       console.log("Login realizado com sucesso:", response.data);
-      alert("foi, divo");
+      alert("Login realizado com sucesso");
+      localStorage.setItem("token", response.data.access_token);
+      navigate("/paciente/home");
     } catch (error) {
       console.error("Erro ao fazer login:", error);
       setErro("Email ou senha inválidos.");
