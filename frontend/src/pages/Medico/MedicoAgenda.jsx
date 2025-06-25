@@ -18,8 +18,8 @@ const MedicoAgenda = () => {
         <nav>
           <ul>
             <li><a href="/medico/home">Home</a></li>
-            <li><a href="/agenda">Agenda</a></li>
-            <li><a href="/perfil">Perfil</a></li>
+            <li><a href="/medico/agenda">Agenda</a></li>
+            <li><a href="/medico/perfil">Perfil</a></li>
             <li><a href="/logout">Sair</a></li>
           </ul>
         </nav>
@@ -40,10 +40,13 @@ const MedicoAgenda = () => {
         <div className="agenda-list">
           {consultas.map((consulta) => (
            <div key={consulta.id} className="proximas-consultas-wrapper">
-           <div className="proximas-consultas-info">
-             <p>{consulta.nome}</p>
-             <p>Data a definir</p>
-         </div>
+            <div className="medico-info-wrapper">
+              <img className="admin-img" src="/assets/account.svg" alt="Ícone de perfil do paciente" />
+              <div className="proximas-consultas-info">
+                <p>{consulta.nome}</p>
+                <p>Data a definir</p>
+              </div>
+            </div>
          <button className="agenda-btn">Agendada</button>
       </div>
     ))}

@@ -8,25 +8,22 @@ const AdminHome = () => {
                 <nav>
                     <ul>
                         <li>
-                            <a href="#">Home</a>
+                            <a href="/admin/home">Home</a>
                         </li>
                         <li>
-                            <a href="#">Médicos</a>
+                            <a href="/admin/medicos">Médicos</a>
                         </li>
                         <li>
-                            <a href="#">Horários</a>
+                            <a href="/admin/perfil">Perfil</a>
                         </li>
                         <li>
-                            <a href="#">Perfil</a>
-                        </li>
-                        <li>
-                            <a href="#">Sair</a>
+                            <a href="/logout">Sair</a>
                         </li>
                     </ul>
                 </nav>
             </header>
 
-            <main>
+            <main className="admin-home">
                 <h2>
                     O que deseja fazer hoje?
                 </h2>
@@ -48,14 +45,14 @@ const AdminHome = () => {
                             <p>Dr. João Souza</p>
                             <p>15 de Abril de 2024</p>
                         </div>
-                        <button>Vizualizar</button>
+                        <a href="/admin/medicos/horarios">Vizualizar</a>
                     </div>
                     <div className="admin-medico-wrapper">
                         <div className="admin-medico-info">
                             <p>Dr. Valeria Silva</p>
                             <p>12 de Abril de 2024</p>
                         </div>
-                        <button>Vizualizar</button>
+                        <a href="/admin/medicos/horarios">Vizualizar</a>
                     </div>
                 </div>
             </main>

@@ -7,8 +7,8 @@ export default function MedicoRoutes() {
   return (
     <Routes>
       <Route path="/medico/home" element={<MedicoHome />} />
-      <Route path="/agenda" element={<MedicoAgenda />} />
-      <Route path="/perfil" element={<MedicoPerfil />} />
+      <Route path="/medico/agenda" element={<MedicoAgenda />} />
+      <Route path="/medico/perfil" element={<MedicoPerfil />} />
     </Routes>
 
     

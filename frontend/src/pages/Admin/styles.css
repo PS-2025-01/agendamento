@@ -1,0 +1,335 @@
+/* Home */
+
+.admin-container {
+    width: min(90%, 130rem);
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    background-color: #F0F4F7;
+
+    padding: 1rem;
+    border-radius: 10px 10px 0px 0px;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    background-color: var(--bg-color-2);
+    border-radius: 10px 10px 0px 0px;
+    padding: 2rem 3rem;
+}
+
+header h3 {
+    font-size: var(--sub-subtitle-fs);
+}
+
+nav ul{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+}
+
+li a {
+    color: var(--text-color-1);
+    transition: 200ms;
+}
+
+li a:hover {
+    color: var(--primary-color);
+}
+
+main {
+    background-color: var(--bg-color-2);
+
+    padding: 2rem;
+    text-align: center;
+
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+main h2 {
+    font-size: var(--subtitle-fs);
+    max-width: 41.2rem;
+}
+
+.admin-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5rem;
+}
+
+.admin-buttons img {
+    max-width: 9rem;
+}
+
+.admin-buttons a {
+    font-size: var(--sub-subtitle-fs);
+    color: var(--text-color-1);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1rem;
+
+    border: .5rem solid var(--stroke-color);
+    border-radius: 1rem;
+
+    padding: 2rem;
+    font-weight: bold;
+
+    transition: transform 0.3s ease;
+
+}
+
+.admin-buttons a:hover {
+    background-color: var(--stroke-color);
+    filter: brightness(1);
+    transform: scale(1.05);
+}
+
+main.admin-home .admin-medicos {
+    max-height: 22.8rem;
+}
+
+.admin-medicos {
+    width: 100%;
+    max-height: 64.9rem;
+    overflow-y: auto;
+
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 1rem;
+
+    padding: 2rem 4rem;
+
+    border: .5rem solid var(--stroke-color);
+    border-radius: 1rem;
+}
+
+h3 {
+    font-size: var(--sub-subtitle-fs);
+}
+
+.admin-medico-wrapper,
+.proximas-consultas-wrapper {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.admin-medico-info,
+.proximas-consultas-info {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+}
+
+.admin-medico-info p:nth-child(1) {
+    font-size: var(--text-fs);
+    font-weight: bold;
+}
+
+.admin-medico-info p:nth-child(2) {
+    font-size: var(--subtext-fs);
+    color: var(--text-color-2);
+}
+
+.admin-medico-wrapper a,
+.register-btn {
+    background-color: transparent;
+    padding: 1.2rem 4rem;
+    border-radius: 1rem;
+    border: .1rem solid var(--text-color-2);
+    color: var(--text-color-2);
+    font-size: var(--subtext-fs);
+    transition: 200ms;
+} 
+
+.admin-medico-wrapper a:hover {
+    background-color: var(--text-color-2);
+    color: var(--bg-color-2);
+}
+
+footer.admin-footer {
+    background-color: var(--bg-color-2);
+    border-radius: 0px 0px 10px 10px;
+    padding: 2rem 3rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+}
+
+footer.admin-footer p:hover {
+    cursor: pointer;
+}
+
+/* Médicos */
+
+.input-wrapper {
+    width: 100%;
+    position: relative;
+}
+
+.admin-medicos .input-wrapper input {
+    width: 100%;
+
+    padding: 1.5rem 1.5rem 1.5rem 5rem;
+
+    border: .3rem solid var(--stroke-color);
+    border-radius: 1rem;
+}
+
+.input-wrapper img {
+    max-width: 3.6rem;
+
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+}
+
+.admin-medico-info-wrapper,
+.medico-info-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.admin-img {
+    max-width: 9rem;
+}
+
+@media (max-width: 700px) {
+    .admin-medico-wrapper {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .admin-medicos .admin-img {
+        max-width: 6.9rem;
+    }
+}
+
+/* Perfil */
+
+.img {
+    width: 100%;
+    height: fit-content;
+}
+
+.perfil-coluna img {
+    max-width: 12rem;
+}
+
+/* Horários */
+
+.medico-horarios-wrapper {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-template-rows: auto auto;
+    gap: 2rem;
+}
+
+.medico-horarios-medico-info {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.medicos-horarios-calendario {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.medicos-horarios-wrapper-agenda {
+  grid-column: 2;
+  grid-row: 1 / span 2; /* ocupa da linha 1 até a 2 */
+}
+
+.medico-horarios-medico-info {
+    max-width: 50rem;
+
+    padding: 2rem;
+}
+
+.medico-horarios-medico-info,
+.medicos-horarios-calendario,
+.medicos-horarios-wrapper-agenda
+ {
+    border: .3rem solid var(--stroke-color);
+    border-radius: 1rem;
+}
+
+.medicos-horarios-medico-consultas p {
+    font-size: var(--text-fs);
+    color: var(--text-color-5);
+
+    border-radius: 1rem;
+    background-color: var(--primary-color);
+
+    padding-block: .5rem;
+    margin-top: 1rem;
+}
+
+.medicos-horarios-medico-consultas span {
+    color: var(--text-color-5);
+}
+
+.medicos-horarios-calendario,
+.medicos-horarios-calendario section.calendario {
+    width: 100%;
+}
+
+.medicos-horarios-wrapper-agenda {
+    width: 100%;
+
+    padding: 3rem;
+}
+
+.select-wrapper {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.medicos-horarios-wrapper-agenda .agenda-list {
+    max-height: 60rem;
+}
+
+/* Cadastro */
+
+.register-btn {
+    border: .1rem solid var(--primary-color);
+    color: var(--primary-color);
+}
+
+.register-btn:hover {
+    background-color: var(--primary-color);
+    color: var(--bg-color-2);
+}
+
+.register-form {
+    width: 80%;
+}
+
+.register-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+}
