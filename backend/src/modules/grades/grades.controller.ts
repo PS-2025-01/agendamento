@@ -17,7 +17,7 @@ import {
 import { GradesService } from './grades.service';
 import { JwtAuthGuard } from '../../common/guards/jwt.guard';
 import { CreateGradeDto } from './dtos/create-grade.dto';
-import { CreateGradeResponseDto } from './dtos/create-grade-response.dto';
+import { GradeResponseDto } from './dtos/grade-response';
 import { User } from '../../common/decorators/user.decorator';
 import { Role } from '../../common/decorators/role.decorator';
 import { TipoUsuario } from '../usuarios/entities/tipoUsuario.enum';
@@ -44,11 +44,19 @@ export class GradesController {
     return await this.gradeService.available(Number(medicoId), new Date(data));
   }
 
-  @ApiCreatedResponse({ type: CreateGradeDto })
+  @ApiCreatedResponse({ type: GradeResponseDto })
   @Post()
   @Role(TipoUsuario.MEDICO)
   async create(@Body() body: CreateGradeDto, @User() userId: string) {
     const grade = await this.gradeService.create(body, Number(userId));
-    return new CreateGradeResponseDto(grade);
+    return new GradeResponseDto(grade);
+  }
+
+  @ApiOkResponse({ type: [GradeResponseDto] })
+  @ApiQuery({ name: 'medicoId', example: 1 })
+  @Get()
+  async grades(@Query('medicoId') medicoId: string) {
+    const grades = await this.gradeService.listByMedicoId(Number(medicoId));
+    return grades.map((grade) => new GradeResponseDto(grade));
   }
 }
