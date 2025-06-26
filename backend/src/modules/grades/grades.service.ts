@@ -93,4 +93,9 @@ export class GradesService {
 
     return result;
   }
+
+  async listByMedicoId(medicoId: number) {
+    const medico = await this.medicoService.findByUserId(medicoId);
+    return await this.gradeRepository.findBy({ medico });
+  }
 }

@@ -54,4 +54,16 @@ export class MedicosService {
 
     return medico;
   }
+
+  async findByMedicoId(medicoId: number) {
+    const medico = await this.medicosRepository.findOneBy({
+      id: medicoId,
+    });
+
+    if (!medico) {
+      throw new NotFoundException('medico não encontrado');
+    }
+
+    return medico;
+  }
 }

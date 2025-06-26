@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsNumber, IsString } from 'class-validator';
 import { Grade } from '../entities/grade.entity';
 
-export class CreateGradeResponseDto {
+export class GradeResponseDto {
   @ApiProperty({ example: 1 })
   @IsNumber()
   id: number;
