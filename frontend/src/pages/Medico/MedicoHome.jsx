@@ -1,8 +1,33 @@
+import { useState, useEffect } from "react";
+import axios from "axios";
+
 import PlannerImg from '../../assets/Planner.svg';
 import TasklistImg from '../../assets/Tasklist.svg';
 import "./styles.css";
 
 const MedicoHome = () => {
+  const [usuario, setUsuario] = useState();
+
+  useEffect(() => {
+      const fetchUsuario = async () => {
+      const token = localStorage.getItem("token");
+
+      try {
+          const response = await axios.get("/api/auth/current", {
+          headers: {
+              Authorization: `Bearer ${token}`,
+          },
+          });
+
+          setUsuario(response.data);
+      } catch (error) {
+          console.error("Erro ao buscar dados do usuário:", error);
+      }
+      };
+      
+      fetchUsuario();
+  }, []);
+
   const consultas = [
     { id: 1, nome: "Mariana Souza" },
     { id: 2, nome: "João Pereira" },
@@ -12,6 +37,8 @@ const MedicoHome = () => {
     { id: 6, nome: "Isabela Silva" },
 
   ];
+
+  if (!usuario) return <h3>Carregando...</h3>;
 
   return ( 
     <div className="medico-container">
@@ -29,7 +56,7 @@ const MedicoHome = () => {
 
       <main className="main-content">
         <h2 className="welcome-msg">
-        Bem-vindo de volta,<br/>Dr. João Souza!
+          Bem-vindo de volta,<br/>{usuario.nome}!
         </h2>
 
         <div className="admin-buttons">

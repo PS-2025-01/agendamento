@@ -1,6 +1,32 @@
+import { useState, useEffect } from "react";
+import axios from "axios";
 import "./styles.css";
 
 const AdminHome = () => {
+    const [usuario, setUsuario] = useState();
+
+    useEffect(() => {
+        const fetchUsuario = async () => {
+        const token = localStorage.getItem("token");
+
+        try {
+            const response = await axios.get("/api/auth/current", {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+            });
+
+            setUsuario(response.data);
+        } catch (error) {
+            console.error("Erro ao buscar dados do usuário:", error);
+        }
+        };
+        
+        fetchUsuario();
+    }, []);
+
+    if (!usuario) return <h3>Carregando...</h3>;
+
     return (
         <div className="admin-container">
             <header>
@@ -25,14 +51,14 @@ const AdminHome = () => {
 
             <main className="admin-home">
                 <h2>
-                    O que deseja fazer hoje?
+                    Olá, {usuario.nome}, o que deseja fazer hoje?
                 </h2>
                 <div className="admin-buttons">
-                    <a href="#">
+                    <a href="/admin/medicos">
                         <img src="/assets/clinic.svg" alt="Símbolo da saúde" />
                         Médicos
                     </a>
-                    <a href="#">
+                    <a href="/admin/medicos">
                         <img src="/assets/time.svg" alt="Relógio" />
                         Horários
                     </a>
