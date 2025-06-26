@@ -1,179 +1,301 @@
-/* style.css */
-body {
+:root {
+  --bg-color-2: #ffffff;
+  --primary-color: #0c78f5;
+  --text-color-1: #000000;
+  --text-color-2: #888888;
+
+  --subtitle-fs: 2.4rem;
+  --sub-subtitle-fs: 2rem;
+  --text-fs: 1.6rem;
+  --subtext-fs: 1.4rem;
+}
+
+* {
   margin: 0;
-  font-family: "Segoe UI", sans-serif;
-  background: #f8f9fb;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+.paciente-container {
+  width: min(90%, 130rem);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background-color: #f0f4f7;
+  padding: 1rem;
+  border-radius: 10px 10px 0px 0px;
 }
 
 header {
-  background: white;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 20px 50px;
-  border-bottom: 1px solid #ddd;
-}
-
-.logo {
-  font-weight: bold;
-  font-size: 1.5em;
-}
-
-nav a {
-  margin: 0 15px;
-  color: #000;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-nav a.active {
-  color: #007bba;
-  font-weight: bold;
-}
-
-main {
-  padding: 30px 50px;
-}
-
-h1 {
-  font-size: 24px;
-  margin-bottom: 20px;
-}
-
-.agendamento-container {
-  display: flex;
   justify-content: space-between;
-  flex-wrap: wrap;
+  background-color: var(--bg-color-2);
+  border-radius: 10px 10px 0px 0px;
+  padding: 2rem 3rem;
 }
 
-.medicos,
-.calendario,
-.horarios {
-  background: white;
-  border-radius: 10px;
-  padding: 20px;
-  width: 30%;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+header h3 {
+  font-size: var(--sub-subtitle-fs);
 }
 
-.medicos input {
+nav ul {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  list-style: none;
+}
+
+nav ul li a {
+  color: var(--text-color-1);
+  text-decoration: none;
+  font-weight: 500;
+  transition: 200ms;
+}
+
+nav li a:hover {
+  color: var(--primary-color);
+}
+
+.agendamento-main {
+  background-color: var(--bg-color-2);
+  padding: 2rem;
+  border-radius: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  text-align: center;
+}
+
+.agendamento-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 3rem 5rem;
+  max-width: 1000px;
+  margin: 0 auto;
+  align-items: flex-start;
+}
+
+.col-esquerda,
+.col-direita {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.col-esquerda {
+  max-width: 700px;
+}
+
+.col-direita {
+  max-width: 350px;
+}
+
+.box-medicos {
+  background-color: #fff;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
+}
+
+.box-medicos input {
   width: 100%;
-  padding: 8px;
-  margin-bottom: 15px;
-  border-radius: 6px;
+  padding: 1rem;
+  margin: 1rem 0;
   border: 1px solid #ccc;
+  border-radius: 0.7rem;
+  font-size: var(--text-fs);
 }
 
 .lista-medicos {
-  max-height: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-height: 25rem;
   overflow-y: auto;
 }
 
-.medico {
+.medico-card {
   display: flex;
-  align-items: center;calendario
+  align-items: center;
   justify-content: space-between;
-  margin-bottom: 15px;
+  gap: 1rem;
 }
 
-.medico img {
-  width: 40px;
-  margin-right: 10px;
+.medico-card img {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
-.medico button {
-  padding: 5px 10px;
-  border: 1px solid #888;
-  border-radius: 5px;
-  background: white;
+.medico-nome {
+  font-weight: bold;
+  font-size: var(--text-fs);
+  color: var(--text-color-1);
+}
+
+.medico-especialidade {
+  font-size: var(--subtext-fs);
+  color: var(--text-color-2);
+}
+
+.medico-card > div {
+  flex-grow: 1;
+}
+
+.medico-card button {
+  border: 1px solid var(--primary-color);
+  padding: 0.6rem 1.5rem;
+  border-radius: 1rem;
+  background-color: transparent;
+  color: var(--primary-color);
   cursor: pointer;
+  transition: 0.2s ease;
 }
 
-.medico button.selecionado {
-  background-color: #007bba;
+.medico-card button:hover {
+  background-color: var(--primary-color);
   color: white;
-  border: none;
+}
+
+.medico-card button.selecionado {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.box-calendario {
+  background-color: #fff;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
 }
 
 .calendario-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px;
+  justify-content: space-between;
+  font-weight: bold;
+  margin-bottom: 1rem;
 }
 
-.dias-semana,
-.dias {
+.calendario-dias {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  text-align: center;
-  gap: 5px;
+  gap: 0.4rem;
 }
 
-.dias span,
-.dias-semana span {
-  padding: 8px;
-}
-
-.dias span {
-  background: #eee;
-  border-radius: 5px;
+.dia {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5rem;
   cursor: pointer;
+  font-size: var(--subtext-fs);
+  color: var(--text-color-1);
 }
 
-.dias span.today {
-  background: #007bba;
+.dia:hover {
+  background-color: #f0f0f0;
+}
+
+.dia.selecionado {
+  background-color: var(--primary-color);
   color: white;
   font-weight: bold;
 }
 
-.dias span:hover {
-  background: #005f90;
-  color: white;
-  cursor: pointer;
+.box-horarios {
+  background-color: #fff;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
 }
 
-.horarios .horario {
-  padding: 10px;
-  margin: 5px 0;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  background: #f9f9f9;
+.box-horarios .horario {
+  padding: 1rem;
+  margin-bottom: 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: 0.8rem;
   text-align: center;
   cursor: pointer;
+  font-weight: bold;
+  font-size: var(--text-fs);
+  background-color: #f9f9f9;
+  transition: background-color 0.3s;
 }
 
-.horario.selected {
-  background-color: #007bba;
+.box-horarios .horario:hover {
+  background-color: #e6f0fa;
+}
+
+.box-horarios .horario.selected {
+  background-color: var(--primary-color);
   color: white;
-  font-weight: bold;
-  border: none;
+}
+
+.box-calendario,
+.box-horarios {
+  transform: scale(0.95); /* Reduz visualmente */
+  transform-origin: top right;
 }
 
 .finalizar-container {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
   text-align: center;
-  margin: 30px 0;
-  background: white;
-  padding: 20px;
-  border-radius: 10px;
+}
+
+.finalizar-container h3 {
+  font-size: var(--sub-subtitle-fs);
+  margin-bottom: 1rem;
 }
 
 .finalizar {
-  background: #007bba;
-  color: white;
+  background-color: var(--primary-color);
   border: none;
-  padding: 10px 30px;
-  border-radius: 8px;
-  font-size: 16px;
+  color: white;
+  font-weight: bold;
+  padding: 1rem 3rem;
+  border-radius: 0.8rem;
+  font-size: var(--text-fs);
   cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-footer {
-  background: #f1f1f1;
-  text-align: center;
-  padding: 15px;
-  border-top: 1px solid #ccc;
+.finalizar:hover {
+  background-color: #1e6bb8;
+}
+
+footer.admin-footer {
+  background-color: var(--bg-color-2);
+  border-radius: 0px 0px 10px 10px;
+  padding: 2rem 3rem;
   display: flex;
+  align-items: center;
   justify-content: center;
-  gap: 30px;
+  gap: 2rem;
+  font-size: var(--subtext-fs);
+}
+
+footer.admin-footer p:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .agendamento-grid {
+    flex-direction: column;
+  }
+
+  .col-esquerda,
+  .col-direita {
+    max-width: 100%;
+  }
 }
