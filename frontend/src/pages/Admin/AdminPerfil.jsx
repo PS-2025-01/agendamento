@@ -1,6 +1,30 @@
+import { useState, useEffect } from "react";
+import axios from "axios";
 import "./styles.css";
 
 const AdminPerfil = () => {
+    const [usuario, setUsuario] = useState(null);
+
+    useEffect(() => {
+        const fetchUsuario = async () => {
+            const token = localStorage.getItem("token");
+
+            try {
+                const response = await axios.get("/api/auth/current", {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+
+                setUsuario(response.data);
+            } catch (error) {
+                console.error("Erro ao buscar dados do usuário:", error);
+            }
+        };
+            
+        fetchUsuario();
+    }, []);
+
     return (
         <div className="admin-container">
             <header>
@@ -33,45 +57,37 @@ const AdminPerfil = () => {
                         <img src="/assets/account.svg" alt="Ícone de perfil de conta" />
                     </div>
 
-                    <div className="perfil-campo">
-                        <div className="perfil-campo-header">
-                            <label>Nome Completo</label>
-                            <button className="editar-btn">Editar</button>
+                    {usuario ? (
+                    
+                    <>
+                        <div className="perfil-campo">
+                            <div className="perfil-campo-header">
+                                <label>Nome Completo</label>
+                                <button className="editar-btn">Editar</button>
+                            </div>
+                            <p>{usuario.nome}</p>
                         </div>
-                        <p>Dr. João Souza</p>
-                    </div>
 
-                    <div className="perfil-campo">
-                        <div className="perfil-campo-header">
-                            <label>Email</label>
-                            <button className="editar-btn">Editar</button>
+                        <div className="perfil-campo">
+                            <div className="perfil-campo-header">
+                                <label>Email</label>
+                                <button className="editar-btn">Editar</button>
+                            </div>
+                            <p>{usuario.email}</p>
                         </div>
-                        <p>joao.souza@mediagenda.com</p>
-                    </div>
 
-                    <div className="perfil-campo">
-                        <div className="perfil-campo-header">
-                            <label>Telefone</label>
-                            <button className="editar-btn">Editar</button>
+                        <div className="perfil-campo">
+                            <div className="perfil-campo-header">
+                                <label>CPF</label>
+                                <button className="editar-btn">Editar</button>
+                            </div>
+                            <p>{usuario.cpf}</p>
                         </div>
-                        <p>(21) 99999-9999</p>
-                    </div>
-
-                    <div className="perfil-campo">
-                        <div className="perfil-campo-header">
-                            <label>Data de Nascimento</label>
-                            <button className="editar-btn">Editar</button>
-                        </div>
-                        <p>15/03/1985</p>
-                    </div>
-
-                    <div className="perfil-campo">
-                        <div className="perfil-campo-header">
-                            <label>CPF</label>
-                            <button className="editar-btn">Editar</button>
-                        </div>
-                        <p>123.456.789-00</p>
-                    </div>
+                    </>
+                    
+                    ) : (
+                        <h3>Carregando informações do usuário...</h3>
+                    )}
                 </div>
 
                 <div className="perfil-botoes">
@@ -84,6 +100,7 @@ const AdminPerfil = () => {
                 <p>Contato</p>
                 <p>Termos de uso</p>
                 <p>Política de privacidade</p>
+                <p>Endereço: Rua Augusta, 563, Lapa - RJ - 05678-263</p>
             </footer>
         </div>
     )
