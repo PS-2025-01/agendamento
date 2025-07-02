@@ -1,127 +1,37 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+
+import { useMedicos } from "../../hooks/medicos";
+import { useHorarios } from "../../hooks/horarios";
+import { Calendario } from "./Calendario";
+import { api } from "../../api";
 import "./styles.css";
+import { Header } from "../../components/Header";
+import { Footer } from "../../components/Footer";
 
-const medicosDados = [
-  {
-    id: 1,
-    nome: "Dr. João Silva",
-    foto: "https://randomuser.me/api/portraits/men/32.jpg",
-  },
-  {
-    id: 2,
-    nome: "Dra. Maria Souza",
-    foto: "https://randomuser.me/api/portraits/women/44.jpg",
-  },
-  {
-    id: 3,
-    nome: "Dr. Carlos Pereira",
-    foto: "https://randomuser.me/api/portraits/men/45.jpg",
-  },
-  {
-    id: 4,
-    nome: "Dra. Ana Lima",
-    foto: "https://randomuser.me/api/portraits/women/68.jpg",
-  },
-];
-
-const horariosDisponiveis = [
-  "08:00",
-  "09:00",
-  "10:00",
-  "11:00",
-  "13:00",
-  "14:00",
-  "15:00",
-  "16:00",
-];
 
 function PacienteHome() {
-  const [usuario, setUsuario] = useState();
+  const [medicoSelecionado, setMedicoSelecionado] = useState(null);
+  const [dataSelecionada, setDataSelecionada] = useState(new Date());
+  const [buscaMedico, setBuscaMedico] = useState("");
+  const [horarioSelecionado, setHorarioSelecionado] = useState(null);
 
+  const [usuario, setUsuario] = useState();
+  const { medicos } = useMedicos();
+  const horariosDisponiveis = useHorarios(medicoSelecionado, dataSelecionada);
+  
   useEffect(() => {
     const fetchUsuario = async () => {
-      const token = localStorage.getItem("token");
-
-      try {
-        const response = await axios.get("/api/auth/current", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        setUsuario(response.data);
-      } catch (error) {
-        console.error("Erro ao buscar dados do usuário:", error);
-      }
+      const response = await api.get("/api/auth/current");
+      setUsuario(response.data);
     };
     
     fetchUsuario();
   }, []);
 
-  
-  const [buscaMedico, setBuscaMedico] = useState("");
-  const [medicoSelecionado, setMedicoSelecionado] = useState(null);
-  const [dataSelecionada, setDataSelecionada] = useState(new Date());
-  const [horarioSelecionado, setHorarioSelecionado] = useState(null);
-  const [diasNoMes, setDiasNoMes] = useState([]);
-
   // Filtra médicos pelo nome
-  const medicosFiltrados = medicosDados.filter((medico) =>
+  const medicosFiltrados = medicos.filter((medico) =>
     medico.nome.toLowerCase().includes(buscaMedico.toLowerCase())
   );
-
-  // Gera os dias do mês para mostrar no calendário
-  useEffect(() => {
-    const ano = dataSelecionada.getFullYear();
-    const mes = dataSelecionada.getMonth();
-
-    const primeiroDia = new Date(ano, mes, 1);
-    const ultimoDia = new Date(ano, mes + 1, 0);
-    const dias = [];
-
-    // Preenche os dias vazios até o primeiro dia da semana (para alinhamento)
-    for (let i = 0; i < primeiroDia.getDay(); i++) {
-      dias.push(null);
-    }
-
-    // Preenche os dias do mês
-    for (let i = 1; i <= ultimoDia.getDate(); i++) {
-      dias.push(new Date(ano, mes, i));
-    }
-
-    setDiasNoMes(dias);
-  }, [dataSelecionada]);
-
-  // Muda mês (antes ou depois)
-  function mudarMes(delta) {
-    const novaData = new Date(dataSelecionada);
-    novaData.setMonth(novaData.getMonth() + delta);
-    setDataSelecionada(novaData);
-  }
-
-  // Formata a data para mostrar no header do calendário
-  function formatarMesAno(date) {
-    return date.toLocaleDateString("pt-BR", { month: "long", year: "numeric" });
-  }
-
-  // Verifica se a data é hoje
-  function isToday(date) {
-    if (!date) return false;
-    const hoje = new Date();
-    return (
-      date.getDate() === hoje.getDate() &&
-      date.getMonth() === hoje.getMonth() &&
-      date.getFullYear() === hoje.getFullYear()
-    );
-  }
-
-  // Quando clicar no dia do calendário
-  function selecionarData(dia) {
-    if (!dia) return;
-    setDataSelecionada(dia);
-    setHorarioSelecionado(null); // limpa horário selecionado ao mudar o dia
-  }
 
   // Quando clicar no botão finalizar
   function finalizarAgendamento() {
@@ -142,18 +52,7 @@ function PacienteHome() {
 
   return (
     <div>
-      <header>
-        <div className="logo">MediAgenda</div>
-        <nav>
-          <a href="#medicos" className="active">
-            Médicos
-          </a>
-          <a href="/paciente/home">Home</a>
-          <a href="/paciente/horarios">Horários</a>
-          <a href="/paciente/perfil">Perfil</a>
-          <a href="/logout">Sair</a>
-        </nav>
-      </header>
+      <Header />
 
       <main>
         <h3>Bem vindo, {usuario.nome}!</h3>
@@ -170,11 +69,11 @@ function PacienteHome() {
             />
             <div className="lista-medicos">
               {medicosFiltrados.map((medico) => (
-                <div key={medico.id} className="medico">
-                  <div style={{ display: "flex", alignItems: "center" }}>
-                    <img src={medico.foto} alt={medico.nome} />
-                    <span>{medico.nome}</span>
-                  </div>
+                <div key={medico.id} className="medico" style={
+                  { display: "flex", justifyContent: "space-between", gap: 12}
+                }>
+                  <span style={{textWrap: "nowrap", overflow: "hidden"}}>{medico.nome}</span>
+            
                   <button
                     className={
                       medicoSelecionado?.id === medico.id ? "selecionado" : ""
@@ -191,44 +90,11 @@ function PacienteHome() {
           </section>
 
           {/* Calendário */}
-          <section className="calendario" id="calendario">
-            <div className="calendario-header">
-              <button onClick={() => mudarMes(-1)}>◀</button>
-              <div>{formatarMesAno(dataSelecionada)}</div>
-              <button onClick={() => mudarMes(1)}>▶</button>
-            </div>
-
-            <div className="dias-semana">
-              <span>Dom</span>
-              <span>Seg</span>
-              <span>Ter</span>
-              <span>Qua</span>
-              <span>Qui</span>
-              <span>Sex</span>
-              <span>Sáb</span>
-            </div>
-
-            <div className="dias">
-              {diasNoMes.map((dia, i) => (
-                <span
-                  key={i}
-                  className={`
-                    ${dia ? "" : "empty"} 
-                    ${dia && isToday(dia) ? "today" : ""}
-                    ${
-                      dia &&
-                      dia.toDateString() === dataSelecionada.toDateString()
-                        ? "selected"
-                        : ""
-                    }
-                  `}
-                  onClick={() => selecionarData(dia)}
-                >
-                  {dia ? dia.getDate() : ""}
-                </span>
-              ))}
-            </div>
-          </section>
+          <Calendario 
+            dataSelecionada={dataSelecionada} 
+            setDataSelecionada={setDataSelecionada} 
+            medico={medicoSelecionado}
+          />
 
           {/* Horários */}
           <section className="horarios" id="horarios">
@@ -254,11 +120,7 @@ function PacienteHome() {
         </div>
       </main>
 
-      <footer>
-        <div>© 2025 MediAgenda</div>
-        <div>Contato: contato@mediagenda.com</div>
-        <div>Endereço: Rua Augusta, 563, Lapa - RJ - 05678-263</div>
-      </footer>
+      <Footer />
     </div>
   );
 }

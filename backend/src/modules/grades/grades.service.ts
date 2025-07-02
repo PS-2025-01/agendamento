@@ -21,10 +21,12 @@ export class GradesService {
   async create(body: CreateGradeDto, userId: number) {
     const medico = await this.medicoService.findByUserId(userId);
 
-    const exist = await this.gradeRepository.findBy({
+    const exist = await this.gradeRepository.findOneBy({
       dia: body.dia,
       medico,
     });
+
+    this.logger.debug(exist);
 
     if (exist) {
       throw new BadRequestException('já possui grade cadastrada');
@@ -95,7 +97,15 @@ export class GradesService {
   }
 
   async listByMedicoId(medicoId: number) {
-    const medico = await this.medicoService.findByUserId(medicoId);
-    return await this.gradeRepository.findBy({ medico });
+    await this.medicoService.findByMedicoId(medicoId);
+
+    return await this.gradeRepository.find({ 
+      where: {
+        medico: {
+          id: medicoId
+        }
+      },
+      loadRelationIds: { disableMixedMap: true }
+    });
   }
 }

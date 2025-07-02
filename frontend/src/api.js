@@ -11,8 +11,7 @@ export const api = new Axios({
 
 api.interceptors.request.use(
   (config) => {
-    const token = sessionStorage.getItem('token');
-    console.log(token);
+    const token = localStorage.getItem('token');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }

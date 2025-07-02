@@ -32,8 +32,6 @@
 
     --text-fs: clamp(1.5rem, 1.8vw, 2rem);
     --subtext-fs: clamp(1.4rem, 1.6vw, 1.8rem);
-  
-    font-size: 62.5%;
 }
 
 html {
@@ -43,19 +41,7 @@ html {
 body {
     height: 100vh;
     min-width: 100vw;
-
-    padding: 2rem;
     background-color: var(--bg-color);
-
-    font-size: 1.6rem;
-}
-
-body,
-#root {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
 }
 
 #root {

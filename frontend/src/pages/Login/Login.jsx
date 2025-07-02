@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import toast from "react-hot-toast";
 import { api } from "../../api";
 import "./styles.css";
@@ -30,48 +29,50 @@ const Login = () => {
   };
 
   return (
-    <div className="login-container">
-      <h1>MediAgenda</h1>
+    <div style={{display: "flex", alignItems: "center", justifyContent: "center" }}>
+      <div className="login-container">
+        <h1>MediAgenda</h1>
 
-      <form onSubmit={handleLogin} className="login-form">
-        <h3>Entrar</h3>
+        <form onSubmit={handleLogin} className="login-form">
+          <h3>Entrar</h3>
 
-        <div className="input-wrapper">
-          <label htmlFor="email">E-mail:</label>
+          <div className="input-wrapper">
+            <label htmlFor="email">E-mail:</label>
+            <input 
+              type="email" 
+              placeholder="usuario@exemplo.com"
+              className="input-field" 
+              name="email" 
+              onChange={(e) => setEmail(e.target.value)}
+              required 
+            />
+          </div>
+
+          <div className="input-wrapper">
+            <label htmlFor="password">Senha:</label>
+            <input 
+              type="password" 
+              placeholder="••••••"
+              className="input-field" 
+              name="password" 
+              onChange={(e) => setSenha(e.target.value)}
+              required 
+            />
+          </div>
+
           <input 
-            type="email" 
-            placeholder="usuario@exemplo.com"
-            className="input-field" 
-            name="email" 
-            onChange={(e) => setEmail(e.target.value)}
-            required 
+            type="submit" 
+            value="Login" 
+            className="submit-btn" 
           />
-        </div>
 
-        <div className="input-wrapper">
-          <label htmlFor="password">Senha:</label>
-          <input 
-            type="password" 
-            placeholder="••••••"
-            className="input-field" 
-            name="password" 
-            onChange={(e) => setSenha(e.target.value)}
-            required 
-          />
-        </div>
+          {erro && <p style={{ color: "red" }}>{erro}</p>}
+          
+          <a href="#" className="forgot-pass-link">Esqueci minha senha</a>
 
-        <input 
-          type="submit" 
-          value="Login" 
-          className="submit-btn" 
-        />
-
-        {erro && <p style={{ color: "red" }}>{erro}</p>}
-        
-        <a href="#" className="forgot-pass-link">Esqueci minha senha</a>
-
-        <a href="/signup" className="signup-link">Cadastre-se</a>
-      </form>
+          <a href="/signup" className="signup-link">Cadastre-se</a>
+        </form>
+      </div>
     </div>
   )
 }

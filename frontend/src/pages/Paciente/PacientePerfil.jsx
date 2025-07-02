@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import "./styles.css";
+import { Header } from "../../components/Header";
+import { Footer } from "../../components/Footer";
 
 const PacientePerfil = () => {
     const [usuario, setUsuario] = useState(null);
@@ -26,27 +28,10 @@ const PacientePerfil = () => {
     }, []);
 
     return (
+        <>
+        <Header />
+        
         <div className="admin-container">
-            <header>
-                <h3>MediAgenda</h3>
-                <nav>
-                    <ul>
-                        <li>
-                            <a href="/paciente/home">Home</a>
-                        </li>
-                        <li>
-                            <a href="/paciente/horarios">Horários</a>
-                        </li>
-                        <li>
-                            <a href="/paciente/perfil">Perfil</a>
-                        </li>
-                        <li>
-                            <a href="/logout">Sair</a>
-                        </li>
-                    </ul>
-                </nav>
-            </header>
-
             <main className="main-content">
                 <h2 className="perfil-msg"> Perfil </h2>
             
@@ -58,7 +43,6 @@ const PacientePerfil = () => {
                     </div>
 
                     {usuario ? (
-                    
                     <>
                         <div className="perfil-campo">
                             <div className="perfil-campo-header">
@@ -84,7 +68,6 @@ const PacientePerfil = () => {
                             <p>{usuario.cpf}</p>
                         </div>
                     </>
-                    
                     ) : (
                         <h3>Carregando informações do usuário...</h3>
                     )}
@@ -97,14 +80,9 @@ const PacientePerfil = () => {
                 </div>
             </main>
 
-            <footer className="admin-footer">
-                <p>Contato</p>
-                <p>Termos de uso</p>
-                <p>Política de privacidade</p>
-                <p>Endereço: Rua Augusta, 563, Lapa - RJ - 05678-263</p>
-                
-            </footer>
+            <Footer />
         </div>
+        </>
     )
 }
 

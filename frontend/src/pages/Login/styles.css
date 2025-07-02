@@ -8,14 +8,11 @@
 }
 
 .login-container {
-    height: 71.1rem;
-    width: min(80%, 58.2rem);
-
     background-color: var(--bg-color-2);
     border: .4rem solid var(--stroke-color);
     border-radius: 1.5rem;
-
-    padding: 8rem 4rem;
+    max-width: 720px;
+    padding: 2rem 4rem;
 }
 
 h1 {
@@ -49,7 +46,6 @@ label {
     border: .2rem solid var(--stroke-color);
     border-radius: .5rem;
 
-    font-size: var(--text-fs);
     color: var(--text-color-3);
 }
 
@@ -88,26 +84,4 @@ p,
 a,
 h3 {
     text-align: center;
-}
-
-@media (max-width: 768px) {
-    .login-container {
-        height: 60.1rem;
-        width: min(80%, 44.2rem);
-    }
-}
-
-@media (max-width: 430px) {
-    .login-container {
-        height: 52.1rem;
-        padding: 6rem 3rem;
-    }
-
-    .login-form {
-        gap: 1rem;
-    }
-
-    h1 {
-        font-size: 2.6rem;
-    }
 }
