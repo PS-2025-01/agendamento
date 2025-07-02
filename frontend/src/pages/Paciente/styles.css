@@ -1,19 +1,4 @@
 /* style.css */
-body {
-  margin: 0;
-  font-family: "Segoe UI", sans-serif;
-  background: #f8f9fb;
-}
-
-header {
-  background: white;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px 50px;
-  border-bottom: 1px solid #ddd;
-}
-
 .logo {
   font-weight: bold;
   font-size: 1.5em;
@@ -71,7 +56,7 @@ h1 {
 
 .medico {
   display: flex;
-  align-items: center;calendario
+  align-items: center;
   justify-content: space-between;
   margin-bottom: 15px;
 }
@@ -107,24 +92,24 @@ h1 {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   text-align: center;
-  gap: 5px;
+  gap: 6px;
 }
 
-.dias span,
-.dias-semana span {
-  padding: 8px;
-}
-
-.dias span {
+.dias button {
   background: #eee;
   border-radius: 5px;
-  cursor: pointer;
+  padding: 4px;
+  border: none;
 }
 
-.dias span.today {
+.dias button.selected {
   background: #007bba;
   color: white;
   font-weight: bold;
+}
+
+.dias button:disabled {
+  color: #888;
 }
 
 .dias span:hover {
