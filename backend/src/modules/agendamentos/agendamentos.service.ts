@@ -59,7 +59,7 @@ export class AgendamentosService {
     request: CreateAgendamentoDto,
     usuario: Usuario,
   ): Promise<Agendamento> {
-    request.data = request.data.split("T")[0];
+    request.data = request.data.split('T')[0];
 
     const exist = await this.agendamentoRepository
       .createQueryBuilder()

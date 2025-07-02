@@ -99,13 +99,13 @@ export class GradesService {
   async listByMedicoId(medicoId: number) {
     await this.medicoService.findByMedicoId(medicoId);
 
-    return await this.gradeRepository.find({ 
+    return await this.gradeRepository.find({
       where: {
         medico: {
-          id: medicoId
-        }
+          id: medicoId,
+        },
       },
-      loadRelationIds: { disableMixedMap: true }
+      loadRelationIds: { disableMixedMap: true },
     });
   }
 }
