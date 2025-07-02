@@ -34,18 +34,25 @@ function PacienteHome() {
   );
 
   // Quando clicar no botão finalizar
-  function finalizarAgendamento() {
+  async function finalizarAgendamento() {
     if (!medicoSelecionado || !dataSelecionada || !horarioSelecionado) {
       alert("Por favor, selecione médico, data e horário.");
       return;
     }
 
-    alert(
-      `Agendamento confirmado!\n\nMédico: ${
-        medicoSelecionado.nome
-      }\nData: ${dataSelecionada.toLocaleDateString()}\nHorário: ${horarioSelecionado}`
-    );
-    // Aqui você pode mandar os dados para API ou backend
+    const response = await api.post("/api/agendamentos", {
+      medicoId: medicoSelecionado.id,
+      data: dataSelecionada,
+      horario: horarioSelecionado
+    });
+
+    if (response.status < 400) {
+      alert(
+        `Agendamento confirmado!\n\nMédico: ${
+          medicoSelecionado.nome
+        }\nData: ${dataSelecionada.toLocaleDateString()}\nHorário: ${horarioSelecionado}`
+      );
+    }
   }
 
   if (!usuario) return <h3>Carregando...</h3>;
@@ -110,7 +117,7 @@ function PacienteHome() {
                 {hora}
               </div>
             ))}
-          </section>
+            </section>
         </div>
 
         <div className="finalizar-container">
