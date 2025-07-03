@@ -44,8 +44,12 @@ export class MedicosService {
   }
 
   async findByUserId(userId: number) {
-    const medico = await this.medicosRepository.findOneBy({
-      usuario: { id: userId },
+    const medico = await this.medicosRepository.findOne({
+      where: { usuario: { id: userId } },
+      relations: {
+        especialidade: true,
+        usuario: true,
+      },
     });
 
     if (!medico) {

@@ -11,6 +11,7 @@ import { AgendamentosService } from './agendamentos.service';
 import { AuthService } from '../auth/auth.service';
 import { AgendamentoResponseDto } from './dtos/agendamento-response.dto';
 import { CreateAgendamentoDto } from './dtos/create-agendamento.dto';
+import { ListAgendamentoResponseDto } from './dtos/listAgendamento-response.dto copy';
 
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
@@ -22,7 +23,7 @@ export class AgendamentosController {
     private readonly authService: AuthService,
   ) {}
 
-  @ApiOkResponse({ type: [AgendamentoResponseDto] })
+  @ApiOkResponse({ type: [ListAgendamentoResponseDto] })
   @ApiOperation({
     description: `
       MEDICOS: lis  ta os agendamentos que o medico vai atender.
@@ -36,7 +37,7 @@ export class AgendamentosController {
     const agendamentos = await this.agendamentosService.list(usuario);
     this.logger.log(agendamentos);
     return agendamentos.map(
-      (agendamento) => new AgendamentoResponseDto(agendamento),
+      (agendamento) => new ListAgendamentoResponseDto(agendamento),
     );
   }
 

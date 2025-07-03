@@ -5,39 +5,25 @@ import PlannerImg from '../../assets/Planner.svg';
 import TasklistImg from '../../assets/Tasklist.svg';
 import "./styles.css";
 import { Header } from "../../components/Header";
+import { useAgendamentos } from "../../hooks/agendamentos";
+import { api } from "../../api";
 
 const MedicoHome = () => {
   const [usuario, setUsuario] = useState();
 
   useEffect(() => {
       const fetchUsuario = async () => {
-      const token = localStorage.getItem("token");
+        const response = await api.get("/api/auth/current");
 
-      try {
-          const response = await axios.get("/api/auth/current", {
-          headers: {
-              Authorization: `Bearer ${token}`,
-          },
-          });
-
+        if (response.status === 200) {
           setUsuario(response.data);
-      } catch (error) {
-          console.error("Erro ao buscar dados do usuário:", error);
-      }
+        }
       };
       
       fetchUsuario();
   }, []);
 
-  const consultas = [
-    { id: 1, nome: "Mariana Souza" },
-    { id: 2, nome: "João Pereira" },
-    { id: 3, nome: "Ana Souza" },
-    { id: 4, nome: "Carlos Alberto" },
-    { id: 5, nome: "Joana Medeiros" },
-    { id: 6, nome: "Isabela Silva" },
-
-  ];
+  const agendamentos = useAgendamentos()
 
   if (!usuario) return <h3>Carregando...</h3>;
 
@@ -55,9 +41,9 @@ const MedicoHome = () => {
             <img src={TasklistImg} alt="Consultas" />
             Consultas
           </a>
-          <a href="/medico/agenda">
+          <a href="/medico/grade">
             <img src={PlannerImg} alt="Agenda" />
-            Agenda
+            Grade
           </a>
         </div>
       
@@ -65,11 +51,11 @@ const MedicoHome = () => {
         <h3>Próximas Consultas</h3>
 
         <div className="consultas-list">
-          {consultas.map((consulta) => (
-           <div key={consulta.id} className="proximas-consultas-wrapper">
+          {agendamentos.filter(agendamento => agendamento).map((agendamento) => (
+           <div key={agendamento.id} className="proximas-consultas-wrapper">
            <div className="proximas-consultas-info">
-             <p>{consulta.nome}</p>
-             <p>Data a definir</p>
+             <p>{agendamento.paciente}</p>
+             <p>{new Date(agendamento.data).toLocaleDateString()} - {agendamento.horario}</p>
          </div>
          <button className="visualizar-btn">Visualizar</button>
       </div>

@@ -59,6 +59,10 @@ const routes = {
             label: "Agenda"
         },
         {
+            link: "/medico/grade",
+            label: "Grade"
+        },
+        {
             link: "/medico/perfil",
             label: "Perfil"
         }

@@ -1,16 +1,9 @@
 import { Header } from "../../components/Header";
 import "./styles.css";
+import { useAgendamentos } from "../../hooks/agendamentos";
 
 const MedicoAgenda = () => {
-  const consultas = [
-    { id: 1, nome: "Mariana Souza" },
-    { id: 2, nome: "João Pereira" },
-    { id: 3, nome: "Ana Souza" },
-    { id: 4, nome: "Carlos Alberto" },
-    { id: 5, nome: "Joana Medeiros" },
-    { id: 6, nome: "Isabela Silva" },
-
-  ];
+  const agendamentos = useAgendamentos();
 
   return ( 
     <div className="medico-container">
@@ -29,13 +22,13 @@ const MedicoAgenda = () => {
       </select>
 
         <div className="agenda-list">
-          {consultas.map((consulta) => (
-           <div key={consulta.id} className="proximas-consultas-wrapper">
+          {agendamentos.map((agendamento) => (
+           <div key={agendamento.id} className="proximas-consultas-wrapper">
             <div className="medico-info-wrapper">
               <img className="admin-img" src="/assets/account.svg" alt="Ícone de perfil do paciente" />
               <div className="proximas-consultas-info">
-                <p>{consulta.nome}</p>
-                <p>Data a definir</p>
+                <p>{agendamento.paciente}</p>
+                <p>{new Date(agendamento.data).toLocaleDateString()} - {agendamento.horario}</p>
               </div>
             </div>
          <button className="agenda-btn">Agendada</button>

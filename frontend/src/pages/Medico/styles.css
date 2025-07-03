@@ -40,6 +40,7 @@ li a {
 li a:hover {
     color: var(--primary-color);
 }
+
 .main-content {
   display: flex;
   flex-direction: column;

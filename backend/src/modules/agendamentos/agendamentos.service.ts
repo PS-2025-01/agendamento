@@ -18,7 +18,13 @@ export class AgendamentosService {
 
   async list(usuario: Usuario): Promise<Agendamento[]> {
     const options: FindManyOptions<Agendamento> = {
-      loadRelationIds: { disableMixedMap: true },
+      relations: {
+        paciente: true,
+        medico: {
+          especialidade: true,
+          usuario: true,
+        },
+      },
     };
 
     switch (usuario.tipoUsuario) {
