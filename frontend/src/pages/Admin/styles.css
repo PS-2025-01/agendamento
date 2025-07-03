@@ -98,7 +98,8 @@ main h2 {
 }
 
 main.admin-home .admin-medicos {
-    max-height: 22.8rem;
+    max-height: 18rem;
+    overflow-y: auto;
 }
 
 .admin-medicos {
@@ -148,7 +149,8 @@ h3 {
 }
 
 .admin-medico-wrapper a,
-.register-btn {
+.register-btn,
+.infoBtn {
     background-color: transparent;
     padding: 1.2rem 4rem;
     border-radius: 1rem;

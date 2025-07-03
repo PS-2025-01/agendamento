@@ -63,10 +63,17 @@ const AdminHome = () => {
                         </div>
                         <a href="/admin/medicos/horarios">Vizualizar</a>
                     </div>
+                    <div className="admin-medico-wrapper">
+                        <div className="admin-medico-info">
+                            <p>Dr. Valeria Silva</p>
+                            <p>12 de Abril de 2024</p>
+                        </div>
+                        <a href="/admin/medicos/horarios">Vizualizar</a>
+                    </div>
                 </div>
             </main>
 
-            <footer class="admin-footer">
+            <footer className="admin-footer">
                 <p>Contato</p>
                 <p>Termos de uso</p>
                 <p>Política de privacidade</p>
