@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import "./styles.css";
+import { Header } from "../../components/Header";
 
 const AdminMedicosHorarios = () => {
     const consultas = [
@@ -69,25 +70,7 @@ const AdminMedicosHorarios = () => {
 
     return (
         <div className="admin-container">
-            <header>
-                <h3>MediAgenda</h3>
-                <nav>
-                    <ul>
-                        <li>
-                            <a href="/admin/home">Home</a>
-                        </li>
-                        <li>
-                            <a href="/admin/medicos">Médicos</a>
-                        </li>
-                        <li>
-                            <a href="/admin/perfil">Perfil</a>
-                        </li>
-                        <li>
-                            <a href="/logout">Sair</a>
-                        </li>
-                    </ul>
-                </nav>
-            </header>
+            <Header/>
 
             <main>
                 <h2 className="medico-horarios">

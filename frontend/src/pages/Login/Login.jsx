@@ -4,6 +4,12 @@ import toast from "react-hot-toast";
 import { api } from "../../api";
 import "./styles.css";
 
+const redirectMap = {
+  "paciente": "/paciente/home",
+  "admin": "/admin/home",
+  "medico": "/medico/home"
+}
+
 const Login = () => {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
@@ -20,7 +26,10 @@ const Login = () => {
       });
       // Se a API responder com sucesso
       localStorage.setItem('token', response.data.access_token);
-      navigate("/paciente/home");
+      localStorage.setItem('acesso', response.data.acesso);
+      console.log(response.data);
+      navigate(redirectMap[response.data.acesso]);
+
     } catch (error) {
       console.error(error);
       setErro("Email ou senha inválidos.");
