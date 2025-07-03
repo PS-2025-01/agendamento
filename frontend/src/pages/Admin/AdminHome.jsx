@@ -2,9 +2,16 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import "./styles.css";
 import { Header } from "../../components/Header";
+import { useMedicos } from "../../hooks/medicos";
 
 const AdminHome = () => {
     const [usuario, setUsuario] = useState();
+    const { medicos } = useMedicos();
+    
+    function sendName(nome, especialidade) {
+        localStorage.setItem('doctor', JSON.stringify([nome, especialidade]));
+        window.location.href = "/admin/medicos/horarios";
+    }
 
     useEffect(() => {
         const fetchUsuario = async () => {
@@ -49,27 +56,15 @@ const AdminHome = () => {
 
                 <div className="admin-medicos">
                     <h3>Médicos cadastrados</h3>
+                    {medicos.map(medico => (
                     <div className="admin-medico-wrapper">
                         <div className="admin-medico-info">
-                            <p>Dr. João Souza</p>
-                            <p>15 de Abril de 2024</p>
+                            <p>{medico.nome}</p>
+                            <p>Data a definir</p>
                         </div>
-                        <a href="/admin/medicos/horarios">Vizualizar</a>
+                        <button className="infoBtn" onClick={() => sendName(medico.nome, medico.especialidade)}>Vizualizar</button>
                     </div>
-                    <div className="admin-medico-wrapper">
-                        <div className="admin-medico-info">
-                            <p>Dr. Valeria Silva</p>
-                            <p>12 de Abril de 2024</p>
-                        </div>
-                        <a href="/admin/medicos/horarios">Vizualizar</a>
-                    </div>
-                    <div className="admin-medico-wrapper">
-                        <div className="admin-medico-info">
-                            <p>Dr. Valeria Silva</p>
-                            <p>12 de Abril de 2024</p>
-                        </div>
-                        <a href="/admin/medicos/horarios">Vizualizar</a>
-                    </div>
+                    ))}
                 </div>
             </main>
 
