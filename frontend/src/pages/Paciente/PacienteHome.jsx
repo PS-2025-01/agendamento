@@ -58,7 +58,7 @@ function PacienteHome() {
   if (!usuario) return <h3>Carregando...</h3>;
 
   return (
-    <div>
+    <div className="admin-container">
       <Header />
 
       <main>
