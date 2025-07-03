@@ -35,68 +35,70 @@ const Signup = () => {
   };
 
   return (
-    <div className="signup-container">
-      <form onSubmit={handleSignup} className="signup-form">
-        <h3>Cadastre-se</h3>
+    <div className="container">
+      <div className="signup-container">
+        <form onSubmit={handleSignup} className="signup-form">
+          <h3>Cadastre-se</h3>
 
-        <div className="input-wrapper">
-          <label htmlFor="nome">Nome:</label>
+          <div className="input-wrapper">
+            <label htmlFor="nome">Nome:</label>
+            <input 
+              type="text" 
+              placeholder="Seu nome"
+              className="input-field" 
+              name="nome" 
+              onChange={(e) => setNome(e.target.value)}
+              required 
+            />
+          </div>
+
+          <div className="input-wrapper">
+            <label htmlFor="cpf">CPF (somente números):</label>
+            <input 
+              type="number" 
+              placeholder="12345678900"
+              className="input-field" 
+              name="cpf" 
+              onChange={(e) => setCPF(e.target.value)}
+              required 
+            />
+          </div>
+
+          <div className="input-wrapper">
+            <label htmlFor="email">E-mail:</label>
+            <input 
+              type="email" 
+              placeholder="usuario@exemplo.com"
+              className="input-field" 
+              name="email" 
+              onChange={(e) => setEmail(e.target.value)}
+              required 
+            />
+          </div>
+
+          <div className="input-wrapper">
+            <label htmlFor="password">Senha:</label>
+            <input 
+              type="password" 
+              placeholder="••••••"
+              className="input-field" 
+              name="password" 
+              onChange={(e) => setSenha(e.target.value)}
+              required 
+            />
+          </div>
+
           <input 
-            type="text" 
-            placeholder="Seu nome"
-            className="input-field" 
-            name="nome" 
-            onChange={(e) => setNome(e.target.value)}
-            required 
+            type="submit" 
+            value="Signup" 
+            className="submit-btn" 
           />
-        </div>
 
-        <div className="input-wrapper">
-          <label htmlFor="cpf">CPF (somente números):</label>
-          <input 
-            type="number" 
-            placeholder="12345678900"
-            className="input-field" 
-            name="cpf" 
-            onChange={(e) => setCPF(e.target.value)}
-            required 
-          />
-        </div>
+          {erro && <p style={{ color: "red" }}>{erro}</p>}
 
-        <div className="input-wrapper">
-          <label htmlFor="email">E-mail:</label>
-          <input 
-            type="email" 
-            placeholder="usuario@exemplo.com"
-            className="input-field" 
-            name="email" 
-            onChange={(e) => setEmail(e.target.value)}
-            required 
-          />
-        </div>
-
-        <div className="input-wrapper">
-          <label htmlFor="password">Senha:</label>
-          <input 
-            type="password" 
-            placeholder="••••••"
-            className="input-field" 
-            name="password" 
-            onChange={(e) => setSenha(e.target.value)}
-            required 
-          />
-        </div>
-
-        <input 
-          type="submit" 
-          value="Signup" 
-          className="submit-btn" 
-        />
-
-        {erro && <p style={{ color: "red" }}>{erro}</p>}
-
-        <a href="/" className="back-link">Voltar</a>
-      </form>
+          <a href="/" className="back-link">Voltar</a>
+        </form>
+      </div>
     </div>
   )
 }
