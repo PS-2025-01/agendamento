@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import "./styles.css";
+import { Header } from "../../components/Header";
 
 const AdminPerfil = () => {
     const [usuario, setUsuario] = useState(null);
@@ -27,25 +28,7 @@ const AdminPerfil = () => {
 
     return (
         <div className="admin-container">
-            <header>
-                <h3>MediAgenda</h3>
-                <nav>
-                    <ul>
-                        <li>
-                            <a href="/admin/home">Home</a>
-                        </li>
-                        <li>
-                            <a href="/admin/medicos">Médicos</a>
-                        </li>
-                        <li>
-                            <a href="/admin/perfil">Perfil</a>
-                        </li>
-                        <li>
-                            <a href="/logout">Sair</a>
-                        </li>
-                    </ul>
-                </nav>
-            </header>
+            <Header />
 
             <main className="main-content">
                 <h2 className="perfil-msg"> Perfil </h2>

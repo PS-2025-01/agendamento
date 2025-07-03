@@ -1,35 +1,17 @@
 import "./styles.css";
+import { useMedicos } from "../../hooks/medicos";
+import { useState } from "react";
+import { Header } from "../../components/Header";
 
 const AdminMedicos = () => {
-    const medicos = [
-        { id: 1, nome: "Dr. João Souza", especialidade: "Cardiologista" },
-        { id: 2, nome: "Dra. Maria Lima", especialidade: "Dermatologista" },
-        { id: 3, nome: "Dr. Carlos Alves", especialidade: "Ortopedista" },
-        { id: 4, nome: "Dra. Valeria Silva", especialidade: "Clinico Geral" },
-        { id: 5, nome: "Dr. Rodrigo Ferreira", especialidade: "Neurologista" },
-    ];
+    const [filter, setFilter] = useState("");
+    const { medicos } = useMedicos();
+    
+    const filtrados =  filter === "" ? medicos : medicos.filter(medico => medico.nome.toLowerCase().includes(filter.toLowerCase()) || medico.especialidade.toLowerCase().includes(filter.toLowerCase()));
 
     return (
         <div className="admin-container">
-            <header>
-                <h3>MediAgenda</h3>
-                <nav>
-                    <ul>
-                        <li>
-                            <a href="/admin/home">Home</a>
-                        </li>
-                        <li>
-                            <a href="/admin/medicos">Médicos</a>
-                        </li>
-                        <li>
-                            <a href="/admin/perfil">Perfil</a>
-                        </li>
-                        <li>
-                            <a href="/logout">Sair</a>
-                        </li>
-                    </ul>
-                </nav>
-            </header>
+            <Header />
 
             <main>
                 <h2>
@@ -40,15 +22,15 @@ const AdminMedicos = () => {
                         <label htmlFor="search">
                             <img src="/assets/search.svg" alt="Ícone de pesquisa" />
                         </label>
-                        <input type="text" name="search" placeholder="Busca por nome ou especialidade" />
+                        <input type="text" name="search" placeholder="Busca por nome ou especialidade" onChange={e => setFilter(e.target.value)} value={filter} />
                     </div>
-                    {medicos.map((medicos) => (
-                    <div className="admin-medico-wrapper">
+                    {filtrados.map((medico) => (
+                    <div className="admin-medico-wrapper" key={medico.id}>
                         <div className="admin-medico-info-wrapper">
                             <img className="admin-img" src="/assets/doctor.png" alt="Ícone de perfil do médico" />
                             <div className="admin-medico-info">
-                                <p>{medicos.nome}</p>
-                                <p>{medicos.especialidade}</p>
+                                <p>{medico.nome}</p>
+                                <p>{medico.especialidade}</p>
                             </div>
                         </div>
                         <a href="/admin/medicos/horarios">Informações</a>

@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { api } from "../../api";
 import "./styles.css";
+import { Header } from "../../components/Header";
 
 const AdminMedicosCadastro = () => {
     const [nome, setNome] = useState("");
@@ -17,7 +18,7 @@ const AdminMedicosCadastro = () => {
         e.preventDefault();
         
         try {
-            const response = await axios.post("/api/auth/register", {
+            const response = await api.post("/api/auth/register", {
                 nome: nome,
                 cpf: cpf,
                 email: email,
@@ -38,25 +39,7 @@ const AdminMedicosCadastro = () => {
 
     return (
         <div className="admin-container">
-            <header>
-                <h3>MediAgenda</h3>
-                <nav>
-                    <ul>
-                        <li>
-                            <a href="/admin/home">Home</a>
-                        </li>
-                        <li>
-                            <a href="/admin/medicos">Médicos</a>
-                        </li>
-                        <li>
-                            <a href="/admin/perfil">Perfil</a>
-                        </li>
-                        <li>
-                            <a href="/logout">Sair</a>
-                        </li>
-                    </ul>
-                </nav>
-            </header>
+            <Header />
 
             <main className="admin-home">
                 <h2>

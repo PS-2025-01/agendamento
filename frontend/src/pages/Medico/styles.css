@@ -1,5 +1,4 @@
 .medico-container {
-    width: min(90%, 130rem);
     height: 100%;
 
     display: flex;

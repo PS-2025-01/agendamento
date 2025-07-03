@@ -4,6 +4,7 @@ import axios from "axios";
 import PlannerImg from '../../assets/Planner.svg';
 import TasklistImg from '../../assets/Tasklist.svg';
 import "./styles.css";
+import { Header } from "../../components/Header";
 
 const MedicoHome = () => {
   const [usuario, setUsuario] = useState();
@@ -42,17 +43,7 @@ const MedicoHome = () => {
 
   return ( 
     <div className="medico-container">
-      <header className="header">
-       <h3>MediAgenda</h3>
-        <nav>
-          <ul>
-            <li><a href="/medico/home">Home</a></li>
-            <li><a href="/agenda">Agenda</a></li>
-            <li><a href="/perfil">Perfil</a></li>
-            <li><a href="/logout">Sair</a></li>
-          </ul>
-        </nav>
-      </header>
+      <Header />
 
       <main className="main-content">
         <h2 className="welcome-msg">

@@ -43,8 +43,7 @@ export class AuthController {
   })
   @Post('login')
   async login(@Body() request: LoginDto): Promise<LoginResponseDto> {
-    const token = await this.authSerivce.validate(request.email, request.senha);
-    return { access_token: token };
+    return await this.authSerivce.validate(request.email, request.senha);
   }
 
   @ApiOperation({ summary: 'Cadastro de paciente' })

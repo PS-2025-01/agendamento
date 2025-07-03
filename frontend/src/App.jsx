@@ -1,16 +1,12 @@
 import {Toaster} from "react-hot-toast";
 import AppRoutes from "./routes";
-// import Header from "./components/Header/Header";
-// import Footer from "./components/Footer/Footer";
 
 function App() {
   return (
-    <>
-      {/* <Header /> */}
+    <div className="app-container">
       <Toaster position="bottom-center" />
       <AppRoutes />
-      {/* <Footer /> */}
-    </>
+    </div>
   );
 }
 

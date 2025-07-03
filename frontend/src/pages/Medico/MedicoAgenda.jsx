@@ -1,3 +1,4 @@
+import { Header } from "../../components/Header";
 import "./styles.css";
 
 const MedicoAgenda = () => {
@@ -13,17 +14,7 @@ const MedicoAgenda = () => {
 
   return ( 
     <div className="medico-container">
-      <header className="header">
-       <h3>MediAgenda</h3>
-        <nav>
-          <ul>
-            <li><a href="/medico/home">Home</a></li>
-            <li><a href="/medico/agenda">Agenda</a></li>
-            <li><a href="/medico/perfil">Perfil</a></li>
-            <li><a href="/logout">Sair</a></li>
-          </ul>
-        </nav>
-      </header>
+      <Header />
 
       <main className="main-content">
         <h2 className="welcome-msg"> Agenda </h2>
