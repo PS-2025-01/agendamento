@@ -8,7 +8,7 @@ import {
 import { MedicoDto } from './dto/medicos.dto';
 import { MedicosService } from './medicos.service';
 import { JwtAuthGuard } from '../../common/guards/jwt.guard';
-import { User } from 'src/common/decorators/user.decorator';
+import { User } from '../../common/decorators/user.decorator';
 
 @ApiBearerAuth()
 @ApiTags('Médicos')
