@@ -51,11 +51,11 @@ const MedicoHome = () => {
         </h2>
 
         <div className="admin-buttons">
-          <a href="/consultas">
+          <a href="/medico/agenda">
             <img src={TasklistImg} alt="Consultas" />
             Consultas
           </a>
-          <a href="/agenda">
+          <a href="/medico/agenda">
             <img src={PlannerImg} alt="Agenda" />
             Agenda
           </a>

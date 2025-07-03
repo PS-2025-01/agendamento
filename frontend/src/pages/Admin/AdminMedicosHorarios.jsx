@@ -16,7 +16,9 @@ const AdminMedicosHorarios = () => {
     const [horarioSelecionado, setHorarioSelecionado] = useState(null);
     const [diasNoMes, setDiasNoMes] = useState([]);
 
-    // Gera os dias do mês para mostrar no calendário
+    const doctor = localStorage.getItem("doctor");
+    const [nome, especialidade] = JSON.parse(doctor);
+
     useEffect(() => {
         const ano = dataSelecionada.getFullYear();
         const mes = dataSelecionada.getMonth();
@@ -25,12 +27,10 @@ const AdminMedicosHorarios = () => {
         const ultimoDia = new Date(ano, mes + 1, 0);
         const dias = [];
 
-        // Preenche os dias vazios até o primeiro dia da semana (para alinhamento)
         for (let i = 0; i < primeiroDia.getDay(); i++) {
             dias.push(null);
         }
 
-        // Preenche os dias do mês
         for (let i = 1; i <= ultimoDia.getDate(); i++) {
             dias.push(new Date(ano, mes, i));
         }
@@ -38,19 +38,16 @@ const AdminMedicosHorarios = () => {
         setDiasNoMes(dias);
     }, [dataSelecionada]);
 
-    // Muda mês (antes ou depois)
     function mudarMes(delta) {
         const novaData = new Date(dataSelecionada);
         novaData.setMonth(novaData.getMonth() + delta);
         setDataSelecionada(novaData);
     }
 
-    // Formata a data para mostrar no header do calendário
     function formatarMesAno(date) {
         return date.toLocaleDateString("pt-BR", { month: "long", year: "numeric" });
     }
 
-    // Verifica se a data é hoje
     function isToday(date) {
         if (!date) return false;
         const hoje = new Date();
@@ -61,11 +58,10 @@ const AdminMedicosHorarios = () => {
         );
     }
 
-    // Quando clicar no dia do calendário
     function selecionarData(dia) {
         if (!dia) return;
         setDataSelecionada(dia);
-        setHorarioSelecionado(null); // limpa horário selecionado ao mudar o dia
+        setHorarioSelecionado(null);
     }
 
     return (
@@ -82,8 +78,8 @@ const AdminMedicosHorarios = () => {
                         <div className="admin-medico-info-wrapper">
                             <img className="admin-img" src="/assets/doctor.png" alt="Ícone de perfil do médico" />
                             <div className="admin-medico-info">
-                                <p>Dr. João Souza</p>
-                                <p>Cardiologista</p>
+                                <p>{nome}</p>
+                                <p>{especialidade}</p>
                             </div>
                         </div>
                         <div className="medicos-horarios-medico-consultas">

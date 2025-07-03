@@ -9,6 +9,11 @@ const AdminMedicos = () => {
     
     const filtrados =  filter === "" ? medicos : medicos.filter(medico => medico.nome.toLowerCase().includes(filter.toLowerCase()) || medico.especialidade.toLowerCase().includes(filter.toLowerCase()));
 
+    function sendName(nome, especialidade) {
+        localStorage.setItem('doctor', JSON.stringify([nome, especialidade]));
+        window.location.href = "/admin/medicos/horarios";
+    }
+
     return (
         <div className="admin-container">
             <Header />
@@ -33,7 +38,7 @@ const AdminMedicos = () => {
                                 <p>{medico.especialidade}</p>
                             </div>
                         </div>
-                        <a href="/admin/medicos/horarios">Informações</a>
+                        <button className="infoBtn" onClick={() => sendName(medico.nome, medico.especialidade)}>Informações</button>
                     </div> ))}
                 </div>
                 <a className="register-btn" href="/admin/medicos/cadastro">Cadastrar novo médico</a>

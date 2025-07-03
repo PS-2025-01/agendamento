@@ -8,6 +8,7 @@ export const Header = () => {
     const handleLogout = () => {
         localStorage.clear("token");
         localStorage.clear("acesso");
+        localStorage.clear("doctor");
         navigate("/");
     }
 

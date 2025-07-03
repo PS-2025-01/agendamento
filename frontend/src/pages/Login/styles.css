@@ -1,6 +1,12 @@
+.container {
+    min-height: 100vh;
+    width: 100%;
+}
+
 .login-container,
 .login-form,
-.input-wrapper {
+.input-wrapper,
+.container {
     display: flex;
     align-items: center;
     justify-content: center;
