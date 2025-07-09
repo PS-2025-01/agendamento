@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, DeleteDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Medico } from '../../medicos/entities/medico.entity';
 import { Usuario } from '../../usuarios/entities/usuario.entity';
 import { AgendamentoStatus } from './agendamentoStatus.enum';
@@ -22,4 +22,7 @@ export class Agendamento {
 
   @ManyToOne(() => Usuario)
   paciente: Usuario;
+
+  @DeleteDateColumn({ name: 'deleted_at' })
+  deletedAt: Date | null;
 }
