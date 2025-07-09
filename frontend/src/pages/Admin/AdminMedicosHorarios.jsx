@@ -3,14 +3,15 @@ import "./styles.css";
 import { Header } from "../../components/Header";
 
 const AdminMedicosHorarios = () => {
-    const consultas = [
-        { id: 1, nome: "Mariana Souza" },
-        { id: 2, nome: "João Pereira" },
-        { id: 3, nome: "Ana Souza" },
-        { id: 4, nome: "Carlos Alberto" },
-        { id: 5, nome: "Joana Medeiros" },
-        { id: 6, nome: "Isabela Silva" },
-    ];
+    const [consultas, setConsultas] = useState([
+    { id: 1, nome: "Mariana Souza", status: "agendado" },
+    { id: 2, nome: "João Pereira", status: "agendado" },
+    { id: 3, nome: "Ana Souza", status: "concluido" },
+    { id: 4, nome: "Carlos Alberto", status: "agendado" },
+    { id: 5, nome: "Joana Medeiros", status: "agendado" },
+    { id: 6, nome: "Isabela Silva", status: "concluido" },
+]);
+
 
     const [dataSelecionada, setDataSelecionada] = useState(new Date());
     const [horarioSelecionado, setHorarioSelecionado] = useState(null);
@@ -147,18 +148,47 @@ const AdminMedicosHorarios = () => {
                             </select>
                         </div>
                         <div className="agenda-list">
-                            {consultas.map((consultas) => (
-                                <div key={consultas.id} className="admin-medico-wrapper">
-                                    <div className="admin-medico-info-wrapper">
-                                        <img className="admin-img" src="/assets/account.svg" alt="Ícone de perfil do paciente" />
-                                        <div className="admin-medico-info">
-                                            <p>{consultas.nome}</p>
-                                            <p>Data a definir</p>
-                                        </div>
-                                    </div>
-                                    <button className="agenda-btn">Agendada</button>
-                                </div>
-                            ))}
+                           {consultas.map((consulta, index) => (
+    <div key={consulta.id} className="admin-medico-wrapper">
+        <div className="admin-medico-info-wrapper">
+            <img className="admin-img" src="/assets/account.svg" alt="Ícone de perfil do paciente" />
+            <div className="admin-medico-info">
+                <p>{consulta.nome}</p>
+                <p>Data a definir</p>
+            </div>
+        </div>
+
+        <div className="admin-medico-acoes">
+            <select
+                className="status-select"
+                value={consulta.status || "agendado"}
+                onChange={(e) => {
+                    const novoStatus = e.target.value;
+                    const novasConsultas = [...consultas];
+                    novasConsultas[index] = { ...consulta, status: novoStatus };
+                    setConsultas(novasConsultas);
+                }}
+            >
+                <option value="agendado">Agendado</option>
+                <option value="concluido">Concluído</option>
+            </select>
+
+            {consulta.status !== "concluido" && (
+                <button
+                    className="cancelar-btn"
+                    onClick={() => {
+                        const novasConsultas = [...consultas];
+                        novasConsultas[index] = { ...consulta, status: "cancelado" };
+                        setConsultas(novasConsultas);
+                    }}
+                >
+                    Cancelar Consulta
+                </button>
+            )}
+        </div>
+    </div>
+))}
+
                         </div>
                     </div>
                 </div>

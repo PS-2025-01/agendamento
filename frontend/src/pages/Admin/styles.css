@@ -335,3 +335,33 @@ footer.admin-footer p:hover {
     gap: 1rem;
     align-items: center;
 }
+
+.admin-medico-acoes {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.status-select {
+  padding: 0.8rem 1.2rem;
+  font-size: var(--subtext-fs);
+  border-radius: 0.8rem;
+  border: 0.1rem solid var(--stroke-color);
+  background-color: #ffffff;
+  color: var(--text-color-1);
+}
+
+.cancelar-btn {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 0.8rem 1.2rem;
+  font-size: var(--subtext-fs);
+  border-radius: 0.8rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.cancelar-btn:hover {
+  background-color: #c0392b;
+}
