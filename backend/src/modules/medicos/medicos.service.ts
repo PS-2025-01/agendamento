@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { FindOptionsWhere, Like, Repository } from 'typeorm';
+import { FindOptionsWhere, IsNull, Like, Not, Repository } from 'typeorm';
 import { Medico } from './entities/medico.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Especialidade } from '../especialidades/entities/especialidade.entity';
@@ -20,7 +20,11 @@ export class MedicosService {
   }
 
   async list(nome?: string, especialidade?: string) {
-    const where: FindOptionsWhere<Medico> = {};
+    const where: FindOptionsWhere<Medico> = {
+      usuario: {
+        id: Not(IsNull())
+      }
+    };
 
     if (nome) {
       where.usuario = {

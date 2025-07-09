@@ -19,6 +19,7 @@ export class AgendamentosService {
   constructor(
     @InjectRepository(Agendamento)
     private readonly agendamentoRepository: Repository<Agendamento>,
+    @InjectRepository(Usuario) private readonly usuarioRepository: Repository<Usuario>
   ) {}
 
   async list(usuario: Usuario): Promise<Agendamento[]> {
@@ -27,7 +28,7 @@ export class AgendamentosService {
         paciente: true,
         medico: {
           especialidade: true,
-          usuario: true,
+          usuario: true
         },
       },
     };
@@ -51,7 +52,20 @@ export class AgendamentosService {
         break;
     }
 
-    return await this.agendamentoRepository.find(options);
+    const agendamentos = await this.agendamentoRepository.find(options);
+
+    for (const agendamento of agendamentos) {
+      agendamento.medico.usuario = await this.usuarioRepository.findOneOrFail({
+        where :{
+          medico: {
+            id: agendamento.medico.id
+          }
+        },
+        withDeleted: true
+      })
+    }
+
+    return agendamentos;
   }
 
   async listByMedicoId(medicoId: number, date: Date) {
