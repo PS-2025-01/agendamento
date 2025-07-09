@@ -1,4 +1,4 @@
-import { faker } from '@faker-js/faker';
+import { Faker, pt_BR } from '@faker-js/faker';
 import { Seeder } from '../seeder';
 import * as brcrypt from 'bcrypt';
 import { DataSource, DeepPartial } from 'typeorm';
@@ -8,6 +8,14 @@ import { Medico } from 'src/modules/medicos/entities/medico.entity';
 import { Especialidade } from 'src/modules/especialidades/entities/especialidade.entity';
 
 export default class UsuarioSeeder implements Seeder {
+  private readonly faker: Faker;
+
+  constructor() {
+    this.faker = new Faker({
+      locale: [pt_BR]
+    })
+  }
+
   async run(dataSource: DataSource): Promise<void> {
     const admin = this.createRandomUser(TipoUsuario.ADMIN);
     console.log('admin: ' + admin.email);
@@ -18,7 +26,7 @@ export default class UsuarioSeeder implements Seeder {
       const tipoUsuario = i > 5 ? TipoUsuario.MEDICO : TipoUsuario.PACIENTE;
       const user = this.createRandomUser(tipoUsuario);
 
-      console.log(`${tipoUsuario} :  ${user.email}`);
+      console.log(`${tipoUsuario}:  ${user.email}`);
 
       users.push(user);
     }
@@ -55,12 +63,14 @@ export default class UsuarioSeeder implements Seeder {
   }
 
   private createRandomUser(tipoUsuario: TipoUsuario): Partial<Usuario> {
+    const firstName = this.faker.person.firstName();
+    const lastName = this.faker.person.lastName();
     return {
       tipoUsuario,
       senha: brcrypt.hashSync('12345678', 10),
-      nome: faker.person.fullName(),
-      email: faker.internet.email().toLowerCase(),
-      cpf: faker.string.numeric(11),
+      nome: `${firstName} ${lastName}`,
+      email: this.faker.internet.email({ firstName, lastName }).toLowerCase(),
+      cpf: this.faker.string.numeric(11),
     };
   }
 }
