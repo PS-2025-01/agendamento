@@ -3,19 +3,18 @@ import { api } from "../api";
 
 export const useAgendamentos = () => {
     const [agendamentos, setAgendamentos] = useState([]);
+    const fetch = async () => {
+        const response = await api.get("/api/agendamentos");
+
+        if (response.status === 200) {
+            setAgendamentos(response.data);
+        }
+    }
 
     useEffect(() => {
-        const load = async () => {
-            const response = await api.get("/api/agendamentos");
-
-            if (response.status === 200) {
-                setAgendamentos(response.data);
-            }
-        }
-
-        load();
+        fetch();
     }, []);
 
 
-    return agendamentos;
+    return { agendamentos, fetch };
 }

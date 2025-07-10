@@ -75,6 +75,10 @@ const routes = {
         {
             link: "/paciente/perfil",
             label: "Perfil"
+        },
+        {
+            link: "/paciente/consultas",
+            label: "Consultas"
         }
     ]
 }

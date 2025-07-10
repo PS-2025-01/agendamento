@@ -23,7 +23,7 @@ const MedicoHome = () => {
       fetchUsuario();
   }, []);
 
-  const agendamentos = useAgendamentos()
+  const { agendamentos } = useAgendamentos()
 
   if (!usuario) return <h3>Carregando...</h3>;
 
@@ -51,7 +51,7 @@ const MedicoHome = () => {
         <h3>Próximas Consultas</h3>
 
         <div className="consultas-list">
-          {agendamentos.filter(agendamento => agendamento).map((agendamento) => (
+          {agendamentos.filter(agendamento => agendamento.status == "AGENDADO").map((agendamento) => (
            <div key={agendamento.id} className="proximas-consultas-wrapper">
            <div className="proximas-consultas-info">
              <p>{agendamento.paciente}</p>

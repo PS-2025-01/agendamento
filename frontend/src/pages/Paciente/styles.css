@@ -233,3 +233,8 @@ footer {
     border: 1px solid #e74c3c;
 }
 
+.status-label.concluido {
+    background-color: #a5fcb8;
+    color: #26a542;
+    border: 1px solid #26a542;
+}
