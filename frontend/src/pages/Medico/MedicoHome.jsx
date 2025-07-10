@@ -27,6 +27,13 @@ const MedicoHome = () => {
 
   if (!usuario) return <h3>Carregando...</h3>;
 
+  const statusMap = {
+    AGENDADO: "Agendado",
+    CANCELADO: "Cancelado",
+    CONCLUIDO: "Concluido"
+  };
+
+
   return ( 
     <div className="medico-container">
       <Header />
@@ -50,16 +57,20 @@ const MedicoHome = () => {
       <div className="proximas-consultas">
         <h3>Próximas Consultas</h3>
 
-        <div className="consultas-list">
-          {agendamentos.filter(agendamento => agendamento.status == "AGENDADO").map((agendamento) => (
-           <div key={agendamento.id} className="proximas-consultas-wrapper">
-           <div className="proximas-consultas-info">
-             <p>{agendamento.paciente}</p>
-             <p>{new Date(`${agendamento.data}T00:00:00`).toLocaleDateString()} - {agendamento.horario}</p>
-         </div>
-      </div>
-    ))}
-  </div>
+      <div className="consultas-list">
+         {agendamentos.map((agendamento) => (
+          <div key={agendamento.id} className="proximas-consultas-wrapper">
+            <div className="proximas-consultas-info">
+              <p>{agendamento.paciente}</p>
+              <p>{new Date(`${agendamento.data}T00:00:00`).toLocaleDateString()} - {agendamento.horario}</p>
+            </div>
+            
+          <span className={`status-label ${statusMap[agendamento.status].toLowerCase()}`}>
+            {statusMap[agendamento.status]}
+          </span>
+        </div>
+      ))}
+    </div>
 </div>
 
  <footer className="footer-medico">

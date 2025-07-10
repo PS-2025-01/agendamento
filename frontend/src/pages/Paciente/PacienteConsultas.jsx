@@ -72,7 +72,7 @@ const PacienteConsultas = () => {
               </button>
               )}
 
-              <span className={`status-label ${statusMap[consulta.status]}`}>
+            <span className={`status-label ${statusMap[consulta.status].toLowerCase()}`}>
                     {statusMap[consulta.status]}
                 </span>
             </div>

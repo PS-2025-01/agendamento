@@ -48,9 +48,9 @@ const AdminHome = () => {
                         <img src="/assets/clinic.svg" alt="Símbolo da saúde" />
                         Médicos
                     </a>
-                    <a href="/admin/medicos">
+                    <a href="/admin/consultas">
                         <img src="/assets/time.svg" alt="Relógio" />
-                        Horários
+                        Consultas
                     </a>
                 </div>
 

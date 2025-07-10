@@ -45,6 +45,10 @@ const routes = {
             label: "Médicos"
         },
         {
+            link: "/admin/consultas",
+            label: "Consultas"
+        },
+        {
             link: "/admin/perfil",
             label: "Perfil"
         }

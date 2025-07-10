@@ -4,6 +4,7 @@ import AdminMedicos from "../pages/Admin/AdminMedicos";
 import AdminMedicosHorarios from "../pages/Admin/AdminMedicosHorarios";
 import AdminMedicosCadastro from "../pages/Admin/AdminMedicosCadastro";
 import AdminPerfil from "../pages/Admin/AdminPerfil";
+import AdminConsultas from "../pages/Admin/AdminConsultas"; 
 
 export default function AdminRoutes() {
   return (
@@ -13,6 +14,7 @@ export default function AdminRoutes() {
       <Route path="/admin/medicos/horarios" element={<AdminMedicosHorarios />} />
       <Route path="/admin/medicos/cadastro" element={<AdminMedicosCadastro />} />
       <Route path="/admin/perfil" element={<AdminPerfil />} />
+      <Route path="/admin/consultas" element={<AdminConsultas />} />
     </Routes>
   );
 }
