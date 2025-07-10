@@ -391,3 +391,14 @@ footer.admin-footer p:hover {
   margin-top: 0.5rem;
   color: var(--primary-color);
 }
+.status-agendado {
+  color: orange;
+}
+
+.status-cancelado {
+  color: red;
+}
+
+.status-concluido {
+  color: green;
+}

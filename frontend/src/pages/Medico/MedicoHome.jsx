@@ -57,7 +57,6 @@ const MedicoHome = () => {
              <p>{agendamento.paciente}</p>
              <p>{new Date(agendamento.data).toLocaleDateString()} - {agendamento.horario}</p>
          </div>
-         <button className="visualizar-btn">Visualizar</button>
       </div>
     ))}
   </div>

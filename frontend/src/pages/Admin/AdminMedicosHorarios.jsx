@@ -1,20 +1,13 @@
 import { useState, useEffect } from "react";
 import "./styles.css";
-import { Header } from "../../components/Header";
+import { Header } from "../../components/Header";import { useAgendamentos } from "../../hooks/agendamentos";
+import { api } from "../../api";
 
 const AdminMedicosHorarios = () => {
-    const [consultas, setConsultas] = useState([
-    { id: 1, nome: "Mariana Souza", status: "agendado" },
-    { id: 2, nome: "João Pereira", status: "agendado" },
-    { id: 3, nome: "Ana Souza", status: "concluido" },
-    { id: 4, nome: "Carlos Alberto", status: "agendado" },
-    { id: 5, nome: "Joana Medeiros", status: "agendado" },
-    { id: 6, nome: "Isabela Silva", status: "concluido" },
-]);
-
+    const { agendamentos, fetch } = useAgendamentos();
+    const [agendamentosFiltrados, setAgedamentosFiltrados ] = useState([]);
 
     const [dataSelecionada, setDataSelecionada] = useState(new Date());
-    const [horarioSelecionado, setHorarioSelecionado] = useState(null);
     const [diasNoMes, setDiasNoMes] = useState([]);
 
     const doctor = localStorage.getItem("doctor");
@@ -39,6 +32,34 @@ const AdminMedicosHorarios = () => {
         setDiasNoMes(dias);
     }, [dataSelecionada]);
 
+
+    useEffect(() => {
+        if (agendamentos) {
+            setAgedamentosFiltrados(
+                agendamentos
+                .filter(agendamento => agendamento.data === dataSelecionada.toISOString().split('T')[0])
+            )
+        }
+    }, [dataSelecionada, agendamentos])
+
+    let agendados = 0;
+    let cancelados = 0;
+    let concluidos = 0;
+
+    for (const agendamento of agendamentosFiltrados) {
+        switch (agendamento.status) {
+            case "AGENDADO":
+                agendados++;
+                break;
+            case "CANCELADO":
+                cancelados++;
+                break;
+            case "CONCLUIDO":
+                concluidos++;
+                break;
+        }
+    }
+
     function mudarMes(delta) {
         const novaData = new Date(dataSelecionada);
         novaData.setMonth(novaData.getMonth() + delta);
@@ -62,8 +83,17 @@ const AdminMedicosHorarios = () => {
     function selecionarData(dia) {
         if (!dia) return;
         setDataSelecionada(dia);
-        setHorarioSelecionado(null);
     }
+
+    const cancelar = async (agendamentoId) => {        
+        await api.patch(`/api/agendamentos/${agendamentoId}/cancel`);
+        await fetch();
+    };
+
+    const concluir = async (agendamentoId) => {
+        await api.patch(`/api/agendamentos/${agendamentoId}/done`);
+        await fetch();
+    };
 
     return (
         <div className="admin-container">
@@ -85,16 +115,13 @@ const AdminMedicosHorarios = () => {
                         </div>
                         <div className="medicos-horarios-medico-consultas">
                             <p>
-                                Agendadas: <span>5</span>
+                                Agendadas: <span>{agendados}</span>
                             </p>
                             <p>
-                                Concluídas: <span>10</span>
+                                Concluídas: <span>{concluidos}</span>
                             </p>
                             <p>
-                                Canceladas: <span>1</span>
-                            </p>
-                            <p>
-                                Horas vagas: <span>10</span>
+                                Canceladas: <span>{cancelados}</span>
                             </p>
                         </div>
                     </div>
@@ -141,35 +168,30 @@ const AdminMedicosHorarios = () => {
                     <div className="medicos-horarios-wrapper-agenda">
                         <div className="select-wrapper">
                             <h3>Pacientes</h3>
-                            <select id="dia-select" className="select-dia">
-                                <option value="hoje">Hoje</option>
-                                <option value="amanha">Amanhã</option>
-                                <option value="semana">Semana</option>
-                            </select>
                         </div>
                         <div className="agenda-list">
-                           {consultas.map((consulta) => (
+                           {agendamentosFiltrados.map((consulta) => (
   <div key={consulta.id} className="admin-medico-wrapper status-card">
     <div className="admin-medico-info-wrapper">
       <img className="admin-img" src="/assets/account.svg" alt="Ícone de perfil do paciente" />
       <div className="admin-medico-info">
-        <p>{consulta.nome}</p>
-        <p>Data a definir</p>
+        <p>{consulta.paciente}</p>
+        <p>{formatarData(consulta.data)} - {consulta.horario.slice(0, 5)}</p>
       </div>
     </div>
 
     <div className="status-card-conteudo">
-      <p>Status: <strong>{consulta.status.charAt(0).toUpperCase() + consulta.status.slice(1)}</strong></p>
+      <p>Status: <strong className={`status-${consulta.status.toLowerCase()}`}>{consulta.status.charAt(0).toUpperCase() + consulta.status.slice(1)}</strong></p>
 
-      {consulta.status === "agendado" && (
+      {consulta.status === "AGENDADO" && (
         <p className="status-msg">Aguardando atendimento. Consulta pode ser cancelada por médico ou paciente.</p>
       )}
 
-      {consulta.status === "concluido" && (
+      {consulta.status === "CONCLUIDO" && (
         <p className="status-msg">Consulta concluída com sucesso.</p>
       )}
 
-      {consulta.status === "cancelado" && (
+      {consulta.status === "CANCELADO" && (
         <p className="status-msg">Consulta foi cancelada por uma das partes.</p>
       )}
     </div>
@@ -193,3 +215,15 @@ const AdminMedicosHorarios = () => {
 }
 
 export default AdminMedicosHorarios
+
+const formatarData = (dataString) => {
+    const opcoes = { day: '2-digit', month: '2-digit', year: 'numeric' };
+    return new Date(dataString).toLocaleDateString('pt-BR', opcoes);
+};
+
+
+const statusMap = {
+    "AGENDADO": "Agendado",
+    "CANCELADO": "Cancelado",
+    "CONCLUIDO": "Concluido"
+}

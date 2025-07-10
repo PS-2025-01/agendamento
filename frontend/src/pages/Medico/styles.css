@@ -319,6 +319,7 @@ main h2 {
     display: flex;
     align-items: center;
     gap: 1rem;
+    text-align: left;
 }
 
 .admin-img {
