@@ -86,12 +86,13 @@ const MedicoPerfil = () => {
 
 
 <footer>
-    <div>© 2025 MediAgenda</div>
-    <div>Contato: contato@mediagenda.com</div>
-    <div>Endereço: Rua Augusta, 563, Lapa - RJ - 05678-263</div>
+    <p>© 2025 MediAgenda</p>
+        <p>Contato: contato@mediagenda.com</p>
+    <p>Endereço: Rua Augusta, 563, Lapa - RJ - 05678-263</p>
+
 </footer>
-   
-</main>
+
+   </main>
 
      </div>
   );

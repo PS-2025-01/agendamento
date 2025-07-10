@@ -3,14 +3,15 @@ import "./styles.css";
 import { Header } from "../../components/Header";
 
 const AdminMedicosHorarios = () => {
-    const consultas = [
-        { id: 1, nome: "Mariana Souza" },
-        { id: 2, nome: "João Pereira" },
-        { id: 3, nome: "Ana Souza" },
-        { id: 4, nome: "Carlos Alberto" },
-        { id: 5, nome: "Joana Medeiros" },
-        { id: 6, nome: "Isabela Silva" },
-    ];
+    const [consultas, setConsultas] = useState([
+    { id: 1, nome: "Mariana Souza", status: "agendado" },
+    { id: 2, nome: "João Pereira", status: "agendado" },
+    { id: 3, nome: "Ana Souza", status: "concluido" },
+    { id: 4, nome: "Carlos Alberto", status: "agendado" },
+    { id: 5, nome: "Joana Medeiros", status: "agendado" },
+    { id: 6, nome: "Isabela Silva", status: "concluido" },
+]);
+
 
     const [dataSelecionada, setDataSelecionada] = useState(new Date());
     const [horarioSelecionado, setHorarioSelecionado] = useState(null);
@@ -147,18 +148,35 @@ const AdminMedicosHorarios = () => {
                             </select>
                         </div>
                         <div className="agenda-list">
-                            {consultas.map((consultas) => (
-                                <div key={consultas.id} className="admin-medico-wrapper">
-                                    <div className="admin-medico-info-wrapper">
-                                        <img className="admin-img" src="/assets/account.svg" alt="Ícone de perfil do paciente" />
-                                        <div className="admin-medico-info">
-                                            <p>{consultas.nome}</p>
-                                            <p>Data a definir</p>
-                                        </div>
-                                    </div>
-                                    <button className="agenda-btn">Agendada</button>
-                                </div>
-                            ))}
+                           {consultas.map((consulta) => (
+  <div key={consulta.id} className="admin-medico-wrapper status-card">
+    <div className="admin-medico-info-wrapper">
+      <img className="admin-img" src="/assets/account.svg" alt="Ícone de perfil do paciente" />
+      <div className="admin-medico-info">
+        <p>{consulta.nome}</p>
+        <p>Data a definir</p>
+      </div>
+    </div>
+
+    <div className="status-card-conteudo">
+      <p>Status: <strong>{consulta.status.charAt(0).toUpperCase() + consulta.status.slice(1)}</strong></p>
+
+      {consulta.status === "agendado" && (
+        <p className="status-msg">Aguardando atendimento. Consulta pode ser cancelada por médico ou paciente.</p>
+      )}
+
+      {consulta.status === "concluido" && (
+        <p className="status-msg">Consulta concluída com sucesso.</p>
+      )}
+
+      {consulta.status === "cancelado" && (
+        <p className="status-msg">Consulta foi cancelada por uma das partes.</p>
+      )}
+    </div>
+  </div>
+))}
+
+
                         </div>
                     </div>
                 </div>
@@ -166,10 +184,9 @@ const AdminMedicosHorarios = () => {
             </main>
 
             <footer className="admin-footer">
-                <p>Contato</p>
-                <p>Termos de uso</p>
-                <p>Política de privacidade</p>
-                <p>Endereço: Rua Augusta, 563, Lapa - RJ - 05678-263</p>
+                <p>© 2025 MediAgenda</p>
+        <p>Contato: contato@mediagenda.com</p>
+    <p>Endereço: Rua Augusta, 563, Lapa - RJ - 05678-263</p>
             </footer>
         </div>
     );
