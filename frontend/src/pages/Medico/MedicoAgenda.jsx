@@ -1,11 +1,16 @@
+import { useState, useEffect } from "react";
 import { Header } from "../../components/Header";
 import "./styles.css";
 import { useAgendamentos } from "../../hooks/agendamentos";
-import { useState, useEffect } from "react";
+import { useUsuarios } from "../../hooks/usuarios";
+import { useMedicos } from "../../hooks/medicos";
 import { api } from "../../api";
 
 const MedicoAgenda = () => {
     const { agendamentos, fetch } = useAgendamentos();
+    const { usuarios } = useUsuarios();
+    const { medicos } = useMedicos();
+    const [filter, setFilter] = useState("");
     const [dataSelecionada, setDataSelecionada] = useState(new Date());
     const [diasNoMes, setDiasNoMes] = useState([]);
     const [agendamentosFiltrados, setAgedamentosFiltrados ] = useState([]);
@@ -93,6 +98,17 @@ const MedicoAgenda = () => {
         await fetch();
     };
 
+    const filtrados =  filter === "" ? medicos : medicos.filter(medico => medico.nome.toLowerCase().includes(filter.toLowerCase()) || medico.especialidade.toLowerCase().includes(filter.toLowerCase()));
+
+    let nome, especialidade;
+
+    const encontrado = filtrados.find(medico => medico.nome === usuarios.nome);
+    if (encontrado) {
+        nome = encontrado.nome;
+        especialidade = encontrado.especialidade;
+    }
+
+
     return (
         <div className="medico-container">
             <Header/>
@@ -106,10 +122,12 @@ const MedicoAgenda = () => {
                    <div className="medico-horarios-medico-info">
                          <div className="admin-medico-info-wrapper">
                             <img className="admin-img" src="/assets/doctor.png" alt="Ícone de perfil do médico" />
-                            <div className="admin-medico-info">
-                                <p>Fulano</p>
-                                <p>Beltrano</p>
-                            </div>
+
+                                <div className="admin-medico-info">
+                                    <p>{nome}</p>
+                                    <p>{especialidade}</p>
+                                </div>
+
                         </div>
                         <div className="medicos-horarios-medico-consultas">
                             <p>

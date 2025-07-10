@@ -6,7 +6,7 @@ export const options: DataSourceOptions = {
   host: process.env.DB_HOST,
   port: Number(process.env.DB_PORT),
   username: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
+  password: "1234567890",
   database: process.env.DB_NAME,
   entities: [__dirname + '/../**/*.entity{.ts,.js}'],
   migrations: [__dirname + '/migrations/*'],
