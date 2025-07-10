@@ -28,7 +28,10 @@ export const GradePage = () => {
                     <div>
                         <button
                             style={{border: "none", padding: "4px 8px", width:"100%", borderRadius: 4, marginTop: 6}}
-                            onClick={() => setOpen(true)}
+                            onClick={() => {
+                                setOpen(true)
+                                setEdit(null)
+                            }}
                         >Cadastrar nova grade</button>
                     </div>
                     <table>
