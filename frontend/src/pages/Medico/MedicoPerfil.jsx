@@ -4,10 +4,14 @@ import "./styles.css";
 import { useUsuarios } from "../../hooks/usuarios";
 import { useMedicos } from "../../hooks/medicos";
 import { Header } from "../../components/Header";
+import { api } from "../../api";
+import { useNavigate } from "react-router-dom";
 
 const MedicoPerfil = () => {
     const [filter, setFilter] = useState("");
     const [usuario, setUsuario] = useState(null);
+    const [modalExcluir, setModalExcluir] = useState(false);
+    const navigate = useNavigate();
     const { usuarios } = useUsuarios();
     const { medicos } = useMedicos();
 
@@ -40,6 +44,12 @@ const MedicoPerfil = () => {
         fetchUsuario();
     }, []);
 
+    const excluir = async () => {
+        await api.delete(`/api/auth/${usuario.id}`);
+        setModalExcluir(false);
+        navigate("/");
+    }
+
   return ( 
     <div className="medico-container">
       <Header />
@@ -48,9 +58,19 @@ const MedicoPerfil = () => {
         <h2 className="perfil-msg"> Perfil </h2>
        
      <div className="perfil-container">
-  <div className="perfil-coluna">
-    <h3>Informações Pessoais</h3>
-
+        <div className="perfil-coluna">
+        <h3>Informações Pessoais</h3>
+        {modalExcluir && (
+            <div className="modal-overlay">
+                <div style={{backgroundColor: "#fff", padding: "1.5rem 2rem", borderRadius: 8, display: "flex", flexDirection: "column", alignItems: "center" }}>
+                    <h1>Deseja excluir sua conta?</h1>
+                    <div style={{display: "flex", gap: 16, alignSelf: "end" }}>
+                        <button style={{ border: "none", padding: "0.75rem 1rem", borderRadius: 8, backgroundColor: "#F41520", color: "white" }} onClick={excluir}>Confirmar</button>
+                        <button style={{ border: "none", padding: "0.75rem 1rem", borderRadius: 8 }} onClick={() => setModalExcluir(false)}>Cancelar</button>                        
+                    </div>
+                </div>
+            </div>
+        )}
       {usuario ? (
       
       <>
@@ -95,7 +115,7 @@ const MedicoPerfil = () => {
 
 <div className="perfil-botoes">
   <button className="btn-salvar">Salvar Alterações</button>
-  <button className="btn-excluir">Excluir Conta</button>
+  <button className="btn-excluir" onClick={() => setModalExcluir(true)}>Excluir Conta</button>
 </div>
 
 

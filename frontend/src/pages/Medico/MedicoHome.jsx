@@ -57,7 +57,7 @@ const MedicoHome = () => {
       <div className="proximas-consultas">
         <h3>Próximas Consultas</h3>
 
-      <div className="consultas-list">
+      <div className="consultas-list" style={{ maxHeight: 480 }}>
          {agendamentos.map((agendamento) => (
           <div key={agendamento.id} className="proximas-consultas-wrapper">
             <div className="proximas-consultas-info">
@@ -68,7 +68,7 @@ const MedicoHome = () => {
           <span className={`status-label ${statusMap[agendamento.status].toLowerCase()}`}>
             {statusMap[agendamento.status]}
           </span>
-        </div>
+        </div>      
       ))}
     </div>
 </div>

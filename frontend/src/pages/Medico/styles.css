@@ -84,11 +84,6 @@ li a:hover {
   text-align: left;
 }
 
-.consultas-list {
-  max-height: 180px;
-  overflow-y: auto;
-  padding: 1rem;
-}
 
 .agenda-list {
   max-height: 400px;

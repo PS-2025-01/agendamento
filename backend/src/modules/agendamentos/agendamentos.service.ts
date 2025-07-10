@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Agendamento } from './entities/agendamento.entity';
-import { FindManyOptions, Repository } from 'typeorm';
+import { FindManyOptions, IsNull, Not, Repository } from 'typeorm';
 import { Usuario } from '../usuarios/entities/usuario.entity';
 import { TipoUsuario } from '../usuarios/entities/tipoUsuario.enum';
 import { CreateAgendamentoDto } from './dtos/create-agendamento.dto';
@@ -57,17 +57,6 @@ export class AgendamentosService {
     }
 
     const agendamentos = await this.agendamentoRepository.find(options);
-
-    for (const agendamento of agendamentos) {
-      agendamento.medico.usuario = await this.usuarioRepository.findOneOrFail({
-        where: {
-          medico: {
-            id: agendamento.medico.id,
-          },
-        },
-        withDeleted: true,
-      });
-    }
 
     return agendamentos;
   }
@@ -143,16 +132,13 @@ export class AgendamentosService {
   }
 
   async findById(agendamentoId: number) {
-    const agendamento = await this.agendamentoRepository.findOne({
-      where: { id: agendamentoId },
-      relations: {
-        paciente: true,
-        medico: {
-          especialidade: true,
-          usuario: true,
-        },
-      },
-    });
+    const agendamento = await this.agendamentoRepository
+      .createQueryBuilder('agendamento')
+      .withDeleted()
+      .leftJoinAndSelect('agendamento.paciente', 'paciente', '1=1')
+      .withDeleted()
+      .where('agendamento.id = :id', {id: agendamentoId })
+      .getOne();
 
     if (agendamento === null) {
       throw new NotFoundException('Agendamento não encontrado');

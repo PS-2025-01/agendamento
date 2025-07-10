@@ -26,7 +26,7 @@ export class AgendamentoResponseDto {
     this.horario = agendamento.horario;
     this.data = agendamento.data;
     this.status = agendamento.status;
-    this.medicoId = agendamento.medico.id;
-    this.pacienteId = agendamento.paciente.id;
+    this.medicoId = agendamento.medico?.id;
+    this.pacienteId = agendamento.paciente?.id;
   }
 }
