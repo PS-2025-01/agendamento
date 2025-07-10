@@ -143,8 +143,15 @@ export class AgendamentosService {
   }
 
   async findById(agendamentoId: number) {
-    const agendamento = await this.agendamentoRepository.findOneBy({
-      id: agendamentoId,
+    const agendamento = await this.agendamentoRepository.findOne({
+      where:{ id: agendamentoId},
+      relations: {
+        paciente: true,
+        medico: {
+          especialidade: true,
+          usuario: true,
+        }
+      }
     });
 
     if (agendamento === null) {
@@ -156,12 +163,12 @@ export class AgendamentosService {
 
   async done(agendamentoId: number) {
     const agendamento = await this.findById(agendamentoId);
-    return this.updateStatus(agendamento, AgendamentoStatus.CONCLUIDO);
+    return await this.updateStatus(agendamento, AgendamentoStatus.CONCLUIDO);
   }
 
   async cancel(agendamentoId: number) {
     const agendamento = await this.findById(agendamentoId);
-    return this.updateStatus(agendamento, AgendamentoStatus.CANCELADO);
+    return await this.updateStatus(agendamento, AgendamentoStatus.CANCELADO);
   }
 
   private async updateStatus(

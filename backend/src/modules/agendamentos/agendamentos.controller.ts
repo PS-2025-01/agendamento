@@ -5,7 +5,6 @@ import {
   Get,
   HttpCode,
   HttpStatus,
-  Logger,
   Param,
   Patch,
   Post,
@@ -32,7 +31,6 @@ import { TipoUsuario } from '../usuarios/entities/tipoUsuario.enum';
 @UseGuards(JwtAuthGuard)
 @Controller('agendamentos')
 export class AgendamentosController {
-  private logger = new Logger(AgendamentosController.name);
   constructor(
     private readonly agendamentosService: AgendamentosService,
     private readonly authService: AuthService,
@@ -50,7 +48,6 @@ export class AgendamentosController {
   async list(@User() userId: string) {
     const usuario = await this.authService.getUserById(Number(userId));
     const agendamentos = await this.agendamentosService.list(usuario);
-    this.logger.log(agendamentos);
     return agendamentos.map(
       (agendamento) => new ListAgendamentoResponseDto(agendamento),
     );
