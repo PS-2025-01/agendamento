@@ -20,8 +20,6 @@ export class AgendamentosService {
   constructor(
     @InjectRepository(Agendamento)
     private readonly agendamentoRepository: Repository<Agendamento>,
-    @InjectRepository(Usuario)
-    private readonly usuarioRepository: Repository<Usuario>,
     @InjectRepository(Grade)
     private readonly gradeRepository: Repository<Grade>,
   ) {}
@@ -57,17 +55,6 @@ export class AgendamentosService {
     }
 
     const agendamentos = await this.agendamentoRepository.find(options);
-
-    for (const agendamento of agendamentos) {
-      agendamento.medico.usuario = await this.usuarioRepository.findOneOrFail({
-        where: {
-          medico: {
-            id: agendamento.medico.id,
-          },
-        },
-        withDeleted: true,
-      });
-    }
 
     return agendamentos;
   }
@@ -143,16 +130,13 @@ export class AgendamentosService {
   }
 
   async findById(agendamentoId: number) {
-    const agendamento = await this.agendamentoRepository.findOne({
-      where: { id: agendamentoId },
-      relations: {
-        paciente: true,
-        medico: {
-          especialidade: true,
-          usuario: true,
-        },
-      },
-    });
+    const agendamento = await this.agendamentoRepository
+      .createQueryBuilder('agendamento')
+      .withDeleted()
+      .leftJoinAndSelect('agendamento.paciente', 'paciente', '1=1')
+      .withDeleted()
+      .where('agendamento.id = :id', { id: agendamentoId })
+      .getOne();
 
     if (agendamento === null) {
       throw new NotFoundException('Agendamento não encontrado');

@@ -37,7 +37,7 @@ const AdminConsultas = () => {
                             <div className="proximas-consultas-info">
                                 <p><strong>Paciente:</strong> {agendamento.paciente}</p>
                                 <p><strong>Médico:</strong> {agendamento.medico}</p>
-                                <p><strong>Data:</strong> {new Date(agendamento.data).toLocaleDateString()} - {agendamento.horario}</p>
+                                <p><strong>Data:</strong> {new Date(`${agendamento.data}T00:00:00`).toLocaleDateString()} - {agendamento.horario}</p>
                             </div>
                             <button className="visualizar-btn">Visualizar</button>
                         </div>

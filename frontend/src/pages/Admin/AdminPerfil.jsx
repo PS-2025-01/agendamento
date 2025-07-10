@@ -1,10 +1,14 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import "./styles.css";
+import { api } from "../../api";
 import { Header } from "../../components/Header";
+import { useNavigate } from "react-router-dom";
 
 const AdminPerfil = () => {
     const [usuario, setUsuario] = useState(null);
+    const [modalExcluir, setModalExcluir] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchUsuario = async () => {
@@ -26,6 +30,12 @@ const AdminPerfil = () => {
         fetchUsuario();
     }, []);
 
+    const excluir = async () => {
+        await api.delete(`/api/auth/${usuario.id}`);
+        setModalExcluir(false);
+        navigate("/");
+    }
+
     return (
         <div className="admin-container">
             <Header />
@@ -39,6 +49,18 @@ const AdminPerfil = () => {
                     <div className="img">
                         <img src="/assets/account.svg" alt="Ícone de perfil de conta" />
                     </div>
+                    
+                    {modalExcluir && (
+                        <div className="modal-overlay">
+                            <div style={{backgroundColor: "#fff", padding: "1.5rem 2rem", borderRadius: 8, display: "flex", flexDirection: "column", alignItems: "center" }}>
+                                <h1>Deseja excluir sua conta?</h1>
+                                <div style={{display: "flex", gap: 16, alignSelf: "end" }}>
+                                    <button style={{ border: "none", padding: "0.75rem 1rem", borderRadius: 8, backgroundColor: "#F41520", color: "white" }} onClick={excluir}>Confirmar</button>
+                                    <button style={{ border: "none", padding: "0.75rem 1rem", borderRadius: 8 }} onClick={() => setModalExcluir(false)}>Cancelar</button>                        
+                                </div>
+                            </div>
+                        </div>
+                    )}
 
                     {usuario ? (
                     
@@ -75,7 +97,7 @@ const AdminPerfil = () => {
 
                 <div className="perfil-botoes">
                     <button className="btn-salvar">Salvar Alterações</button>
-                    <button className="btn-excluir">Excluir Conta</button>
+                    <button className="btn-excluir" onClick={() => setModalExcluir(true)}>Excluir Conta</button>
                 </div>
             </main>
 
