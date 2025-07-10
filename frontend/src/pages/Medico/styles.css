@@ -460,3 +460,32 @@ footer.admin-footer {
 .dias span.empty {
     visibility: hidden;
 }
+
+.status-label {
+  font-size: 1.1rem;
+  font-weight: bold;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  text-transform: capitalize;
+  display: inline-block;
+  min-width: 110px;
+  text-align: center;
+}
+
+.status-label.agendado {
+  background-color: #007bff20;
+  color: #3880A0;
+  border: 1px solid;
+}
+
+.status-label.cancelado {
+  background-color: #ffdddd;
+  color: #e74c3c;
+  border: 1px solid #e74c3c;
+}
+
+.status-label.concluido {
+  background-color: #a5fcb8;
+  color: #26a542;
+  border: 1px solid #26a542;
+}
