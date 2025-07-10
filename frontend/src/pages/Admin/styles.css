@@ -365,3 +365,29 @@ footer.admin-footer p:hover {
 .cancelar-btn:hover {
   background-color: #c0392b;
 }
+
+
+.status-card {
+  border: 2px solid var(--primary-color);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  background-color: #eaf3fc;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.status-card-conteudo {
+  text-align: right;
+  max-width: 50%;
+}
+
+.status-card-conteudo p {
+  font-size: var(--subtext-fs);
+  color: var(--text-color-1);
+}
+
+.status-msg {
+  margin-top: 0.5rem;
+  color: var(--primary-color);
+}

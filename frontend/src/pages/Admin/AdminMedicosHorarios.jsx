@@ -148,46 +148,34 @@ const AdminMedicosHorarios = () => {
                             </select>
                         </div>
                         <div className="agenda-list">
-                           {consultas.map((consulta, index) => (
-    <div key={consulta.id} className="admin-medico-wrapper">
-        <div className="admin-medico-info-wrapper">
-            <img className="admin-img" src="/assets/account.svg" alt="Ícone de perfil do paciente" />
-            <div className="admin-medico-info">
-                <p>{consulta.nome}</p>
-                <p>Data a definir</p>
-            </div>
-        </div>
-
-        <div className="admin-medico-acoes">
-            <select
-                className="status-select"
-                value={consulta.status || "agendado"}
-                onChange={(e) => {
-                    const novoStatus = e.target.value;
-                    const novasConsultas = [...consultas];
-                    novasConsultas[index] = { ...consulta, status: novoStatus };
-                    setConsultas(novasConsultas);
-                }}
-            >
-                <option value="agendado">Agendado</option>
-                <option value="concluido">Concluído</option>
-            </select>
-
-            {consulta.status !== "concluido" && (
-                <button
-                    className="cancelar-btn"
-                    onClick={() => {
-                        const novasConsultas = [...consultas];
-                        novasConsultas[index] = { ...consulta, status: "cancelado" };
-                        setConsultas(novasConsultas);
-                    }}
-                >
-                    Cancelar Consulta
-                </button>
-            )}
-        </div>
+                           {consultas.map((consulta) => (
+  <div key={consulta.id} className="admin-medico-wrapper status-card">
+    <div className="admin-medico-info-wrapper">
+      <img className="admin-img" src="/assets/account.svg" alt="Ícone de perfil do paciente" />
+      <div className="admin-medico-info">
+        <p>{consulta.nome}</p>
+        <p>Data a definir</p>
+      </div>
     </div>
+
+    <div className="status-card-conteudo">
+      <p>Status: <strong>{consulta.status.charAt(0).toUpperCase() + consulta.status.slice(1)}</strong></p>
+
+      {consulta.status === "agendado" && (
+        <p className="status-msg">Aguardando atendimento. Consulta pode ser cancelada por médico ou paciente.</p>
+      )}
+
+      {consulta.status === "concluido" && (
+        <p className="status-msg">Consulta concluída com sucesso.</p>
+      )}
+
+      {consulta.status === "cancelado" && (
+        <p className="status-msg">Consulta foi cancelada por uma das partes.</p>
+      )}
+    </div>
+  </div>
 ))}
+
 
                         </div>
                     </div>
