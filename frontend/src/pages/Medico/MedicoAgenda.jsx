@@ -9,6 +9,9 @@ const MedicoAgenda = () => {
     const [dataSelecionada, setDataSelecionada] = useState(new Date());
     const [diasNoMes, setDiasNoMes] = useState([]);
     const [agendamentosFiltrados, setAgedamentosFiltrados ] = useState([]);
+    const [modalAberto, setModalAberto] = useState(false);
+    const [consultaSelecionada, setConsultaSelecionada] = useState(null);
+
 
     useEffect(() => {
         const ano = dataSelecionada.getFullYear();
@@ -92,6 +95,25 @@ const MedicoAgenda = () => {
         await api.patch(`/api/agendamentos/${agendamentoId}/done`);
         await fetch();
     };
+
+    const abrirModal = (id) => {
+    setConsultaSelecionada(id);
+    setModalAberto(true);
+};
+
+const confirmarCancelamento = async () => {
+    if (consultaSelecionada !== null) {
+        await api.patch(`/api/agendamentos/${consultaSelecionada}/cancel`);
+        await fetch();
+    }
+    setModalAberto(false);
+    setConsultaSelecionada(null);
+};
+
+const cancelarModal = () => {
+    setModalAberto(false);
+    setConsultaSelecionada(null);
+};
 
     return (
         <div className="medico-container">
@@ -195,13 +217,12 @@ const MedicoAgenda = () => {
                     Concluir
                 </button>
                 <button
-                    className="cancelar-btn"
-                    onClick={() => {
-                        cancelar(consulta.id)
-                    }}
+                  className="cancelar-btn"
+                  onClick={() => abrirModal(consulta.id)}
                 >
                     Cancelar
-                </button>
+              </button>
+
                 </>
             )}
 
@@ -217,6 +238,23 @@ const MedicoAgenda = () => {
                 </div>
 
             </main>
+            {modalAberto && (
+                <div className="modal-overlay">
+                    <div className="modal-content">
+                        <h3>Confirmar cancelamento</h3>
+                        <p>Você realmente deseja cancelar esta consulta?</p>
+                        <div className="modal-botoes">
+                            <button className="btn-salvar" onClick={confirmarCancelamento}>
+                                Sim, cancelar
+                            </button>
+                            <button className="btn-excluir" onClick={cancelarModal}>
+                                Voltar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
 
             <footer className="admin-footer">
                 <p>© 2025 MediAgenda</p>
