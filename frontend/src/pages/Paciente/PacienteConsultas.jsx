@@ -1,15 +1,13 @@
+import { api } from "../../api";
 import { Header } from "../../components/Header";
+import { useAgendamentos } from "../../hooks/agendamentos";
 import "./styles.css";
 import { useState } from "react";
 
 const PacienteConsultas = () => {
-    const [consultas, setConsultas] = useState([
-        { id: 1, medico: "Dr. João Pereira", data: "2025-07-15", status: "agendado" },
-        { id: 2, medico: "Dr. Carlos Alberto", data: "2025-07-25", status: "agendado" },
-    ]);
-
     const [modalAberto, setModalAberto] = useState(false);
     const [consultaSelecionada, setConsultaSelecionada] = useState(null);
+    const {agendamentos, fetch } = useAgendamentos();
 
     const formatarData = (dataString) => {
         const opcoes = { day: '2-digit', month: '2-digit', year: 'numeric' };
@@ -21,14 +19,13 @@ const PacienteConsultas = () => {
         setModalAberto(true);
     };
 
-    const confirmarCancelamento = () => {
+    const confirmarCancelamento = async () => {
         if (consultaSelecionada !== null) {
-            const novasConsultas = [...consultas];
-            novasConsultas[consultaSelecionada].status = "cancelado";
-            setConsultas(novasConsultas);
-            setModalAberto(false);
-            setConsultaSelecionada(null);
+            await api.patch(`/api/agendamentos/${agendamentos[consultaSelecionada].id}/cancel`);
+            await fetch();
         }
+
+        setModalAberto(false);
     };
 
     const cancelarModal = () => {
@@ -49,7 +46,7 @@ const PacienteConsultas = () => {
                     </div>
 
                     <div className="agenda-list">
-                        {consultas.map((consulta, index) => (
+                        {agendamentos.map((consulta, index) => (
                             <div key={consulta.id} className="admin-medico-wrapper">
                                 <div className="admin-medico-info-wrapper">
                                     <img
@@ -59,23 +56,25 @@ const PacienteConsultas = () => {
                                     />
                                     <div className="admin-medico-info">
                                         <p>{consulta.medico}</p>
-                                        <p>{formatarData(consulta.data)}</p>
+                                        <p>{formatarData(consulta.data)} - {consulta.horario.slice(0, 5)}</p>
                                     </div>
 
                                 </div>
 
                                <div className="admin-medico-acoes">
-                     <span className={`status-label ${consulta.status}`}>
-                            {consulta.status === "agendado" ? "Agendado" : "Cancelado"}
-                     </span>
+                     
 
-                    {consulta.status === "agendado" && (
+                    {consulta.status === "AGENDADO" && (
              <button
                    className="cancelar-btn"
                     onClick={() => abrirModal(index)}
-             >     Cancelar Consulta
+             >Cancelar
               </button>
               )}
+
+              <span className={`status-label ${statusMap[consulta.status]}`}>
+                    {statusMap[consulta.status]}
+                </span>
             </div>
 
                             </div>
@@ -111,3 +110,9 @@ const PacienteConsultas = () => {
 };
 
 export default PacienteConsultas;
+
+const statusMap = {
+    "AGENDADO": "Agendado",
+    "CANCELADO": "Cancelado",
+    "CONCLUIDO": "Concluido"
+}
