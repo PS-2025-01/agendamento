@@ -11,7 +11,7 @@ const PacienteConsultas = () => {
 
     const formatarData = (dataString) => {
         const opcoes = { day: '2-digit', month: '2-digit', year: 'numeric' };
-        return new Date(dataString).toLocaleDateString('pt-BR', opcoes);
+        return new Date(`${dataString}T00:00:00`).toLocaleDateString('pt-BR', opcoes);
     };
 
     const abrirModal = (index) => {

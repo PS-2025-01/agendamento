@@ -6,7 +6,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    -webkit-font-smoothing: antialiased;
+    -webkit-font-sothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 
     color: var(--text-color-1);
@@ -67,4 +67,15 @@ a:hover {
 
 li {
     list-style: none;
+}
+ table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+th, td {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    text-align: left;
 }

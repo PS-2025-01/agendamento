@@ -1,4 +1,9 @@
-import { BadRequestException, Injectable, Logger } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  Logger,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Grade } from './entities/grade.entity';
@@ -29,7 +34,7 @@ export class GradesService {
     this.logger.debug(exist);
 
     if (exist) {
-      throw new BadRequestException('já possui grade cadastrada');
+      throw new BadRequestException('Já existe grade cadastrada neste dia');
     }
 
     return await this.gradeRepository.save({
@@ -125,5 +130,40 @@ export class GradesService {
       },
       loadRelationIds: { disableMixedMap: true },
     });
+  }
+
+  async update(gradeId: number, request: CreateGradeDto) {
+    const grade = await this.gradeRepository.findOne({
+      where: { id: gradeId },
+      relations: {
+        medico: true,
+      },
+    });
+
+    if (grade === null) {
+      throw new NotFoundException('grade não encontrada');
+    }
+
+    if (grade.dia != request.dia) {
+      const exist = await this.gradeRepository.findOneBy({
+        dia: request.dia,
+        medico: grade.medico,
+      });
+
+      if (exist) {
+        throw new BadRequestException('Já existe grade cadastrada neste dia');
+      }
+    }
+
+    grade.dia = request.dia;
+    grade.fim = request.fim;
+    grade.inicio = request.inicio;
+    grade.intervalo = request.intervalo;
+
+    return await this.gradeRepository.save(grade);
+  }
+
+  async delete(gradeId: number) {
+    await this.gradeRepository.delete({ id: gradeId });
   }
 }

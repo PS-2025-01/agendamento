@@ -4,7 +4,7 @@ import { api } from "../api";
 export const useGrades = (medico) => {
     const [grades, setGrades] = useState([]);
 
-    useEffect(() => {
+    const fetch = async () => {
         const load = async (medicoId) => {
             const response = await api.get(`/api/grades?medicoId=${medicoId}`);
             
@@ -18,12 +18,15 @@ export const useGrades = (medico) => {
             await load(response.data.id);
         }
         if (medico) {
-            load(medico.id);
+            await load(medico.id);
         } else {
-            loadMedico();
+            await loadMedico();
         }
+    }
 
+    useEffect(() => {
+        fetch();
     }, [medico]);
 
-    return grades;
+    return { grades, fetch };
 }

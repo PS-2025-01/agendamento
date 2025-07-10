@@ -3,7 +3,7 @@ import { useGrades } from "../../hooks/grades";
 
 export const Calendario = ({ dataSelecionada, setDataSelecionada, medico }) => {
   const [diasNoMes, setDiasNoMes] = useState([]);
-  const grades = useGrades(medico);
+  const {grades} = useGrades(medico);
   
   const diasDaSemana = grades.map(grade => grade.dia);
   

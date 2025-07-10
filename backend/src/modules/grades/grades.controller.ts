@@ -2,7 +2,12 @@ import {
   BadRequestException,
   Body,
   Controller,
+  Delete,
   Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  Patch,
   Post,
   Query,
   UseGuards,
@@ -10,6 +15,7 @@ import {
 import {
   ApiBearerAuth,
   ApiCreatedResponse,
+  ApiNoContentResponse,
   ApiOkResponse,
   ApiQuery,
   ApiTags,
@@ -58,5 +64,19 @@ export class GradesController {
   async grades(@Query('medicoId') medicoId: string) {
     const grades = await this.gradeService.listByMedicoId(Number(medicoId));
     return grades.map((grade) => new GradeResponseDto(grade));
+  }
+
+  @ApiOkResponse({ type: GradeResponseDto })
+  @Patch(':id')
+  async update(@Param('id') gradeId: string, @Body() body: CreateGradeDto) {
+    const grade = await this.gradeService.update(Number(gradeId), body);
+    return new GradeResponseDto(grade);
+  }
+
+  @ApiNoContentResponse()
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @Delete(':id')
+  async Delete(@Param('id') gradeId: string) {
+    await this.gradeService.delete(Number(gradeId));
   }
 }
