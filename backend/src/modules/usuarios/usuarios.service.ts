@@ -1,8 +1,13 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
 import { Usuario } from './entities/usuario.entity';
+import { TipoUsuario } from './entities/tipoUsuario.enum';
 
 @Injectable()
 export class UsuariosService {
@@ -24,7 +29,27 @@ export class UsuariosService {
     return bcrypt.compareSync(senha, usuario.senha);
   }
 
-  async findById(userId: number) {
-    return await this.usuarioRepository.findOneBy({ id: userId });
+  async findById(userId: number): Promise<Usuario> {
+    const user = await this.usuarioRepository.findOneBy({ id: userId });
+
+    if (user === null) {
+      throw new NotFoundException('Usuario não encontrado');
+    }
+
+    return user;
+  }
+
+  async delete(userId: number, authenticateUserId: number): Promise<void> {
+    const user = await this.findById(authenticateUserId);
+
+    if (user.id != userId && user.tipoUsuario != TipoUsuario.ADMIN) {
+      throw new BadRequestException(
+        'Apenas os admins podem remover outros usuarios',
+      );
+    }
+
+    await this.usuarioRepository.softDelete({
+      id: userId,
+    });
   }
 }

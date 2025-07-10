@@ -1,4 +1,9 @@
-import { BadRequestException, Injectable, Logger } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  Logger,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Agendamento } from './entities/agendamento.entity';
 import { FindManyOptions, Repository } from 'typeorm';
@@ -14,6 +19,8 @@ export class AgendamentosService {
   constructor(
     @InjectRepository(Agendamento)
     private readonly agendamentoRepository: Repository<Agendamento>,
+    @InjectRepository(Usuario)
+    private readonly usuarioRepository: Repository<Usuario>,
   ) {}
 
   async list(usuario: Usuario): Promise<Agendamento[]> {
@@ -46,7 +53,20 @@ export class AgendamentosService {
         break;
     }
 
-    return await this.agendamentoRepository.find(options);
+    const agendamentos = await this.agendamentoRepository.find(options);
+
+    for (const agendamento of agendamentos) {
+      agendamento.medico.usuario = await this.usuarioRepository.findOneOrFail({
+        where: {
+          medico: {
+            id: agendamento.medico.id,
+          },
+        },
+        withDeleted: true,
+      });
+    }
+
+    return agendamentos;
   }
 
   async listByMedicoId(medicoId: number, date: Date) {
@@ -93,5 +113,54 @@ export class AgendamentosService {
       paciente: usuario,
       status: AgendamentoStatus.AGENDADO,
     });
+  }
+
+  async findById(agendamentoId: number) {
+    const agendamento = await this.agendamentoRepository.findOneBy({
+      id: agendamentoId,
+    });
+
+    if (agendamento === null) {
+      throw new NotFoundException('Agendamento não encontrado');
+    }
+
+    return agendamento;
+  }
+
+  async done(agendamentoId: number) {
+    const agendamento = await this.findById(agendamentoId);
+    return this.updateStatus(agendamento, AgendamentoStatus.CONCLUIDO);
+  }
+
+  async cancel(agendamentoId: number) {
+    const agendamento = await this.findById(agendamentoId);
+    return this.updateStatus(agendamento, AgendamentoStatus.CANCELADO);
+  }
+
+  private async updateStatus(
+    agendamento: Agendamento,
+    status: AgendamentoStatus,
+  ) {
+    this.logger.log(
+      `Atualizando o status do agendamento: ${agendamento.id} de: ${agendamento.status} para: ${status}`,
+    );
+
+    if (agendamento.status === AgendamentoStatus.CANCELADO) {
+      this.logger.log('Agendamento já está cancelado');
+      throw new BadRequestException('Agendamento cancelado');
+    }
+
+    agendamento.status = status;
+    return await this.agendamentoRepository.save(agendamento);
+  }
+
+  async delete(agendamentoId: number) {
+    const agendamento = await this.findById(agendamentoId);
+
+    await this.agendamentoRepository.softDelete({
+      id: agendamentoId,
+    });
+
+    return agendamento;
   }
 }

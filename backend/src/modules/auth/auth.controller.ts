@@ -1,9 +1,11 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
   HttpStatus,
+  Param,
   Post,
   UseGuards,
 } from '@nestjs/common';
@@ -13,6 +15,7 @@ import {
   ApiOkResponse,
   ApiTags,
   ApiOperation,
+  ApiNoContentResponse,
 } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
@@ -27,13 +30,15 @@ import { RegisterUsuariosService } from '../usuarios/register-usuarios.service';
 import { UserResponseDto } from '../usuarios/dto/user-response.dto';
 import { Role } from '../../common/decorators/role.decorator';
 import { User } from '../../common/decorators/user.decorator';
+import { UsuariosService } from '../usuarios/usuarios.service';
 
 @ApiTags('Autenticação')
 @Controller('auth')
 export class AuthController {
   constructor(
     private authSerivce: AuthService,
-    private usuarioService: RegisterUsuariosService,
+    private registerUsuarioService: RegisterUsuariosService,
+    private usuarioService: UsuariosService,
   ) {}
 
   @ApiOperation({ summary: 'Login do usuário' })
@@ -56,7 +61,7 @@ export class AuthController {
   async signup(
     @Body() createUserDto: CreateUserDto,
   ): Promise<CreateUserResponseDto> {
-    const usuario = await this.usuarioService.signup(createUserDto);
+    const usuario = await this.registerUsuarioService.signup(createUserDto);
     return new CreateUserResponseDto(usuario);
   }
 
@@ -75,7 +80,7 @@ export class AuthController {
   async register(
     @Body() adminCreateUser: AdminCreateUserDto,
   ): Promise<CreateUserResponseDto> {
-    const usuario = await this.usuarioService.register(adminCreateUser);
+    const usuario = await this.registerUsuarioService.register(adminCreateUser);
     return new CreateUserResponseDto(usuario);
   }
 
@@ -87,5 +92,14 @@ export class AuthController {
   async current(@User() userId: string) {
     const user = await this.authSerivce.getUserById(Number(userId));
     return new UserResponseDto(user);
+  }
+
+  @ApiNoContentResponse()
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @Delete(':id')
+  async delete(@Param('id') id: string, @User() userId: string) {
+    await this.usuarioService.delete(Number(id), Number(userId));
   }
 }
