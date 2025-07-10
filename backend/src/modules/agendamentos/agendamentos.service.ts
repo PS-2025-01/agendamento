@@ -11,6 +11,7 @@ import { Usuario } from '../usuarios/entities/usuario.entity';
 import { TipoUsuario } from '../usuarios/entities/tipoUsuario.enum';
 import { CreateAgendamentoDto } from './dtos/create-agendamento.dto';
 import { AgendamentoStatus } from './entities/agendamentoStatus.enum';
+import { Grade } from '../grades/entities/grade.entity';
 
 @Injectable()
 export class AgendamentosService {
@@ -21,6 +22,8 @@ export class AgendamentosService {
     private readonly agendamentoRepository: Repository<Agendamento>,
     @InjectRepository(Usuario)
     private readonly usuarioRepository: Repository<Usuario>,
+    @InjectRepository(Grade)
+    private readonly gradeRepository: Repository<Grade>,
   ) {}
 
   async list(usuario: Usuario): Promise<Agendamento[]> {
@@ -85,34 +88,58 @@ export class AgendamentosService {
     request: CreateAgendamentoDto,
     usuario: Usuario,
   ): Promise<Agendamento> {
-    request.data = request.data.split('T')[0];
+    const date = new Date(`${request.data}T00:00:00`);
 
-    const exist = await this.agendamentoRepository
-      .createQueryBuilder()
-      .where(
-        'horario = :horario and status <> :status and medicoId = :medicoId and data = :data',
-        {
-          horario: request.horario,
-          status: AgendamentoStatus.CANCELADO,
-          medicoId: request.medicoId,
-          data: request.data,
-        },
-      )
-      .getOne();
+    const grade = await this.gradeRepository.findOneBy({
+      medico: { id: request.medicoId },
+      dia: date.getDay(),
+    });
 
-    if (exist) {
-      throw new BadRequestException('Horario ocupado');
+    if (grade === null) {
+      throw new BadRequestException('medico nao possui grade');
     }
 
-    return await this.agendamentoRepository.save({
-      data: request.data,
+    const agendamento = this.agendamentoRepository.create({
+      data: date,
       horario: request.horario,
       medico: {
         id: request.medicoId,
       },
       paciente: usuario,
       status: AgendamentoStatus.AGENDADO,
+      duracao: grade.intervalo,
     });
+
+    await this.validarHorario(agendamento, request.medicoId, request.data);
+
+    return this.agendamentoRepository.save(agendamento);
+  }
+
+  private async validarHorario(
+    novoAgendamento: Agendamento,
+    medicoId: number,
+    data: string,
+  ) {
+    const agendamentos = await this.agendamentoRepository
+      .createQueryBuilder()
+      .where('status <> :status and medicoId = :medicoId and data = :data', {
+        status: AgendamentoStatus.CANCELADO,
+        medicoId: medicoId,
+        data: data,
+      })
+      .getMany();
+
+    const inicio = novoAgendamento.getInicio();
+    const fim = novoAgendamento.getFim();
+
+    for (const agendamento of agendamentos) {
+      if (
+        (inicio <= agendamento.getInicio() && fim > agendamento.getInicio()) ||
+        (inicio < agendamento.getFim() && fim > agendamento.getFim())
+      ) {
+        throw new BadRequestException('horario ocupado');
+      }
+    }
   }
 
   async findById(agendamentoId: number) {

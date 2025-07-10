@@ -42,10 +42,13 @@ export class GradesService {
   }
 
   async available(medicoId: number, date: Date) {
+    this.logger.debug(date.getDay());
     const grade = await this.gradeRepository.findOneBy({
       medico: { id: medicoId },
       dia: date.getDay(),
     });
+
+    this.logger.debug(grade);
 
     if (!grade) return [];
 
@@ -70,13 +73,10 @@ export class GradesService {
     interval: number,
     agendamentos: Agendamento[],
   ) {
-    const horariosAgendados = agendamentos
-      .filter(
-        (agendamentos) => agendamentos.status != AgendamentoStatus.CANCELADO,
-      )
-      .map((agendamentos) => agendamentos.horario.slice(0, 5));
+    const horariosAgendados = agendamentos.filter(
+      (agendamentos) => agendamentos.status != AgendamentoStatus.CANCELADO,
+    );
 
-    this.logger.debug(horariosAgendados);
     const parse = (time: string) => new Date(`1970-01-01T${time}`);
 
     const current = parse(begin);
@@ -84,16 +84,34 @@ export class GradesService {
     const result: string[] = [];
 
     while (current < last) {
-      const horario = current.toTimeString().slice(0, 5);
-
-      if (!horariosAgendados.includes(horario)) {
-        result.push(horario);
+      if (this.verificarHorario(horariosAgendados, current, interval)) {
+        result.push(current.toTimeString().slice(0, 5));
       }
 
       current.setMinutes(current.getMinutes() + interval);
     }
 
     return result;
+  }
+
+  private verificarHorario(
+    agendamentos: Agendamento[],
+    horario: Date,
+    intervalo: number,
+  ) {
+    const inicio = horario.getHours() + horario.getMinutes() / 60;
+    const fim = inicio + intervalo / 60;
+
+    for (const agendamento of agendamentos) {
+      if (
+        (inicio <= agendamento.getInicio() && fim > agendamento.getInicio()) ||
+        (inicio < agendamento.getFim() && fim > agendamento.getFim())
+      ) {
+        return false;
+      }
+    }
+
+    return true;
   }
 
   async listByMedicoId(medicoId: number) {
