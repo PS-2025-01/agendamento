@@ -144,14 +144,14 @@ export class AgendamentosService {
 
   async findById(agendamentoId: number) {
     const agendamento = await this.agendamentoRepository.findOne({
-      where:{ id: agendamentoId},
+      where: { id: agendamentoId },
       relations: {
         paciente: true,
         medico: {
           especialidade: true,
           usuario: true,
-        }
-      }
+        },
+      },
     });
 
     if (agendamento === null) {

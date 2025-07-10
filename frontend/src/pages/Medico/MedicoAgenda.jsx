@@ -1,11 +1,16 @@
+import { useState, useEffect } from "react";
 import { Header } from "../../components/Header";
 import "./styles.css";
 import { useAgendamentos } from "../../hooks/agendamentos";
-import { useState, useEffect } from "react";
+import { useUsuarios } from "../../hooks/usuarios";
+import { useMedicos } from "../../hooks/medicos";
 import { api } from "../../api";
 
 const MedicoAgenda = () => {
     const { agendamentos, fetch } = useAgendamentos();
+    const { usuarios } = useUsuarios();
+    const { medicos } = useMedicos();
+    const [filter, setFilter] = useState("");
     const [dataSelecionada, setDataSelecionada] = useState(new Date());
     const [diasNoMes, setDiasNoMes] = useState([]);
     const [agendamentosFiltrados, setAgedamentosFiltrados ] = useState([]);
@@ -85,35 +90,39 @@ const MedicoAgenda = () => {
         setDataSelecionada(dia);
     }
 
-
-    const cancelar = async (agendamentoId) => {        
-        await api.patch(`/api/agendamentos/${agendamentoId}/cancel`);
-        await fetch();
-    };
-
     const concluir = async (agendamentoId) => {
         await api.patch(`/api/agendamentos/${agendamentoId}/done`);
         await fetch();
     };
 
     const abrirModal = (id) => {
-    setConsultaSelecionada(id);
-    setModalAberto(true);
-};
+        setConsultaSelecionada(id);
+        setModalAberto(true);
+    };
 
-const confirmarCancelamento = async () => {
-    if (consultaSelecionada !== null) {
-        await api.patch(`/api/agendamentos/${consultaSelecionada}/cancel`);
-        await fetch();
+    const confirmarCancelamento = async () => {
+      if (consultaSelecionada !== null) {
+          await api.patch(`/api/agendamentos/${consultaSelecionada}/cancel`);
+          await fetch();
+      }
+      setModalAberto(false);
+      setConsultaSelecionada(null);
+    };
+
+    const cancelarModal = () => {
+        setModalAberto(false);
+        setConsultaSelecionada(null);
+    };
+
+    const filtrados =  filter === "" ? medicos : medicos.filter(medico => medico.nome.toLowerCase().includes(filter.toLowerCase()) || medico.especialidade.toLowerCase().includes(filter.toLowerCase()));
+
+    let nome, especialidade;
+
+    const encontrado = filtrados.find(medico => medico.nome === usuarios.nome);
+    if (encontrado) {
+        nome = encontrado.nome;
+        especialidade = encontrado.especialidade;
     }
-    setModalAberto(false);
-    setConsultaSelecionada(null);
-};
-
-const cancelarModal = () => {
-    setModalAberto(false);
-    setConsultaSelecionada(null);
-};
 
     return (
         <div className="medico-container">
@@ -128,10 +137,12 @@ const cancelarModal = () => {
                    <div className="medico-horarios-medico-info">
                          <div className="admin-medico-info-wrapper">
                             <img className="admin-img" src="/assets/doctor.png" alt="Ícone de perfil do médico" />
-                            <div className="admin-medico-info">
-                                <p>Fulano</p>
-                                <p>Beltrano</p>
-                            </div>
+
+                                <div className="admin-medico-info">
+                                    <p>{nome}</p>
+                                    <p>{especialidade}</p>
+                                </div>
+
                         </div>
                         <div className="medicos-horarios-medico-consultas">
                             <p>
@@ -270,7 +281,7 @@ export default MedicoAgenda;
 
 const formatarData = (dataString) => {
     const opcoes = { day: '2-digit', month: '2-digit', year: 'numeric' };
-    return new Date(dataString).toLocaleDateString('pt-BR', opcoes);
+    return new Date(`${dataString}T00:00:00`).toLocaleDateString('pt-BR', opcoes);
 };
 
 

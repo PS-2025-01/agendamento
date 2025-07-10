@@ -62,7 +62,7 @@ const MedicoHome = () => {
           <div key={agendamento.id} className="proximas-consultas-wrapper">
             <div className="proximas-consultas-info">
               <p>{agendamento.paciente}</p>
-              <p>{new Date(agendamento.data).toLocaleDateString()} - {agendamento.horario}</p>
+              <p>{new Date(`${agendamento.data}T00:00:00`).toLocaleDateString()} - {agendamento.horario}</p>
             </div>
             
           <span className={`status-label ${statusMap[agendamento.status].toLowerCase()}`}>
@@ -71,8 +71,6 @@ const MedicoHome = () => {
         </div>
       ))}
     </div>
-
-
 </div>
 
  <footer className="footer-medico">

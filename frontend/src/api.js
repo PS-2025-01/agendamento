@@ -6,7 +6,13 @@ export const api = new Axios({
       Accept: 'application/json'
     },
     transformRequest: [data => JSON.stringify(data)],
-    transformResponse: [data => JSON.parse(data)]
+    transformResponse: [data => {
+      if (data) {
+        return JSON.parse(data)
+      }
+      
+      return data
+    }]
 })
 
 api.interceptors.request.use(

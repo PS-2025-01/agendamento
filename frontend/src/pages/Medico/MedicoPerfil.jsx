@@ -1,10 +1,24 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import "./styles.css";
+import { useUsuarios } from "../../hooks/usuarios";
+import { useMedicos } from "../../hooks/medicos";
 import { Header } from "../../components/Header";
 
 const MedicoPerfil = () => {
+    const [filter, setFilter] = useState("");
     const [usuario, setUsuario] = useState(null);
+    const { usuarios } = useUsuarios();
+    const { medicos } = useMedicos();
+
+    const filtrados =  filter === "" ? medicos : medicos.filter(medico => medico.nome.toLowerCase().includes(filter.toLowerCase()) || medico.especialidade.toLowerCase().includes(filter.toLowerCase()));
+
+    let especialidade;
+
+    const encontrado = filtrados.find(medico => medico.nome === usuarios.nome);
+    if (encontrado) {
+        especialidade = encontrado.especialidade;
+    }
 
     useEffect(() => {
         const fetchUsuario = async () => {
@@ -69,7 +83,7 @@ const MedicoPerfil = () => {
                   <label>Especialidade</label>
                   <button className="editar-btn">Editar</button>
               </div>
-              <p>{usuario.especialidade}</p>
+              <p>{especialidade}</p>
           </div>
       </>
       
