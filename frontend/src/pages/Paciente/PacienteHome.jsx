@@ -42,7 +42,7 @@ function PacienteHome() {
 
     const response = await api.post("/api/agendamentos", {
       medicoId: medicoSelecionado.id,
-      data: dataSelecionada,
+      data: dataSelecionada.toISOString().split('T')[0],
       horario: horarioSelecionado
     });
 
