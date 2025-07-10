@@ -22,8 +22,8 @@ export class MedicosService {
   async list(nome?: string, especialidade?: string) {
     const where: FindOptionsWhere<Medico> = {
       usuario: {
-        id: Not(IsNull())
-      }
+        id: Not(IsNull()),
+      },
     };
 
     if (nome) {

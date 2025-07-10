@@ -19,7 +19,8 @@ export class AgendamentosService {
   constructor(
     @InjectRepository(Agendamento)
     private readonly agendamentoRepository: Repository<Agendamento>,
-    @InjectRepository(Usuario) private readonly usuarioRepository: Repository<Usuario>
+    @InjectRepository(Usuario)
+    private readonly usuarioRepository: Repository<Usuario>,
   ) {}
 
   async list(usuario: Usuario): Promise<Agendamento[]> {
@@ -28,7 +29,7 @@ export class AgendamentosService {
         paciente: true,
         medico: {
           especialidade: true,
-          usuario: true
+          usuario: true,
         },
       },
     };
@@ -56,13 +57,13 @@ export class AgendamentosService {
 
     for (const agendamento of agendamentos) {
       agendamento.medico.usuario = await this.usuarioRepository.findOneOrFail({
-        where :{
+        where: {
           medico: {
-            id: agendamento.medico.id
-          }
+            id: agendamento.medico.id,
+          },
         },
-        withDeleted: true
-      })
+        withDeleted: true,
+      });
     }
 
     return agendamentos;
@@ -154,10 +155,10 @@ export class AgendamentosService {
   }
 
   async delete(agendamentoId: number) {
-    const agendamento =await this.findById(agendamentoId);
+    const agendamento = await this.findById(agendamentoId);
 
     await this.agendamentoRepository.softDelete({
-      id: agendamentoId
+      id: agendamentoId,
     });
 
     return agendamento;

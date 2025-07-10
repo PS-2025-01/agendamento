@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
@@ -39,11 +43,13 @@ export class UsuariosService {
     const user = await this.findById(authenticateUserId);
 
     if (user.id != userId && user.tipoUsuario != TipoUsuario.ADMIN) {
-      throw new BadRequestException('Apenas os admins podem remover outros usuarios');
+      throw new BadRequestException(
+        'Apenas os admins podem remover outros usuarios',
+      );
     }
 
     await this.usuarioRepository.softDelete({
-      id: userId
+      id: userId,
     });
   }
 }

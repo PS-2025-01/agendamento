@@ -38,7 +38,7 @@ export class AuthController {
   constructor(
     private authSerivce: AuthService,
     private registerUsuarioService: RegisterUsuariosService,
-    private usuarioService: UsuariosService
+    private usuarioService: UsuariosService,
   ) {}
 
   @ApiOperation({ summary: 'Login do usuário' })

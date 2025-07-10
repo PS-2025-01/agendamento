@@ -12,8 +12,8 @@ export default class UsuarioSeeder implements Seeder {
 
   constructor() {
     this.faker = new Faker({
-      locale: [pt_BR]
-    })
+      locale: [pt_BR],
+    });
   }
 
   async run(dataSource: DataSource): Promise<void> {

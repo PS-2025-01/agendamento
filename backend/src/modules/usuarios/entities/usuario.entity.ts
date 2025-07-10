@@ -1,6 +1,12 @@
-import { Column, DeleteDateColumn, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  DeleteDateColumn,
+  Entity,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { TipoUsuario } from './tipoUsuario.enum';
-import { Medico } from 'src/modules/medicos/entities/medico.entity';
+import { Medico } from '../../medicos/entities/medico.entity';
 
 @Entity()
 export class Usuario {
@@ -26,9 +32,9 @@ export class Usuario {
   @Column()
   senha: string;
 
-  @OneToOne(() => Medico, medico => medico.usuario)
+  @OneToOne(() => Medico, (medico) => medico.usuario)
   medico: Medico | null;
-  
+
   @DeleteDateColumn()
   deletedAt: Date | null;
 }

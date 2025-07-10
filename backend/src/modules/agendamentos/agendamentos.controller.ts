@@ -1,4 +1,16 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Logger, Param, Patch, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Logger,
+  Param,
+  Patch,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import {
   ApiBearerAuth,
   ApiCreatedResponse,
@@ -13,7 +25,7 @@ import { AuthService } from '../auth/auth.service';
 import { AgendamentoResponseDto } from './dtos/agendamento-response.dto';
 import { CreateAgendamentoDto } from './dtos/create-agendamento.dto';
 import { ListAgendamentoResponseDto } from './dtos/listAgendamento-response.dto copy';
-import { Role } from 'src/common/decorators/role.decorator';
+import { Role } from '../../common/decorators/role.decorator';
 import { TipoUsuario } from '../usuarios/entities/tipoUsuario.enum';
 
 @ApiBearerAuth()
