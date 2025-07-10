@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Agendamento } from './entities/agendamento.entity';
-import { FindManyOptions, IsNull, Not, Repository } from 'typeorm';
+import { FindManyOptions, Repository } from 'typeorm';
 import { Usuario } from '../usuarios/entities/usuario.entity';
 import { TipoUsuario } from '../usuarios/entities/tipoUsuario.enum';
 import { CreateAgendamentoDto } from './dtos/create-agendamento.dto';
@@ -20,8 +20,6 @@ export class AgendamentosService {
   constructor(
     @InjectRepository(Agendamento)
     private readonly agendamentoRepository: Repository<Agendamento>,
-    @InjectRepository(Usuario)
-    private readonly usuarioRepository: Repository<Usuario>,
     @InjectRepository(Grade)
     private readonly gradeRepository: Repository<Grade>,
   ) {}
@@ -137,7 +135,7 @@ export class AgendamentosService {
       .withDeleted()
       .leftJoinAndSelect('agendamento.paciente', 'paciente', '1=1')
       .withDeleted()
-      .where('agendamento.id = :id', {id: agendamentoId })
+      .where('agendamento.id = :id', { id: agendamentoId })
       .getOne();
 
     if (agendamento === null) {

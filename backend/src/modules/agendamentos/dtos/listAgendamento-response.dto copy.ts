@@ -32,9 +32,9 @@ export class ListAgendamentoResponseDto {
     this.horario = agendamento.horario;
     this.data = agendamento.data;
     this.status = agendamento.status;
-    this.medico = agendamento.medico?.usuario?.nome ?? "Medico indisponível";
+    this.medico = agendamento.medico?.usuario?.nome ?? 'Medico indisponível';
     this.medicoId = agendamento.medico?.id ?? null;
-    this.paciente = agendamento.paciente?.nome ?? "Paciente indisponível";
+    this.paciente = agendamento.paciente?.nome ?? 'Paciente indisponível';
     this.pacienteId = agendamento.paciente?.id ?? null;
   }
 }
