@@ -14,8 +14,9 @@ export const CadastroGrade = () => {
             dia,
             inicio,
             fim,
-            intervalo
-        })
+            intervalo 
+        });
+        window.location.reload(); 
     }
 
     return (
@@ -31,7 +32,7 @@ export const CadastroGrade = () => {
                 <input type="text" value={fim} onChange={(e) => setFim(e.target.value)}
                     style={{padding: 4, borderRadius: 4, border: "1px solid rgb(158, 158, 158)"}}
                 />
-                <input type="text" value={intervalo} onChange={(e) => SetIntervalo(e.target.value)}
+                <input type="text" value={intervalo} onChange={(e) => SetIntervalo(Number(e.target.value))}
                     style={{padding: 4, borderRadius: 4, border: "1px solid rgb(158, 158, 158)"}}
                 />            
             </div>
